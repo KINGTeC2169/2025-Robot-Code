@@ -16,4 +16,10 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static final class Vision{
+    public static final double bargeTagHeight = 68.93; // Inches
+    public static final double LLHeight = -1; // Inches
+    public static final double LLAngle = -1; // Degrees
+  }
 }
