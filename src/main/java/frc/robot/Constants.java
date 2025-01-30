@@ -18,8 +18,9 @@ public final class Constants {
   }
 
   public static final class Vision{
-    public static final double bargeTagHeight = 68.93; // Inches
-    public static final double LLHeight = -1; // Inches
-    public static final double LLAngle = -1; // Degrees
+    //public static final double bargeTagHeight = 68.93; // Inches
+    public static final double bargeTagHeight = 54;
+    public static final double LLHeight = 36; // Inches
+    public static final double LLAngle = 0; // Degrees
   }
 }
