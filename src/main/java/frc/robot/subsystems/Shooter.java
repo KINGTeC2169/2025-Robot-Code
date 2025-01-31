@@ -2,23 +2,19 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import java.util.Map;
-
 import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Shooter extends SubsystemBase {
-    
-    private TalonFX kraken;
 
-    private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
+    private final VelocityVoltage motorVelocity = new VelocityVoltage(0);
+
+    private TalonFX kraken; 
+
+    private double targetRPM = 0;
 
     public Shooter() {
         
@@ -28,23 +24,35 @@ public class Shooter extends SubsystemBase {
         configs.kP = 0.25;
 
         kraken.getConfigurator().apply(configs, 0.05);
-
-        /*
-        possible shuffleboard code?
-        
-        ShuffleboardLayout kraken = tab.getLayout("Motor", BuiltInLayouts.kList).withPosition(0, 0).withSize(2, 4);
-        kraken.addDouble("Motor RPM", () -> getRPM()[0]).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("Max", 4000));
-        kraken.addDouble("Motor Voltage", () -> getVoltage()[0]).withWidget(BuiltInWidgets.kVoltageView).withProperties(Map.of("Max", 12));
-        kraken.addDouble("Motor Current", () -> getCurrent()[0]).withWidget(BuiltInWidgets.kDial);
-        */
     }
 
     public void setPower(double power) {
         kraken.set(power);
     }
 
+    public double getCurrent(){
+        return kraken.getSupplyCurrent().getValueAsDouble();
+    }
+
+    public double getVoltage(){
+        return kraken.getSupplyVoltage().getValueAsDouble();
+    }
+
+    public double getRPM(){
+        return 60 * kraken.getRotorVelocity().getValueAsDouble();
+    }
+
+    public void setRPM(double rpm){
+        targetRPM = rpm;
+        motorVelocity.withVelocity(targetRPM);
+        kraken.setControl(motorVelocity);
+    }
+
+    public void stopShooter(){
+        kraken.set(0);
+    }
 
 
-   
-    
+
+
 }
