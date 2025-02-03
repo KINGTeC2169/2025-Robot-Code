@@ -44,7 +44,9 @@ public class Shooter extends SubsystemBase {
 
     public void setRPM(double rpm){
         targetRPM = rpm;
-        motorVelocity.withVelocity(targetRPM);
+        //double testVelocity = (Math.PI * .00785 * targetRPM) / 60;
+        //motorVelocity.withVelocity(testVelocity);
+        motorVelocity.withVelocity((2 * Math.PI) / targetRPM);
         kraken.setControl(motorVelocity);
     }
 
