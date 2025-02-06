@@ -54,10 +54,8 @@ public class RobotContainer {
     // cancelling on release.
     m_driverController.b().whileTrue(m_exampleSubsystem.exampleMethodCommand());
 
-    m_driverController.rightBumper().whileTrue(Commands.run(() -> shooter.setRPM(1)));
+    m_driverController.rightBumper().whileTrue(Commands.run(() -> shooter.setRPM(5800)));
     m_driverController.leftBumper().whileTrue(Commands.run(() -> shooter.setRPM(0)));
-    m_driverController.rightBumper().whileFalse(Commands.run(() -> shooter.setPower(0)));
-    //ik this doesnt work ill fix it soon lol
   }
 
   /**
