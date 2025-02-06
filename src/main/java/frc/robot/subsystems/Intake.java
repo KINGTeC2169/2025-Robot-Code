@@ -18,12 +18,7 @@ public class Intake extends SubsystemBase {
 
   private ShuffleboardTab tab = Shuffleboard.getTab("Intake");
 
-  public void Outtake() {
-    
-  }
-  public void Stop() {
-    
-  }
+
   public int getMode(){
     return Modes.intakeMode;
   }

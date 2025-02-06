@@ -5,6 +5,7 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
 
+//  import edu.wpi.first.cscore.CameraServerJNI.TelemetryKind;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,14 +29,26 @@ public class DistanceSensor extends SubsystemBase{
     }
 
     public boolean hasValidRange(){
-        return distanceSensor.isRangeValid();
+        if (distanceSensor.getRange() < 7 && distanceSensor.getRange() > 0) {
+            return true;
+        }else if (distanceSensor.isRangeValid() == false) {
+            return false;
+        }
+        return false;
     }
 
     public double getDistance(){
-        return distanceSensor.getRange();
+        if (distanceSensor.isRangeValid() == true) {
+            return distanceSensor.getRange();
+        }else{
+            return 0;
+        }
+
+             
     }
 
     public boolean isEnabled(){
+        
         return distanceSensor.isEnabled();
     }
 
