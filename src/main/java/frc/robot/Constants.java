@@ -14,13 +14,21 @@ package frc.robot;
  */
 public final class Constants {
 
-  public static final class Modes {
-
-    public static int intakeMode = 2; // 0 -> complete manual, 1 -> pressure sensor, 2 -> beam break
-
-}
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
     
   }
+  public static class Ports {    
+    
+    public static final int intakeMotor = 0;
+    public static final int encoder = 0;
+
+  }
+  public static class IntakeConstants{
+
+   
+    public static final double encoderOffset = 0.857992571449814-0.5;
+
+  }
 }
+
