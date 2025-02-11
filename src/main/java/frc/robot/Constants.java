@@ -21,6 +21,9 @@ public final class Constants {
   public static class Ports {    
     
     public static final int intakeMotor = 0;
+    public static final int pivotMotor = 0;
+    public static final int indexerMotor = 0;
+    
     public static final int encoder = 0;
 
   }

@@ -27,23 +27,26 @@ public class Intake extends SubsystemBase {
   
   /** Creates a new Intake. */
     private TalonFX intakeMotor;
+    private TalonFX indexerMotor;
+    private TalonFX pivotMotor;
+
     private DutyCycleEncoder encoder;
     private DistanceSensor distanceSensor;
-    private PIDController intakePID;
+    private PIDController pivotPID;
     
     private double setPosition;
     private double difference = 0; //between target and actual position
 
     private final double lowerLimit = IntakeConstants.rest;
     private final double upperLimit = IntakeConstants.net + 0.05; //limits for intake positions
-    private ArmFeedforward intakeForward; //check
+    private ArmFeedforward pivotForward; //check
     
 
     private ShuffleboardTab tab = Shuffleboard.getTab("Intake");
     
      public Intake(){
 
-         var talonFXConfigs = new TalonFXConfiguration();
+        var talonFXConfigs = new TalonFXConfiguration();
 
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kP = 0;
@@ -55,8 +58,11 @@ public class Intake extends SubsystemBase {
         encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
-        intakePID = new PIDController(65,0.7,1);
-        intakeForward = new ArmFeedforward(setPosition, lowerLimit, difference);
+        indexerMotor = new TalonFX(Constants.Ports.indexerMotor);
+        pivotMotor = new TalonFX(Constants.Ports.pivotMotor);
+
+        pivotPID = new PIDController(65,0.7,1);
+        pivotForward = new ArmFeedforward(setPosition, lowerLimit, difference);
         
 
     }
@@ -89,8 +95,15 @@ public class Intake extends SubsystemBase {
             }
     }
     
-    public void setVoltage(double volts){
+    public void setVoltageIntake(double volts){
         intakeMotor.setVoltage(volts);
+    }
+
+    public void setVoltageIndex(double volts){
+        indexerMotor.setVoltage(volts);
+    }
+    public void setVoltagePivot(double volts){
+        pivotMotor.setVoltage(volts);
     }
 
 
@@ -98,15 +111,18 @@ public class Intake extends SubsystemBase {
         position = MathUtil.clamp(position, lowerLimit, upperLimit);
         setPosition = position;
         //System.out.println("PID " + armPID.calculate(getPosition(), position) + " FORWARD " + armForward.calculate((position - 0.25)*6.28, 0));
-        intakeMotor.setVoltage(intakePID.calculate(getPosition(), position) + intakeForward.calculate((position - 0.25)*6.28, 0));
+        pivotMotor.setVoltage(pivotPID.calculate(getPosition(), position) + pivotForward.calculate((position - 0.25)*6.28, 0));
         difference = position - getPosition();
     }
 
 
 
-    /**Stops the left and right motors */
-    public void stop(){
+    /**Stops all motors */
+    public void stopAll(){
         intakeMotor.set(0);
+        indexerMotor.set(0);
+        pivotMotor.set(0);
+
     }
 
     
