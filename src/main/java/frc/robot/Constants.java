@@ -26,9 +26,9 @@ public final class Constants {
   }
   public static class IntakeConstants{
 
-   
     public static final double encoderOffset = 0.857992571449814-0.5;
-
+    public static final double rest = 0.857992571449814-0.5;
+    public static final double net = 0.857992571449814-0.5;
   }
 }
 
