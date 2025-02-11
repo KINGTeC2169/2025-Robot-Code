@@ -11,7 +11,7 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.math.controller.PIDController;
+
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -49,10 +49,9 @@ public class Intake extends SubsystemBase {
         var talonFXConfigs = new TalonFXConfiguration();
 
         var slot0Configs = talonFXConfigs.Slot0;
-        slot0Configs.kP = 0;
+        slot0Configs.kP = 0.01;
 
-        intakeMotor.getConfigurator().apply(talonFXConfigs);
-        intakeMotor.setNeutralMode(NeutralModeValue.Brake);
+        
         
         distanceSensor = new DistanceSensor();
         encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
@@ -63,13 +62,21 @@ public class Intake extends SubsystemBase {
 
         pivotPID = new PIDController(65,0.7,1);
         pivotForward = new ArmFeedforward(setPosition, lowerLimit, difference);
+
+
+        intakeMotor.getConfigurator().apply(talonFXConfigs);
+        intakeMotor.setNeutralMode(NeutralModeValue.Coast);
+        indexerMotor.getConfigurator().apply(talonFXConfigs);
+        indexerMotor.setNeutralMode(NeutralModeValue.Coast);
+        pivotMotor.getConfigurator().apply(talonFXConfigs);
+        pivotMotor.setNeutralMode(NeutralModeValue.Coast);
         
 
     }
 
 
   /**Sets intake to suck in */
-    public void Sucker() {
+    public void sucker() {
         intakeMotor.set(-0.4);
     }
 
@@ -90,7 +97,7 @@ public class Intake extends SubsystemBase {
                 stopTake();
                 //LEDs.green();
             }else{
-                Sucker();
+                sucker();
                // LEDs.red(); 
             }
     }
