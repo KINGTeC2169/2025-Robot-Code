@@ -6,18 +6,18 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Vision;
 
 public class Limelight extends SubsystemBase{
     private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
-    private ShuffleboardTab tab = Shuffleboard.getTab("Limelight");
 
     public Limelight(){
-        tab.addNumber("Distance: ", () -> distanceFromTag());
-        tab.addNumber("Tx: ", () -> getTx());
-        tab.addNumber("Ty: ", () -> getTy());
-        tab.addNumber("Ta: ", () -> getTa());
+        SmartDashboard.putNumber("Distance", distanceFromTag());
+        SmartDashboard.putNumber("Tx", getTx());
+        SmartDashboard.putNumber("Ty", getTy());
+        SmartDashboard.putNumber("Ta", getTa());
     }
 
     public static double getTx(){
