@@ -21,12 +21,9 @@ public class Shooter extends SubsystemBase {
     private VelocityVoltage motorVelocity = new VelocityVoltage(0);
 
     private TalonFX kraken; 
-
     private double testSpeed = 0;
-
     private double targetRPM = 0;
 
-    private ShuffleboardTab tab = Shuffleboard.getTab("Shooter");
 
     public Shooter() {
         
