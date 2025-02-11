@@ -13,7 +13,7 @@ public class IntakeBall extends Command{
 
     public void execute(){
         // suck
-        intake.Sucker();
+        intake.sucker();
     }
 
     public void end(){
