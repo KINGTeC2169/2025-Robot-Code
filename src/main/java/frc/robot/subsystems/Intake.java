@@ -4,13 +4,13 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+
 
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -42,7 +42,7 @@ public class Intake extends SubsystemBase {
     private ArmFeedforward pivotForward; //check
     
 
-    private ShuffleboardTab tab = Shuffleboard.getTab("Intake");
+    
     
      public Intake(){
 
@@ -91,14 +91,16 @@ public class Intake extends SubsystemBase {
         intakeMotor.set(0);
     }
 
-    public void hasBall(){
+    public boolean hasBall(){
     // Checks if ball is in intake to stop motor   
             if(distanceSensor.hasValidRange()){
                 stopTake();
                 //LEDs.green();
+                return true; // Ball detected
             }else{
                 sucker();
                // LEDs.red(); 
+                return false; // No ball detected
             }
     }
     
@@ -178,9 +180,17 @@ public class Intake extends SubsystemBase {
         return pos;
     }
 
-
-
-  
+    @Override   
+    public void periodic() {
+        SmartDashboard.putBoolean("Ball detected:", hasBall());
+        SmartDashboard.putNumber("Intake Motor Speed", getSpeed());
+        SmartDashboard.putNumber("IntakeM Voltage", getVoltage());
+        SmartDashboard.putNumber("Confidence", getCurrent());
+        SmartDashboard.putBoolean("Detected Color", isOn());
+        SmartDashboard.putNumber("RPM", getRPM());
+        SmartDashboard.putNumber("SetPosition", getSetPosition());
+        SmartDashboard.putNumber("IntakePosition", getPosition());
+    }
   
 }
     
