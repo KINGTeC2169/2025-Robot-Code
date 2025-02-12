@@ -1,19 +1,24 @@
 package frc.robot.commands; 
 
+import java.util.concurrent.Flow.Processor;
+
 import edu.wpi.first.wpilibj2.command.Command; 
 import frc.robot.subsystems.Intake; 
+import frc.robot.Constants.IntakeConstants;
 
-public class processorScoring extends Command{
+public class ProcessorScoring extends Command{
     private Intake intake;
+    private final double processor = IntakeConstants.processor;
+    private final double rest = IntakeConstants.rest;
 
-    public processorScoring(Intake intake){
+    public ProcessorScoring(Intake intake){
         this.intake = intake;
         addRequirements(intake);
     }                    
 
     @Override
     public void initialize(){
-        intake.setIntakePos(0.27); //fine tune for actual value
+        intake.setIntakePos(processor); 
     }
 
     @Override
@@ -26,11 +31,12 @@ public class processorScoring extends Command{
     //Stops intake
     public void end(boolean interupt) {
         intake.stopTake();
+        intake.setIntakePos(rest); 
 	}
 
     @Override
 	public boolean isFinished() {
-		return false;
+		return intake.hasBall();
 	}
 
 
