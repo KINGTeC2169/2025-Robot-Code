@@ -33,6 +33,7 @@ public final class Constants {
     public static final double encoderOffset = 0.857992571449814-0.5;
     public static final double rest = 0.857992571449814-0.5;
     public static final double net = 0.857992571449814-0.5;
+    public static final double processor = 0.85; // fine tune for actual value
   }
 }
 

@@ -29,6 +29,7 @@ public class Intake extends SubsystemBase {
     private TalonFX intakeMotor;
     private TalonFX indexerMotor;
     private TalonFX pivotMotor;
+    
 
     private DutyCycleEncoder encoder;
     private DistanceSensor distanceSensor;
@@ -37,8 +38,8 @@ public class Intake extends SubsystemBase {
     private double setPosition;
     private double difference = 0; //between target and actual position
 
-    private final double lowerLimit = IntakeConstants.rest;
-    private final double upperLimit = IntakeConstants.net + 0.05; //limits for intake positions
+    private final double lowerLimit = IntakeConstants.rest; // needs to be fine tuned
+    private final double upperLimit = IntakeConstants.net + 0.05; //limits for intake positions 
     private ArmFeedforward pivotForward; //check
     
 
@@ -93,12 +94,10 @@ public class Intake extends SubsystemBase {
 
     public boolean hasBall(){
     // Checks if ball is in intake to stop motor   
-            if(distanceSensor.hasValidRange()){
-                stopTake();
+            if(distanceSensor.ateBall()){
                 //LEDs.green();
                 return true; // Ball detected
             }else{
-                sucker();
                // LEDs.red(); 
                 return false; // No ball detected
             }
@@ -123,6 +122,8 @@ public class Intake extends SubsystemBase {
         pivotMotor.setVoltage(pivotPID.calculate(getPosition(), position) + pivotForward.calculate((position - 0.25)*6.28, 0));
         difference = position - getPosition();
     }
+
+    
 
 
 

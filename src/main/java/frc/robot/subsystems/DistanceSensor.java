@@ -27,11 +27,9 @@ public class DistanceSensor extends SubsystemBase{
 
     }
 
-    public boolean hasValidRange(){
+    public boolean ateBall(){
         if (distanceSensor.getRange() < 7 && distanceSensor.getRange() > 0) {
             return true;
-        }else if (distanceSensor.isRangeValid() == false) {
-            return false;
         }
         return false;
     }
@@ -64,6 +62,6 @@ public class DistanceSensor extends SubsystemBase{
         SmartDashboard.putNumber("Distance:", getDistance());
         SmartDashboard.putNumber("Timestamp", getTimeStamp());
         SmartDashboard.putBoolean("Is Enabled", isEnabled());
-        SmartDashboard.putBoolean("Has Valid Range", hasValidRange());
+        SmartDashboard.putBoolean("Is ball in?", ateBall());
     }
 }
