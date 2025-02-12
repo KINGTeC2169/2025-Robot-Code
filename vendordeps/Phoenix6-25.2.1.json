@@ -8,7 +8,6 @@
         "https://maven.ctr-electronics.com/release/"
     ],
     "jsonUrl": "https://maven.ctr-electronics.com/release/com/ctre/phoenix6/latest/Phoenix6-frc2025-latest.json",
-    
     "conflictsWith": [
         {
             "uuid": "e7900d8d-826f-4dca-a1ff-182f658e98af",
@@ -21,8 +20,6 @@
             "groupId": "com.ctre.phoenix6",
             "artifactId": "wpiapi-java",
             "version": "25.2.1"
-
-            
         }
     ],
     "jniDependencies": [
