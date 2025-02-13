@@ -1,49 +1,48 @@
 package frc.robot.commands;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Intake;
 
-public class ShootBall extends Command {
+public class Rev extends Command {
     
     private Shooter shooter;
-    private Intake index;
+    private Timer timer;
     private double start;
-    private boolean done;
     
-    public ShootBall(Shooter shooter, Intake index) {
-        this.shooter = shooter;
-        this.index = index;
+    public Rev(Shooter shoot) {
+        shooter = shoot;
         addRequirements(shooter);
-        addRequirements(index);
     }
     
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        index.setVoltageIndex(9);
-        start = System.currentTimeMillis();
+        shooter.setRPM(6000);
     }
     
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        //after 2 seconds end the index spin
-        if(System.currentTimeMillis() - start > 2000) {
-            index.setVoltageIndex(0);
-        }
+        shooter.setRPM(6000);
     }
     
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        /*
+        fix with prob systmecurrnentmillisss
+        timer.wait(500);
+        */
         shooter.setPower(0);
     }
     
+    
     @Override
     public boolean isFinished() {
-        //no ball in shooter????
+        //return !Intake.hasBall();
     }
+    
 
 }
 
