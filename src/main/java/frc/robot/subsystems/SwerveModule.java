@@ -85,15 +85,15 @@ public class SwerveModule extends SubsystemBase{
         return driveMotor.getPosition().getValueAsDouble() * wheelDiameter;
     }
 
-    /**Returns position of turn encoder in radians. Counterclockwise is positive, accumulates. */
+    /**Returns position of turn encoder in rotations. Counterclockwise is positive, accumulates. */
     public double getTurnPosition() {
-        return Units.rotationsToRadians(turnMotor.getRotorPosition().getValueAsDouble());
+        return turnMotor.getRotorPosition().getValueAsDouble();
     }
 
     /**Returns the rotation2d of the swerve module.*/
     public Rotation2d getRotation2d() {
         //return Rotation2d.fromDegrees(getTurnPosition());
-        return Rotation2d.fromRadians(getTurnPosition());
+        return Rotation2d.fromRotations(getTurnPosition());
     }
 
     /**Returns the velocity of the drive motor in m/s. */
@@ -109,7 +109,7 @@ public class SwerveModule extends SubsystemBase{
 
     /**Returns the absolute position of the CANcoder. */
     public double getAbsoluteTurnPosition() {
-        return Units.rotationsToRadians(absoluteEncoder.getAbsolutePosition().getValueAsDouble()); // * 360) * (180.0/Math.PI);
+        return absoluteEncoder.getAbsolutePosition().getValueAsDouble(); // * 360) * (180.0/Math.PI);
     }
 
     /**Returns the current of the drive motor. */
@@ -136,7 +136,7 @@ public class SwerveModule extends SubsystemBase{
 
     /**Returns the state of the swerve module. */
     public SwerveModuleState getState() {
-        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(getTurnPosition()));
+        return new SwerveModuleState(getDriveVelocity(), new Rotation2d(Units.rotationsToRadians(getTurnPosition())));
     }
 
     /**Get the module position. */
@@ -167,7 +167,7 @@ public class SwerveModule extends SubsystemBase{
         driveMotor.set(((state.speedMetersPerSecond / maxSpeed) * 0.94) - 0.0);
         }
         
-        turnMotor.set(turningPID.calculate(getTurnPosition(), state.angle.getRadians()));
+        turnMotor.set(turningPID.calculate(getTurnPosition(), state.angle.getRotations()));
 
     }
 
@@ -178,7 +178,7 @@ public class SwerveModule extends SubsystemBase{
 
         //driveMotor.set(ControlMode.PercentOutput, -((state.speedMetersPerSecond / maxSpeed) * 0.94) - 0.06);
         driveMotor.set(-state.speedMetersPerSecond / maxSpeed);
-        turnMotor.set(turningPID.calculate(getTurnPosition(), state.angle.getRadians()));
+        turnMotor.set(turningPID.calculate(getTurnPosition(), state.angle.getRotations()));
     }
 
     /**Returns the wanted speed. */
@@ -223,6 +223,6 @@ public class SwerveModule extends SubsystemBase{
         SwerveModuleState state = new SwerveModuleState(0, new Rotation2d(0.785398 * direction));
         state = new SwerveModuleState(state.speedMetersPerSecond, getState().angle);
         driveMotor.set(0);
-        turnMotor.set(turningPID.calculate(getTurnPosition(), state.angle.getRadians()));
+        turnMotor.set(turningPID.calculate(getTurnPosition(), state.angle.getRotations()));
     }
 }
