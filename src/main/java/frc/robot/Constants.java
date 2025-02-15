@@ -49,32 +49,32 @@ public final class Constants {
         public static final int buttons = 3;
 
         //Pigeon CAN id
-        public static final int pigeon = 14;
+        public static final int pigeon = 4; //done
 
         //Swervedrive CAN ids
-        public static final int frontLeftDrive = 3;
-        public static final int frontLeftTurn = 2;
-        public static final int frontLeftAbsolute = 10;
-        public static final int frontRightDrive = 5;
-        public static final int frontRightTurn = 4;
-        public static final int frontRightAbsolute = 11;
-        public static final int backLeftDrive = 7;
-        public static final int backLeftTurn = 6;
-        public static final int backLeftAbsolute = 12;
-        public static final int backRightDrive = 9;
-        public static final int backRightTurn = 8;
-        public static final int backRightAbsolute = 13;
+        public static final int frontLeftDrive = 9; //done
+        public static final int frontLeftTurn = 8; //done
+        public static final int frontLeftAbsolute = 19; //done
+        public static final int frontRightDrive = 13; //done
+        public static final int frontRightTurn = 12; //done
+        public static final int frontRightAbsolute = 18; //done
+        public static final int backLeftDrive = 10; //done
+        public static final int backLeftTurn = 11; // done
+        public static final int backLeftAbsolute = 17; //done
+        public static final int backRightDrive = 16; //done
+        public static final int backRightTurn = 15; //done
+        public static final int backRightAbsolute = 20; //done
 
         //Shooter CAN ids
-        public static final int shooterMotor = 17;
+        
 
         //Intake CAN id 
+        public static final int shooterMotor = 14; //done
+        public static final int intakeMotor = 7; //done
+        public static final int pivotMotor = 5; //done
+        public static final int indexerMotor = 6; //done
         
-        public static final int intakeMotor = 0;
-        public static final int pivotMotor = 0;
-        public static final int indexerMotor = 0;
-        
-        public static final int encoder = 0;
+        public static final int pivotEncoder = 0;
 
     }
 
