@@ -57,11 +57,11 @@ public class DistanceSensor extends SubsystemBase{
         distanceSensor.setEnabled(x);
     }
 
-    @Override
-    public void periodic(){
-        SmartDashboard.putNumber("Distance:", getDistance());
-        SmartDashboard.putNumber("Timestamp", getTimeStamp());
-        SmartDashboard.putBoolean("Is Enabled", isEnabled());
-        SmartDashboard.putBoolean("Is ball in?", ateBall());
-    }
+    //@Override
+    // public void periodic(){
+    //     SmartDashboard.putNumber("Distance:", getDistance());
+    //     SmartDashboard.putNumber("Timestamp", getTimeStamp());
+    //     SmartDashboard.putBoolean("Is Enabled", isEnabled());
+    //     SmartDashboard.putBoolean("Is ball in?", ateBall());
+    // }
 }

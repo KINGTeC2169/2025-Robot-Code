@@ -8,7 +8,6 @@ import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveDriveOdometry;
 import edu.wpi.first.math.kinematics.SwerveModulePosition;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
-import edu.wpi.first.networktables.GenericSubscriber;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -62,9 +61,10 @@ public class Swerve extends SubsystemBase {
     public SwerveDriveKinematics kinematics = DriveConstants.DRIVE_KINEMATICS;
     private final SwerveDriveOdometry odometer;
 
-    private GenericSubscriber fastSpeed;
-    private GenericSubscriber mediumSpeed;
-    private GenericSubscriber slowSpeed;
+    private double fastSpeed = 0.8;
+    private double mediumSpeed = 0.5;
+    private double slowSpeed = 0.2;
+    
     public static Field2d field = new Field2d();
 
    
@@ -142,17 +142,17 @@ public class Swerve extends SubsystemBase {
 
     /**Returns the fast speed, which is adjustable via the slider on shuffleboard.*/
     public double getFastSpeed() {
-        return fastSpeed.getDouble(0.8);
+        return fastSpeed;
     }
 
     /**Returns the medium speed, which is adjustable via the slider on shuffleboard.*/
     public double getMediumSpeed() {
-        return mediumSpeed.getDouble(0.65);
+        return mediumSpeed;
     }
 
     /**Returns the slow speed, which is adjustable via the slider on shuffleboard.*/
     public double getSlowSpeed() {
-        return slowSpeed.getDouble(0.3);
+        return slowSpeed;
     }
     
     /**Returns the Module positions of the 4 swerve modules in the order frontLeft, frontRight, backLeft, backRight.*/

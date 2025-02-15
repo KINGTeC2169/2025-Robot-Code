@@ -20,6 +20,8 @@ import frc.robot.Constants;
 
 import static frc.robot.Constants.ModuleConstants.*;
 
+import java.rmi.server.UID;
+
 public class SwerveModule extends SubsystemBase{
     private TalonFX driveMotor;
     private TalonFX turnMotor;
@@ -194,6 +196,7 @@ public class SwerveModule extends SubsystemBase{
 
     @Override
     public void periodic(){
+     //  System.out.println(turnMotor.getMotorVoltage().getValueAsDouble());
         
     }
 

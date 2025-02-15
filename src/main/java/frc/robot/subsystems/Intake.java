@@ -173,11 +173,8 @@ public class Intake extends SubsystemBase {
 
     /**Gets the position of the arm from the hex encoder */
     public double getPosition(){
-        double pos = (Constants.IntakeConstants.encoderOffset - encoder.get());
-        if(pos < 0){
-            pos += 1;
-            Math.abs(pos);
-        }
+        double pos = (encoder.get());
+         Math.abs(pos);
         return pos;
     }
 

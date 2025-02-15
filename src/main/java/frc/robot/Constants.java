@@ -17,11 +17,6 @@ import edu.wpi.first.math.util.Units;
  * constants are needed, to reduce verbosity.
  */
 public final class Constants {
-
-  public static class OperatorConstants {
-    public static final int kDriverControllerPort = 0;
-    
-  }
   
 
 
@@ -74,7 +69,7 @@ public final class Constants {
         public static final int pivotMotor = 5; //done
         public static final int indexerMotor = 6; //done
         
-        public static final int pivotEncoder = 0;
+        public static final int encoder = 0;
 
     }
 
@@ -91,9 +86,9 @@ public final class Constants {
 
         public static final double PDrive = 0.1;
 
-        public static final double PTurn = 0.445;
-        public static final double ITurn = 0.001;
-        public static final double DTurn = 0.001;
+        public static final double PTurn = 1;
+        public static final double ITurn = 0;
+        public static final double DTurn = 0;
     }
 
     public static final class DriveConstants {

@@ -4,7 +4,8 @@
 
 package frc.robot;
 
-import frc.robot.Constants.OperatorConstants;
+//import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants.Ports;
 import frc.robot.commands.DriveCommand;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.ProcessorScoring;
@@ -31,8 +32,7 @@ public class RobotContainer {
     private final Swerve swerve = new Swerve();
   
   // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final CommandXboxController m_driverController = new CommandXboxController(Ports.controller);
   private final Joystick leftStick = new Joystick(Constants.Ports.leftStick);
   private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);    
 
