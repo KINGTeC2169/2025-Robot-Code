@@ -7,7 +7,7 @@ import frc.robot.subsystems.Intake;
 public class IntakeBall extends Command{
     private Intake intake;
 
-    IntakeBall(Intake intake){
+    public IntakeBall(Intake intake){
         this.intake = intake;
         addRequirements(intake);
     }
@@ -35,8 +35,11 @@ public class IntakeBall extends Command{
         // idk how to do this *shrugging emoji*
         // is ball in intake? is it not in intake? 
         // who knows. not me. perhaps you? please know.
+        //i know
 
         // code works now (probably) *thumbs up*
-        return intake.hasBall();
+
+        //khanh im from the future changing your code it doesnt work smhsmh
+        return false;
     }
 }

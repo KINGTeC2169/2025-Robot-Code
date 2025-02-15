@@ -5,6 +5,10 @@
 package frc.robot;
 
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.IntakeBall;
+import frc.robot.commands.ProcessorScoring;
+import frc.robot.commands.Rev;
+import frc.robot.commands.ShootBall;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -31,6 +35,7 @@ public class RobotContainer {
   public RobotContainer() {
     // Configure the trigger bindings
     configureBindings();
+
   }
 
   /**
@@ -44,10 +49,11 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    m_driverController.b().whileTrue(Commands.run(() -> intake.hasBall()));
+    m_driverController.rightTrigger(.05).whileTrue((new ShootBall(shooter, intake)));
+    m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter, intake, m_driverController));
+    m_driverController.a().whileTrue(new IntakeBall(intake));
+    m_driverController.b().whileTrue(new ProcessorScoring(intake));
 
-    m_driverController.rightBumper().whileTrue(Commands.run(() -> shooter.setRPM(600)));
-    m_driverController.leftBumper().whileTrue(Commands.run(() -> shooter.setRPM(0)));
   }
 
   /**

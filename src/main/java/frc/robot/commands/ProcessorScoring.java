@@ -36,7 +36,7 @@ public class ProcessorScoring extends Command{
 
     @Override
 	public boolean isFinished() {
-		return intake.hasBall();
+		return false;
 	}
 
 
