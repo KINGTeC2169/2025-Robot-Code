@@ -4,21 +4,16 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Shooter;
-import frc.robot.subsystems.Intake;
 
 public class Rev extends Command {
     
     private Shooter shooter;
-    private Intake index;
-    private Timer timer;
     private  CommandXboxController controller;
     
-    public Rev(Shooter shoot, Intake index, CommandXboxController controller) {
+    public Rev(Shooter shoot, CommandXboxController controller) {
         shooter = shoot;
         this.controller = controller;
-        this.index = index;
         addRequirements(shooter);
-        addRequirements(index);
     }
     
     // Called when the command is initially scheduled.

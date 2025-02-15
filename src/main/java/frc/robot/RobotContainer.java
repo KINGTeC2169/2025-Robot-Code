@@ -12,7 +12,6 @@ import frc.robot.commands.ShootBall;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
@@ -50,7 +49,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     m_driverController.rightTrigger(.05).whileTrue((new ShootBall(shooter, intake)));
-    m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter, intake, m_driverController));
+    m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter, m_driverController));
     m_driverController.a().whileTrue(new IntakeBall(intake));
     m_driverController.b().whileTrue(new ProcessorScoring(intake));
 

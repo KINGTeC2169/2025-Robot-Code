@@ -9,7 +9,6 @@ public class ShootBall extends Command {
     private Shooter shooter;
     private Intake index;
     private double start;
-    private boolean done;
     
     public ShootBall(Shooter shooter, Intake index) {
         this.shooter = shooter;
