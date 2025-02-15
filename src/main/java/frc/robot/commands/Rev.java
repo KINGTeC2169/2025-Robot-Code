@@ -40,7 +40,7 @@ public class Rev extends Command {
     
     @Override
     public boolean isFinished() {
-        //return !Intake.hasBall();
+        return Intake.hasBall();
     }
     
 
