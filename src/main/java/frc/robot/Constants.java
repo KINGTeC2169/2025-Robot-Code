@@ -78,8 +78,8 @@ public final class Constants {
         public static final double maxSpeed = 4.96824;
         public static final double maxNeoRadPerSec = 2 * 2 * Math.PI;
         public static final double wheelDiameter = 0.1016;//Units.inchesToMeters(4.0);
-        public static final double driveGearRatio = 1 / 6.12;
-        public static final double turnGearRatio = 1 / 12.8;
+        public static final double driveGearRatio = 6.75; //1 / 6.12;
+        public static final double turnGearRatio = 6.75; //1 / 12.8;
         public static final double driveMotorToMetersPerSec = driveGearRatio * Math.PI * wheelDiameter;
         public static final double turnEncoderToRadian = turnGearRatio * 2 * Math.PI;
         public static final double turnEncoderRPMToRadPerSec = turnEncoderToRadian;
