@@ -3,16 +3,19 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
 
 public class Rev extends Command {
     
     private Shooter shooter;
+    private Intake index;
     private Timer timer;
-    private double start;
     
-    public Rev(Shooter shoot) {
+    public Rev(Shooter shoot, Intake index) {
         shooter = shoot;
+        this.index = index;
         addRequirements(shooter);
+        addRequirements(index);
     }
     
     // Called when the command is initially scheduled.
@@ -30,17 +33,14 @@ public class Rev extends Command {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        /*
-        fix with prob systmecurrnentmillisss
-        timer.wait(500);
-        */
+        Timer.delay(0.75);
         shooter.setPower(0);
     }
     
     
     @Override
     public boolean isFinished() {
-        return Intake.hasBall();
+        return index.hasBall();
     }
     
 

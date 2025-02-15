@@ -42,7 +42,7 @@ public class ShootBall extends Command {
     
     @Override
     public boolean isFinished() {
-        //no ball in shooter????
+        return index.hasBall();
     }
 
 }
