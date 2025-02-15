@@ -65,7 +65,7 @@ public class SwerveModule extends SubsystemBase{
 
         //Creating and configuring PID controllers
         turningPID = new PIDController(PTurn, ITurn, DTurn);
-        turningPID.enableContinuousInput(-Math.PI, Math.PI);
+       
 
         resetEncoders();
 

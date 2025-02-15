@@ -84,9 +84,9 @@ public final class Constants {
         public static final double turnEncoderToRadian = turnGearRatio * 2 * Math.PI;
         public static final double turnEncoderRPMToRadPerSec = turnEncoderToRadian;
 
-        public static final double PDrive = 0.1;
+        public static final double PDrive = 01;
 
-        public static final double PTurn = 1;
+        public static final double PTurn = 10;
         public static final double ITurn = 0;
         public static final double DTurn = 0;
     }
