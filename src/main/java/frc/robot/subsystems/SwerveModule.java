@@ -17,10 +17,9 @@ import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ModuleConstants;
 
 import static frc.robot.Constants.ModuleConstants.*;
-
-import java.rmi.server.UID;
 
 public class SwerveModule extends SubsystemBase{
     private TalonFX driveMotor;
@@ -65,7 +64,6 @@ public class SwerveModule extends SubsystemBase{
 
         //Creating and configuring PID controllers
         turningPID = new PIDController(PTurn, ITurn, DTurn);
-        turningPID.enableContinuousInput(-Math.PI, Math.PI);
 
         resetEncoders();
 
@@ -98,12 +96,12 @@ public class SwerveModule extends SubsystemBase{
 
     /**Returns the velocity of the drive motor in m/s. */
     public double getDriveVelocity() {
-        return driveMotor.getVelocity().getValueAsDouble();
+        return driveMotor.getVelocity().getValueAsDouble() * (2 * Math.PI * (ModuleConstants.wheelDiameter/2));
     }
 
-    /**Returns the velocity of the turn motor. */
+    /**Returns the velocity of the turn motor in rpm. */
     public double getTurnVelocity() {
-        return Units.rotationsPerMinuteToRadiansPerSecond(turnMotor.getVelocity().getValueAsDouble() * 60);
+        return turnMotor.getVelocity().getValueAsDouble() * 60;
         //>return turnMotor.getSelectedSensorVelocity();
     }
 
