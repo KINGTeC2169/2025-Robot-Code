@@ -16,7 +16,7 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Intake;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
+//import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -43,7 +43,7 @@ public class RobotContainer {
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   //Commands
-  public SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
+  //public SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
   //Controller configurations
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -89,7 +89,7 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        SmartDashboard.putData("Auto Mode", autoChooser);
+        //SmartDashboard.putData("Auto Mode", autoChooser);
 
       configureBindings();
     
@@ -120,6 +120,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return autoChooser.getSelected();
+    //return autoChooser.getSelected();
+    return null;
   }
 }

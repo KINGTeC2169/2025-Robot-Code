@@ -9,9 +9,9 @@ import com.ctre.phoenix6.Utils;
 import com.ctre.phoenix6.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.swerve.SwerveRequest;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.config.RobotConfig;
-import com.pathplanner.lib.controllers.PPHolonomicDriveController;
+// import com.pathplanner.lib.auto.AutoBuilder;
+// import com.pathplanner.lib.config.RobotConfig;
+// import com.pathplanner.lib.controllers.PPHolonomicDriveController;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -304,34 +304,34 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
     /**Pathplanner configurations*/
     private void configureAutoBuilder() {
         try{
-            DriveConstants.config = RobotConfig.fromGUISettings();
+          //  DriveConstants.config = RobotConfig.fromGUISettings();
         } catch (Exception e) {
             // Handle exception as needed
             e.printStackTrace();
         }
         try {
-            var config = RobotConfig.fromGUISettings();
-            AutoBuilder.configure(
-                () -> getState().Pose,   // Supplier of current robot pose
-                this::resetPose,         // Consumer for seeding pose against auto
-                () -> getState().Speeds, // Supplier of current robot speeds
-                // Consumer of ChassisSpeeds and feedforwards to drive the robot
-                (speeds, feedforwards) -> setControl(
-                    m_pathApplyRobotSpeeds.withSpeeds(speeds)
-                        .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
-                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
-                ),
-                new PPHolonomicDriveController(
-                    // PID constants for translation
-                    DriveConstants.autoTranslationPID,
-                    // PID constants for rotation
-                    DriveConstants.autoRotationPID
-                ),
-                config,
+            // var config = RobotConfig.fromGUISettings();
+            // AutoBuilder.configure(
+            //     () -> getState().Pose,   // Supplier of current robot pose
+            //     this::resetPose,         // Consumer for seeding pose against auto
+            //     () -> getState().Speeds, // Supplier of current robot speeds
+            //     // Consumer of ChassisSpeeds and feedforwards to drive the robot
+            //     (speeds, feedforwards) -> setControl(
+            //         m_pathApplyRobotSpeeds.withSpeeds(speeds)
+            //             .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
+            //             .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
+            //     ),
+            //     new PPHolonomicDriveController(
+            //         // PID constants for translation
+            //         DriveConstants.autoTranslationPID,
+            //         // PID constants for rotation
+            //         DriveConstants.autoRotationPID
+            //     ),
+              //  config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
-                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
-                this // Subsystem for requirements
-            );
+               // CODE () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+             //   this // Subsystem for requirements
+          //  );
         } catch (Exception ex) {
             DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
         }
