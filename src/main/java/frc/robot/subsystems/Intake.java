@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -70,7 +72,7 @@ public class Intake extends SubsystemBase {
         indexerMotor.getConfigurator().apply(talonFXConfigs);
         indexerMotor.setNeutralMode(NeutralModeValue.Coast);
         pivotMotor.getConfigurator().apply(talonFXConfigs);
-        pivotMotor.setNeutralMode(NeutralModeValue.Coast);
+        pivotMotor.setNeutralMode(NeutralModeValue.Brake);
         
 
     }
@@ -78,18 +80,20 @@ public class Intake extends SubsystemBase {
 
   /**Sets intake to suck in */
     public void sucker() {
-        intakeMotor.set(-0.4);
+        intakeMotor.set(0.3);
+        indexerMotor.set(-0.35);
     }
 
 
     /**Runs intake backwards at 0.12 speed*/
     public void outTake() {
-        intakeMotor.set(0.12);
+        intakeMotor.set(-0.12);
     }
 
     /**Stops the intake. */
     public void stopTake(){
         intakeMotor.set(0);
+        indexerMotor.set(0);
     }
 
     public boolean hasBall(){

@@ -65,7 +65,7 @@ public class Shooter extends SubsystemBase {
         targetRPM = rpm;
 
         testSpeed = targetRPM * (Math.PI * 0.00785);
-        System.out.println(testSpeed);
+        //System.out.println(testSpeed);
         motorVelocity.withVelocity(-testSpeed);
         kraken.setControl(motorVelocity);
         SmartDashboard.putNumber("RPM", getRPM());

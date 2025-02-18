@@ -4,7 +4,6 @@
 
 package frc.robot;
 
-//import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.Ports;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.ProcessorScoring;
@@ -16,12 +15,13 @@ import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Intake;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
-//import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -43,7 +43,7 @@ public class RobotContainer {
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   //Commands
-  //public SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
+  public SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
   //Controller configurations
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -62,7 +62,7 @@ public class RobotContainer {
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-          .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+          .withDeadband(MaxSpeed * 0.13).withRotationalDeadband(MaxAngularRate * 0.13) // Add a 13% deadband
           .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
@@ -89,7 +89,7 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        //SmartDashboard.putData("Auto Mode", autoChooser);
+        SmartDashboard.putData("Auto Mode", autoChooser);
 
       configureBindings();
     
@@ -110,6 +110,8 @@ public class RobotContainer {
     m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter, m_driverController));
     m_driverController.a().whileTrue(new IntakeBall(intake));
     m_driverController.b().whileTrue(new ProcessorScoring(intake));
+    m_driverController.x().whileTrue(Commands.run(() -> intake.sucker()));
+    m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
 
   }
 
@@ -120,7 +122,6 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    //return autoChooser.getSelected();
-    return null;
+    return autoChooser.getSelected();
   }
 }

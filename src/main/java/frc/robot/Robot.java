@@ -55,10 +55,10 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("CAN Utilization %", RobotController.getCANStatus().percentBusUtilization * 100.0);
-    SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage());
-    SmartDashboard.putNumber("CPU Temperature", RobotController.getCPUTemp());
-    SmartDashboard.putBoolean("RSL", RobotController.getRSLState());
+    //SmartDashboard.putNumber("CAN Utilization %", RobotController.getCANStatus().percentBusUtilization * 100.0);
+    //.putNumber("Voltage", RobotController.getBatteryVoltage());
+    //SmartDashboard.putNumber("CPU Temperature", RobotController.getCPUTemp());
+    //SmartDashboard.putBoolean("RSL", RobotController.getRSLState());
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     SmartDashboard.putData("pdh", pdh);
 
