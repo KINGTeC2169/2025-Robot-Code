@@ -112,7 +112,7 @@ public class Intake extends SubsystemBase {
     }
 
     public void setVoltageIndex(double volts){
-        indexerMotor.setVoltage(volts);
+        indexerMotor.setVoltage(-volts);
     }
     public void setVoltagePivot(double volts){
         pivotMotor.setVoltage(volts);

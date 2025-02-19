@@ -18,6 +18,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -47,11 +48,13 @@ public class RobotContainer {
 
   //Controller configurations
   // Replace with CommandPS4Controller or CommandJoystick if needed
+  //private final CommandXboxController ps4 = new CommandXboxController(0);
   private final CommandXboxController m_driverController = new CommandXboxController(Ports.controller);
   private final Joystick leftStick = new Joystick(Constants.Ports.leftStick);
   private final JoystickButton topLeftButton = new JoystickButton(leftStick, 2);
   private final JoystickButton bottomLeftButton = new JoystickButton(leftStick, 1);
 
+  //private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
   private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
   private final JoystickButton topRightButton = new JoystickButton(rightStick, 2);
   private final JoystickButton bottomRightButton = new JoystickButton(rightStick, 1);
@@ -68,6 +71,8 @@ public class RobotContainer {
 
   private final Telemetry logger = new Telemetry(MaxSpeed);
 
+  
+
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
    // Note that X is defined as forward according to WPILib convention,
@@ -75,21 +80,28 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-leftStick.getY() * MaxSpeed) // Drive forward with negative Y (forward)
+            
+                /*drive.withVelocityX(-leftStick.getY() * MaxSpeed) // Drive forward with negative Y (forward)
                     .withVelocityY(-leftStick.getX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-rightStick.getTwist() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-            )
+            */
+            drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+                    .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
+            
+                    )
         );
 
         //Reset orientation
-        topLeftButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
-        bottomLeftButton.onTrue(drivetrain.applyRequest(() -> brake));
+        m_driverController.rightBumper().onTrue(drivetrain.applyRequest(() -> brake));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
         SmartDashboard.putData("Auto Mode", autoChooser);
+        
 
       configureBindings();
     
@@ -112,6 +124,9 @@ public class RobotContainer {
     m_driverController.b().whileTrue(new ProcessorScoring(intake));
     m_driverController.x().whileTrue(Commands.run(() -> intake.sucker()));
     m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
+
+    m_driverController.povDown().whileTrue(Commands.run(() ->shooter.setRPM(5000)));
+    //m_driverController.povDown().whileTrue(new ShootBall(shooter, intake));
 
   }
 

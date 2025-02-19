@@ -27,8 +27,8 @@ public class ShootBall extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        //after 2 seconds end the index spin
-        if(System.currentTimeMillis() - start > 2000) {
+        //after 1 second end the index spin
+        if(System.currentTimeMillis() - start > 1000) {
             index.setVoltageIndex(0);
         }
     }
@@ -37,6 +37,7 @@ public class ShootBall extends Command {
     @Override
     public void end(boolean interrupted) {
         shooter.setPower(0);
+        index.setVoltageIndex(0);
     }
     
     @Override
