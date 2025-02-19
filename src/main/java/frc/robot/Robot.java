@@ -4,6 +4,8 @@
 
 package frc.robot;
 
+import java.time.chrono.ThaiBuddhistChronology;
+
 import edu.wpi.first.net.WebServer;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -41,6 +43,40 @@ public class Robot extends TimedRobot {
     WebServer.start(5800, Filesystem.getDeployDirectory().getPath());
   }
 
+
+
+
+// This
+ 
+
+
+// is 
+
+
+
+
+// where
+
+
+// I 
+
+
+// commented
+
+
+
+
+
+
+
+//right here (down)
+
+
+
+
+
+
+
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -48,47 +84,47 @@ public class Robot extends TimedRobot {
    * <p>This runs after the mode specific periodic functions, but before LiveWindow and
    * SmartDashboard integrated updating.
    */
-  @Override
-  public void robotPeriodic() {
-    // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
-    // commands, running already-scheduled commands, removing finished or interrupted commands,
-    // and running subsystem periodic() methods.  This must be called from the robot's periodic
-    // block in order for anything in the Command-based framework to work.
-    CommandScheduler.getInstance().run();
-    SmartDashboard.putNumber("CAN Utilization %", RobotController.getCANStatus().percentBusUtilization * 100.0);
-    SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage());
-    SmartDashboard.putNumber("CPU Temperature", RobotController.getCPUTemp());
-    SmartDashboard.putBoolean("RSL", RobotController.getRSLState());
-    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
-    SmartDashboard.putData("pdh", pdh);
+  // @Override
+  // public void robotPeriodic() {
+  //   // Runs the Scheduler.  This is responsible for polling buttons, adding newly-scheduled
+  //   // commands, running already-scheduled commands, removing finished or interrupted commands,
+  //   // and running subsystem periodic() methods.  This must be called from the robot's periodic
+  //   // block in order for anything in the Command-based framework to work.
+  //   CommandScheduler.getInstance().run();
+  //   //SmartDashboard.putNumber("CAN Utilization %", RobotController.getCANStatus().percentBusUtilization * 100.0);
+  //   //.putNumber("Voltage", RobotController.getBatteryVoltage());
+  //   //SmartDashboard.putNumber("CPU Temperature", RobotController.getCPUTemp());
+  //   //SmartDashboard.putBoolean("RSL", RobotController.getRSLState());
+  //   SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+  //   SmartDashboard.putData("pdh", pdh);
 
-    //Swerve Widget
-    SmartDashboard.putData("Swerve Drive", new Sendable() {
-    @Override
-    public void initSendable(SendableBuilder builder) {
-      builder.setSmartDashboardType("SwerveDrive");
+  //   //Swerve Widget
+  //   SmartDashboard.putData("Swerve Drive", new Sendable() {
+  //   @Override
+  //   public void initSendable(SendableBuilder builder) {
+  //     builder.setSmartDashboardType("SwerveDrive");
 
-      builder.addDoubleProperty("Front Left Angle", () -> m_robotContainer.drivetrain.getModule(0).getCurrentState().angle.getRadians(), null);
-      builder.addDoubleProperty("Front Left Velocity", () -> m_robotContainer.drivetrain.getModule(0).getCurrentState().speedMetersPerSecond, null);
+  //     builder.addDoubleProperty("Front Left Angle", () -> m_robotContainer.drivetrain.getModule(0).getCurrentState().angle.getRadians(), null);
+  //     builder.addDoubleProperty("Front Left Velocity", () -> m_robotContainer.drivetrain.getModule(0).getCurrentState().speedMetersPerSecond, null);
 
-      builder.addDoubleProperty("Front Right Angle", () -> m_robotContainer.drivetrain.getModule(1).getCurrentState().angle.getRadians(), null);
-      builder.addDoubleProperty("Front Right Velocity", () -> m_robotContainer.drivetrain.getModule(1).getCurrentState().speedMetersPerSecond, null);
+  //     builder.addDoubleProperty("Front Right Angle", () -> m_robotContainer.drivetrain.getModule(1).getCurrentState().angle.getRadians(), null);
+  //     builder.addDoubleProperty("Front Right Velocity", () -> m_robotContainer.drivetrain.getModule(1).getCurrentState().speedMetersPerSecond, null);
 
-      builder.addDoubleProperty("Back Left Angle", () -> m_robotContainer.drivetrain.getModule(2).getCurrentState().angle.getRadians(), null);
-      builder.addDoubleProperty("Back Left Velocity", () -> m_robotContainer.drivetrain.getModule(2).getCurrentState().speedMetersPerSecond, null);
+  //     builder.addDoubleProperty("Back Left Angle", () -> m_robotContainer.drivetrain.getModule(2).getCurrentState().angle.getRadians(), null);
+  //     builder.addDoubleProperty("Back Left Velocity", () -> m_robotContainer.drivetrain.getModule(2).getCurrentState().speedMetersPerSecond, null);
 
-      builder.addDoubleProperty("Back Right Angle", () -> m_robotContainer.drivetrain.getModule(3).getCurrentState().angle.getRadians(), null);
-      builder.addDoubleProperty("Back Right Velocity", () -> m_robotContainer.drivetrain.getModule(3).getCurrentState().speedMetersPerSecond, null);
+  //     builder.addDoubleProperty("Back Right Angle", () -> m_robotContainer.drivetrain.getModule(3).getCurrentState().angle.getRadians(), null);
+  //     builder.addDoubleProperty("Back Right Velocity", () -> m_robotContainer.drivetrain.getModule(3).getCurrentState().speedMetersPerSecond, null);
 
-      builder.addDoubleProperty("Robot Angle", () -> m_robotContainer.drivetrain.getPigeon2().getRotation2d().getRadians(), null);
-    }
-  });
+  //     builder.addDoubleProperty("Robot Angle", () -> m_robotContainer.drivetrain.getPigeon2().getRotation2d().getRadians(), null);
+  //   }
+  // });
 
-    if (DriverStation.isAutonomous()){
-      Elastic.selectTab("Autonomous");
-    }
+  //   if (DriverStation.isAutonomous()){
+  //     Elastic.selectTab("Autonomous");
+  //   }
 
-  }
+  // }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
