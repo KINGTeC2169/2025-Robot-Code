@@ -62,7 +62,7 @@ public class RobotContainer {
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-          .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1) // Add a 10% deadband
+          .withDeadband(MaxSpeed * 0.14).withRotationalDeadband(MaxAngularRate * 0.14) // Add a 14% deadband
           .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
@@ -85,7 +85,7 @@ public class RobotContainer {
         topLeftButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
-        bottomLeftButton.onTrue(drivetrain.applyRequest(() -> brake));
+        bottomLeftButton.whileTrue(drivetrain.applyRequest(() -> brake));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
