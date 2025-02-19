@@ -4,8 +4,8 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.config.PIDConstants;
-import com.pathplanner.lib.config.RobotConfig;
+// import com.pathplanner.lib.config.PIDConstants;
+// import com.pathplanner.lib.config.RobotConfig;
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -69,9 +69,9 @@ public final class Constants {
     }
 
     public static final class DriveConstants {
-      public static RobotConfig config;
-      public static PIDConstants autoTranslationPID = new PIDConstants(5.0, 0, 0);
-      public static PIDConstants autoRotationPID = new PIDConstants(5.0, 0, 0);
+      // public static RobotConfig config;
+      // public static PIDConstants autoTranslationPID = new PIDConstants(5.0, 0, 0);
+      // public static PIDConstants autoRotationPID = new PIDConstants(5.0, 0, 0);
     }
 
     public static class IntakeConstants{
