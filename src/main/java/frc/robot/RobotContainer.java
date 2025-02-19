@@ -44,7 +44,7 @@ public class RobotContainer {
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   //Commands
-  public SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
+ public SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
 
   //Controller configurations
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -96,11 +96,11 @@ public class RobotContainer {
         m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
-        m_driverController.rightBumper().onTrue(drivetrain.applyRequest(() -> brake));
+        bottomLeftButton.whileTrue(drivetrain.applyRequest(() -> brake));
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-        SmartDashboard.putData("Auto Mode", autoChooser);
+      SmartDashboard.putData("Auto Mode", autoChooser);
         
 
       configureBindings();
@@ -136,7 +136,7 @@ public class RobotContainer {
    * @return the command to run in autonomous
    */
   public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
+    //An example command will be run in autonomous
     return autoChooser.getSelected();
-  }
+ }
 }
