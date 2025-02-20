@@ -4,13 +4,16 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
 
-public class IntakeBallNoSensor extends Command{
+public class JustIntakeBallNoSensor extends Command{
     private Intake intake;
-    private 
+    private boolean lowRPM;
+    private boolean highRPM;
 
-    public IntakeBallNoSensor(Intake intake){
+    public JustIntakeBallNoSensor(Intake intake){
         this.intake = intake;
         addRequirements(intake);
+        lowRPM = false;
+        highRPM = false;
     }
 
     @Override
@@ -22,6 +25,8 @@ public class IntakeBallNoSensor extends Command{
     public void execute(){
         // suck
         intake.sucker();
+        //if(intake.getRPM())
+
     }
 
     @Override
