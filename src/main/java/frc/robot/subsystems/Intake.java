@@ -1,35 +1,23 @@
 package frc.robot.subsystems;
 
-
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-
-
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 
-
-
-
-
 public class Intake extends SubsystemBase {
 
-    
-  
   /** Creates a new Intake. */
     private TalonFX intakeMotor;
     private TalonFX indexerMotor;
     private TalonFX pivotMotor;
-    
 
     private DutyCycleEncoder encoder;
     private DistanceSensor distanceSensor;
@@ -41,19 +29,14 @@ public class Intake extends SubsystemBase {
     private final double lowerLimit = IntakeConstants.rest; // needs to be fine tuned
     private final double upperLimit = IntakeConstants.net + 0.05; //limits for intake positions 
     private ArmFeedforward pivotForward; //check
-    
-
-    
-    
-     public Intake(){
+     
+    public Intake(){
 
         var talonFXConfigs = new TalonFXConfiguration();
 
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kP = 0.01;
 
-        
-        
         distanceSensor = new DistanceSensor();
         encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
         
@@ -64,24 +47,20 @@ public class Intake extends SubsystemBase {
         pivotPID = new PIDController(65,0.7,1);
         pivotForward = new ArmFeedforward(setPosition, lowerLimit, difference);
 
-
         intakeMotor.getConfigurator().apply(talonFXConfigs);
         intakeMotor.setNeutralMode(NeutralModeValue.Coast);
         indexerMotor.getConfigurator().apply(talonFXConfigs);
         indexerMotor.setNeutralMode(NeutralModeValue.Coast);
         pivotMotor.getConfigurator().apply(talonFXConfigs);
         pivotMotor.setNeutralMode(NeutralModeValue.Brake);
-        
-
+    
     }
-
 
   /**Sets intake to suck in */
     public void sucker() {
         intakeMotor.set(0.3);
         indexerMotor.set(-0.35);
     }
-
 
     /**Runs intake backwards at 0.12 speed*/
     public void outTake() {
@@ -116,7 +95,6 @@ public class Intake extends SubsystemBase {
         pivotMotor.setVoltage(volts);
     }
 
-
     public void setIntakePos(double position) {
         position = MathUtil.clamp(position, lowerLimit, upperLimit);
         setPosition = position;
@@ -124,10 +102,6 @@ public class Intake extends SubsystemBase {
         pivotMotor.setVoltage(pivotPID.calculate(getPosition(), position) + pivotForward.calculate((position - 0.25)*6.28, 0));
         difference = position - getPosition();
     }
-
-    
-
-
 
     /**Stops all motors */
     public void stopAll(){
@@ -137,13 +111,7 @@ public class Intake extends SubsystemBase {
 
     }
 
-    
-    
-
-
-
-
-//gets and misc status givers
+    //gets and misc status givers
 
     //********************************************************************************************************************************* */
     /**Returns the velocity of the intake motor. */
