@@ -103,8 +103,7 @@ public class RobotContainer {
 
         drivetrain.registerTelemetry(logger::telemeterize);
 
-      SmartDashboard.putData("Auto Mode", autoChooser);
-        
+      SmartDashboard.putData("Auto Mode", autoChooser);        
 
       configureBindings();
     
@@ -121,17 +120,17 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    /* 
+    
     m_driverController.rightTrigger(.05).whileTrue((new ShootBall(shooter, intake)));
-    m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter, m_driverController));
+    m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter));
     m_driverController.a().whileTrue(new IntakeBall(intake));
     m_driverController.b().whileTrue(new ProcessorScoring(intake));
     m_driverController.x().whileTrue(Commands.run(() -> intake.sucker()));
-    m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));*/
+    m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
 
    
-    m_driverController.rightTrigger(.05).onTrue(Commands.runOnce(SignalLogger::start));
-    m_driverController.leftTrigger(.05).onTrue(Commands.runOnce(SignalLogger::stop));
+    // m_driverController.rightTrigger(.05).onTrue(Commands.runOnce(SignalLogger::start));
+    // m_driverController.leftTrigger(.05).onTrue(Commands.runOnce(SignalLogger::stop));
 
     /*
     * Joystick Y = quasistatic forward
@@ -139,10 +138,10 @@ public class RobotContainer {
     * Joystick B = dynamic forward
     * Joystick X = dyanmic reverse
     */
-    m_driverController.y().whileTrue(drivetrain.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
-    m_driverController.a().whileTrue(drivetrain.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
-    m_driverController.b().whileTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kForward));
-    m_driverController.x().whileTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+    // m_driverController.y().whileTrue(drivetrain.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    // m_driverController.a().whileTrue(drivetrain.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    // m_driverController.b().whileTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    // m_driverController.x().whileTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
   }
 

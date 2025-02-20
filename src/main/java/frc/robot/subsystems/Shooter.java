@@ -1,14 +1,15 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-
-
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 // import com.ctre.phoenix6.configs.Slot0Configs;
 // import java.util.Map;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 // import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 // import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 // import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -37,10 +38,11 @@ public class Shooter extends SubsystemBase {
         var configs = new TalonFXConfiguration();
         configs.Slot0.kP = 0.25;
         kraken.getConfigurator().apply(configs, 0.05);
+        kraken.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive), 0.05);
 
         //ShuffleboardLayout krak = tab.getLayout("Kraken", "List Layout").withPosition(0, 0).withSize(2, 2);
         //krak.addDouble("Top Motor RPM", () -> getRPM()).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("Max", 6000));
-        SmartDashboard.putNumber("Top Motor RPM", getRPM());
+        
 
 
     }
@@ -66,16 +68,17 @@ public class Shooter extends SubsystemBase {
 
         testSpeed = targetRPM * (Math.PI * 0.00785);
         //System.out.println(testSpeed);
-        motorVelocity.withVelocity(-testSpeed);
+        motorVelocity.withVelocity(testSpeed);
         kraken.setControl(motorVelocity);
-        SmartDashboard.putNumber("RPM", getRPM());
-
     }
 
     public void stopShooter(){
         kraken.set(0);
     }
 
-
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("Top Motor RPM", getRPM());
+    }
 }
 
