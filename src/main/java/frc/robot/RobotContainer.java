@@ -26,8 +26,11 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import static edu.wpi.first.units.Units.*;
+
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
@@ -118,15 +121,28 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
+    /* 
     m_driverController.rightTrigger(.05).whileTrue((new ShootBall(shooter, intake)));
     m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter, m_driverController));
     m_driverController.a().whileTrue(new IntakeBall(intake));
     m_driverController.b().whileTrue(new ProcessorScoring(intake));
     m_driverController.x().whileTrue(Commands.run(() -> intake.sucker()));
-    m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
+    m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));*/
 
-    m_driverController.povDown().whileTrue(Commands.run(() ->shooter.setRPM(5000)));
-    //m_driverController.povDown().whileTrue(new ShootBall(shooter, intake));
+   
+    m_driverController.rightTrigger(.05).onTrue(Commands.runOnce(SignalLogger::start));
+    m_driverController.leftTrigger(.05).onTrue(Commands.runOnce(SignalLogger::stop));
+
+    /*
+    * Joystick Y = quasistatic forward
+    * Joystick A = quasistatic reverse
+    * Joystick B = dynamic forward
+    * Joystick X = dyanmic reverse
+    */
+    m_driverController.y().whileTrue(drivetrain.sysIdQuasistatic(SysIdRoutine.Direction.kForward));
+    m_driverController.a().whileTrue(drivetrain.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
+    m_driverController.b().whileTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kForward));
+    m_driverController.x().whileTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
   }
 
