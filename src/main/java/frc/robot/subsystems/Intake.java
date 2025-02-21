@@ -5,8 +5,9 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ArmFeedforward;
+
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -26,9 +27,10 @@ public class Intake extends SubsystemBase {
     private double setPosition;
     private double difference = 0; //between target and actual position
 
-    private final double lowerLimit = IntakeConstants.grab; // needs to be fine tuned
-    private final double upperLimit = IntakeConstants.rest; //limits for intake positions 
-    private ArmFeedforward pivotForward; //check
+    private final double lowerLimit = IntakeConstants.rest; // needs to be fine tuned
+    private final double upperLimit = IntakeConstants.grab; //limits for intake positions 
+    private SimpleMotorFeedforward pivotForward; //check
+    
      
     public Intake(){
 
@@ -37,15 +39,15 @@ public class Intake extends SubsystemBase {
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kP = 0.01;
 
-        //distanceSensor = new DistanceSensor();
+        distanceSensor = new DistanceSensor();
         encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
         indexerMotor = new TalonFX(Constants.Ports.indexerMotor);
         pivotMotor = new TalonFX(Constants.Ports.pivotMotor);
 
-        pivotPID = new PIDController(0.01,0,0);
-        pivotForward = new ArmFeedforward(setPosition, lowerLimit, difference);
+        pivotPID = new PIDController(65,0.7,1);
+        pivotForward = new SimpleMotorFeedforward(setPosition, lowerLimit, difference);
 
         intakeMotor.getConfigurator().apply(talonFXConfigs);
         intakeMotor.setNeutralMode(NeutralModeValue.Coast);
@@ -75,7 +77,7 @@ public class Intake extends SubsystemBase {
 
     public boolean hasBall(){
     // Checks if ball is in intake to stop motor   
-            if(false){
+            if(distanceSensor.ateBall()){
                 //LEDs.green();
                 return true; // Ball detected
             }else{
@@ -158,10 +160,6 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("RPM", getRPM());
         SmartDashboard.putNumber("SetPosition", getSetPosition());
         SmartDashboard.putNumber("IntakePosition", getPosition());
-        SmartDashboard.putData("Pivot PID", pivotPID);
-        SmartDashboard.putNumber("Intake RPM", 60*intakeMotor.getRotorVelocity().getValueAsDouble());
-        SmartDashboard.putNumber("Indexer RPM", 60*indexerMotor.getRotorVelocity().getValueAsDouble());
-        SmartDashboard.putNumber("Pivot RPM", 60*pivotMotor.getRotorVelocity().getValueAsDouble());
     }
   
 }
