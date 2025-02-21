@@ -4,6 +4,9 @@
 
 package frc.robot;
 
+import com.pathplanner.lib.config.PIDConstants;
+import com.pathplanner.lib.config.RobotConfig;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -15,12 +18,5 @@ package frc.robot;
 public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
-  }
-
-  public static final class Vision{
-    public static final double bargeTagHeight = 68.93; // Inches
-    //public static final double bargeTagHeight = 54;
-    public static final double LLHeight = 33.5; // Inches
-    public static final double LLAngle = 5; // Degrees
   }
 }
