@@ -122,10 +122,13 @@ public class RobotContainer {
     
     m_driverController.rightTrigger(.05).whileTrue((new ShootBall(shooter, intake)));
     m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter));
-    m_driverController.a().whileTrue(new IntakeBall(intake));
+    m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().whileTrue(new ProcessorScoring(intake));
     m_driverController.x().whileTrue(Commands.run(() -> intake.sucker()));
     m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
+
+    //m_driverController.rightTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis()))));
+    //m_driverController.leftTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(-m_driverController.getLeftTriggerAxis()*12))));
 
    
     // m_driverController.rightTrigger(.05).onTrue(Commands.runOnce(SignalLogger::start));

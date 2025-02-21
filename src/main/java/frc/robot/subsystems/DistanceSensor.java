@@ -5,6 +5,8 @@ import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
 
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+
 //  import edu.wpi.first.cscore.CameraServerJNI.TelemetryKind;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -18,16 +20,10 @@ public class DistanceSensor extends SubsystemBase{
         distanceSensor.setAutomaticMode(true);
         distanceSensor.setEnabled(true);
         distanceSensor.setRangeProfile(RangeProfile.kDefault);
-
-        //tab.addDouble("Distance", () -> getDistance());
-        //tab.addDouble("Timestamp", () -> getTimeStamp());
-        //tab.addBoolean("Is Enabled", () -> isEnabled());
-        //tab.addBoolean("Has Valid Range", () -> hasValidRange());
-
     }
 
     public boolean ateBall(){
-        if (distanceSensor.getRange() < 7 && distanceSensor.getRange() > 0) {
+        if (distanceSensor.getRange() < 12 && distanceSensor.getRange() > 0) {
             return true;
         }
         return false;
@@ -56,11 +52,11 @@ public class DistanceSensor extends SubsystemBase{
         distanceSensor.setEnabled(x);
     }
 
-    //@Override
-    // public void periodic(){
-    //     SmartDashboard.putNumber("Distance:", getDistance());
-    //     SmartDashboard.putNumber("Timestamp", getTimeStamp());
-    //     SmartDashboard.putBoolean("Is Enabled", isEnabled());
-    //     SmartDashboard.putBoolean("Is ball in?", ateBall());
-    // }
+    @Override
+    public void periodic(){
+        SmartDashboard.putNumber("BallDistance:", getDistance());
+        SmartDashboard.putNumber("Timestamp", getTimeStamp());
+        SmartDashboard.putBoolean("Is Enabled", isEnabled());
+        SmartDashboard.putBoolean("Is ball in?", ateBall());
+    }
 }

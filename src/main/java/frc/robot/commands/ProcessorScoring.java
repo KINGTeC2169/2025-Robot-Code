@@ -6,7 +6,6 @@ import frc.robot.Constants.IntakeConstants;
 
 public class ProcessorScoring extends Command{
     private Intake intake;
-    private final double processor = IntakeConstants.processor;
     private final double rest = IntakeConstants.rest;
 
     public ProcessorScoring(Intake intake){
@@ -16,7 +15,7 @@ public class ProcessorScoring extends Command{
 
     @Override
     public void initialize(){
-        intake.setIntakePos(processor); 
+        intake.setIntakePos(0.1); 
     }
 
     @Override

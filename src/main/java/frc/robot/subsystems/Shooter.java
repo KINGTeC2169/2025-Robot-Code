@@ -36,7 +36,7 @@ public class Shooter extends SubsystemBase {
 
 
         var configs = new TalonFXConfiguration();
-        configs.Slot0.kP = 0.25;
+        configs.Slot0.kP = 0.25; //0.25
         kraken.getConfigurator().apply(configs, 0.05);
         kraken.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive), 0.05);
 

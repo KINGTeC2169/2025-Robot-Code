@@ -26,8 +26,8 @@ public class Intake extends SubsystemBase {
     private double setPosition;
     private double difference = 0; //between target and actual position
 
-    private final double lowerLimit = IntakeConstants.rest; // needs to be fine tuned
-    private final double upperLimit = IntakeConstants.net + 0.05; //limits for intake positions 
+    private final double lowerLimit = IntakeConstants.grab; // needs to be fine tuned
+    private final double upperLimit = IntakeConstants.rest; //limits for intake positions 
     private ArmFeedforward pivotForward; //check
      
     public Intake(){
@@ -44,7 +44,7 @@ public class Intake extends SubsystemBase {
         indexerMotor = new TalonFX(Constants.Ports.indexerMotor);
         pivotMotor = new TalonFX(Constants.Ports.pivotMotor);
 
-        pivotPID = new PIDController(65,0.7,1);
+        pivotPID = new PIDController(0.01,0,0);
         pivotForward = new ArmFeedforward(setPosition, lowerLimit, difference);
 
         intakeMotor.getConfigurator().apply(talonFXConfigs);
@@ -158,6 +158,10 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("RPM", getRPM());
         SmartDashboard.putNumber("SetPosition", getSetPosition());
         SmartDashboard.putNumber("IntakePosition", getPosition());
+        SmartDashboard.putData("Pivot PID", pivotPID);
+        SmartDashboard.putNumber("Intake RPM", 60*intakeMotor.getRotorVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Indexer RPM", 60*indexerMotor.getRotorVelocity().getValueAsDouble());
+        SmartDashboard.putNumber("Pivot RPM", 60*pivotMotor.getRotorVelocity().getValueAsDouble());
     }
   
 }

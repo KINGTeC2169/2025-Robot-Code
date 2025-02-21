@@ -18,7 +18,7 @@ public class JustIntakeBallNoSensor extends Command{
 
     @Override
     public void initialize(){
-        intake.setIntakePos(IntakeConstants.processor); 
+        intake.setIntakePos(IntakeConstants.grab); 
     }
 
     @Override

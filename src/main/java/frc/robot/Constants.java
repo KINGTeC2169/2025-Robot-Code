@@ -64,7 +64,7 @@ public final class Constants {
         public static final int pivotMotor = 5; //done
         public static final int indexerMotor = 6; //done
         
-        public static final int encoder = 0;
+        public static final int encoder = 1;
 
     }
 
@@ -76,10 +76,10 @@ public final class Constants {
 
     public static class IntakeConstants{
 
-      public static final double encoderOffset = 0.857992571449814-0.5;
-      public static final double rest = 0.857992571449814-0.5;
-      public static final double net = 0.857992571449814-0.5;
-      public static final double processor = 0.85; // fine tune for actual value      
+      public static final double encoderOffset = 0;
+      public static final double rest = 0.1930392048259801;
+      public static final double grab = 0.07124792678119816;
+      //public static final double processor = 0.85; // fine tune for actual value      
     }
 }
 
