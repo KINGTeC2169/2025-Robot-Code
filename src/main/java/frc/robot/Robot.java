@@ -27,6 +27,7 @@ import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -121,14 +122,14 @@ public class Robot extends TimedRobot {
           try {
             pathPlannerPaths = PathPlannerAuto.getPathGroupFromAutoFile(newAutoName);
           } catch (IOException | ParseException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
             pathPlannerPaths = null;
           }
           List<Pose2d> poses = new ArrayList<>();
           for (PathPlannerPath path : pathPlannerPaths) {
-              poses.addAll(path.getAllPathPoints().stream().map(point -> new Pose2d(point.position.getX(), point.position.getY(), new Rotation2d())).collect(Collectors.toList()));
-          }
+              if (DriverStation.getAlliance().get() == Alliance.Red) poses.addAll(path.flipPath().getAllPathPoints().stream().map(point -> new Pose2d(point.position.getX(), point.position.getY(), new Rotation2d())).collect(Collectors.toList()));
+              else poses.addAll(path.getAllPathPoints().stream().map(point -> new Pose2d(point.position.getX(), point.position.getY(), new Rotation2d())).collect(Collectors.toList()));
+            }
           m_robotContainer.logger.field.getObject("path").setPoses(poses);
       }
     }

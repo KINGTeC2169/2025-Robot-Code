@@ -351,9 +351,17 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                     DriveConstants.autoRotationPID
                 ),
                config,
-                //Assume the path needs to be flipped for Red vs Blue, this is normally the case
-               () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
-               this // Subsystem for requirements
+               () -> {
+                // Boolean supplier that controls when the path will be mirrored for the red alliance
+                // This will flip the path being followed to the red side of the field.
+                // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
+  
+                var alliance = DriverStation.getAlliance();
+                if (alliance.isPresent()) {
+                  return alliance.get() == DriverStation.Alliance.Red;
+                }
+                return true; //Blue Alliance
+              }
           );
         } catch (Exception ex) {
             DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());

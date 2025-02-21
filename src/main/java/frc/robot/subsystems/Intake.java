@@ -37,7 +37,7 @@ public class Intake extends SubsystemBase {
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kP = 0.01;
 
-        distanceSensor = new DistanceSensor();
+        //distanceSensor = new DistanceSensor();
         encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
@@ -75,7 +75,7 @@ public class Intake extends SubsystemBase {
 
     public boolean hasBall(){
     // Checks if ball is in intake to stop motor   
-            if(distanceSensor.ateBall()){
+            if(false){
                 //LEDs.green();
                 return true; // Ball detected
             }else{
