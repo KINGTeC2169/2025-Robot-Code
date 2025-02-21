@@ -2,17 +2,14 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Shooter;
 
 public class Rev extends Command {
     
     private Shooter shooter;
-    private  CommandXboxController controller;
     
     public Rev(Shooter shoot){//, CommandXboxController controller) {
         shooter = shoot;
-        this.controller = controller;
         addRequirements(shooter);
     }
     
@@ -39,7 +36,7 @@ public class Rev extends Command {
     
     @Override
     public boolean isFinished() {
-        return false;
+        return shooter.getRPM()>4800;
     }
     
 

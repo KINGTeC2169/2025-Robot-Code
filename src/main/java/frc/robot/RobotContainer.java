@@ -16,6 +16,7 @@ import frc.robot.subsystems.Intake;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -41,8 +42,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   //Subsystems
-  private final Shooter shooter = new Shooter();
-  private final Intake intake = new Intake();
+  public final Shooter shooter;
+  public final Intake intake;
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   //Commands
@@ -77,6 +78,12 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+
+        shooter = new Shooter();
+        intake = new Intake();
+
+        NamedCommands.registerCommand("Rev", new Rev(shooter));
+        NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake));
    // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
@@ -124,7 +131,7 @@ public class RobotContainer {
     m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().whileTrue(new ProcessorScoring(intake));
-    m_driverController.x().whileTrue(Commands.run(() -> intake.sucker()));
+    m_driverController.y().whileTrue(Commands.run(() -> intake.sucker()));
     m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
 
     //m_driverController.rightTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis()))));

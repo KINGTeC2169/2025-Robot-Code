@@ -7,7 +7,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "DirectionTest1"
+            "pathName": "NoDrive1"
           }
         },
         {
@@ -19,13 +19,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "DirectionTest2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
+            "pathName": "NoDrive1"
           }
         }
       ]
