@@ -42,8 +42,8 @@ public class RobotContainer {
   // The robot's subsystems and commands are defined here...
 
   //Subsystems
-  public final Shooter shooter;
-  public final Intake intake;
+  public final Shooter shooter = new Shooter();
+  public final Intake intake = new Intake();
   public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
   //Commands
@@ -78,9 +78,6 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
-
-        shooter = new Shooter();
-        intake = new Intake();
 
         NamedCommands.registerCommand("Rev", new Rev(shooter));
         NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake));
