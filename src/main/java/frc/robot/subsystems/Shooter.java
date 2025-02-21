@@ -8,6 +8,8 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 // import com.ctre.phoenix6.configs.Slot0Configs;
 // import java.util.Map;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -27,6 +29,8 @@ public class Shooter extends SubsystemBase {
     private TalonFX kraken; 
     private double testSpeed = 0;
     private double targetRPM = 0;
+    private PIDController pid = new PIDController(0.25, 0, 0);
+    private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.25, 0.25);
 
 
 
@@ -61,6 +65,10 @@ public class Shooter extends SubsystemBase {
 
     public double getRPM(){
         return 60 * kraken.getRotorVelocity().getValueAsDouble();
+    }
+
+    public void vroom(double target){
+        kraken.setVoltage(pid.calculate(kraken.getRotorVelocity().getValueAsDouble() * (0.00785 / 2), target) + feedforward.calculate(target));
     }
 
     public void setRPM(double rpm){
