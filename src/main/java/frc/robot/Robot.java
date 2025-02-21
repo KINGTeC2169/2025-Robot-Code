@@ -4,8 +4,20 @@
 
 package frc.robot;
 
+import java.io.IOException;
 import java.time.chrono.ThaiBuddhistChronology;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collectors;
 
+import org.json.simple.parser.ParseException;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.path.PathPlannerPath;
+
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.net.WebServer;
 import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.util.sendable.SendableBuilder;
@@ -30,6 +42,7 @@ public class Robot extends TimedRobot {
 
   private final RobotContainer m_robotContainer;
   private final PowerDistribution pdh;
+  private String autoName, newAutoName;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -72,40 +85,6 @@ public class Robot extends TimedRobot {
   });
   }
 
-
-
-
-// This
- 
-
-
-// is 
-
-
-
-
-// where
-
-
-// I 
-
-
-// commented
-
-
-
-
-
-
-
-//right here (down)
-
-
-
-
-
-
-
   /**
    * This function is called every 20 ms, no matter the mode. Use this for items like diagnostics
    * that you want ran during disabled, autonomous, teleoperated and test.
@@ -132,7 +111,28 @@ public class Robot extends TimedRobot {
   public void disabledInit() {}
 
   @Override
-  public void disabledPeriodic() {}
+  public void disabledPeriodic() {
+
+    newAutoName = m_robotContainer.getAutonomousCommand().getName();
+    if (autoName != newAutoName) {
+      autoName = newAutoName;
+      if (AutoBuilder.getAllAutoNames().contains(autoName)) {
+          List<PathPlannerPath> pathPlannerPaths;
+          try {
+            pathPlannerPaths = PathPlannerAuto.getPathGroupFromAutoFile(newAutoName);
+          } catch (IOException | ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+            pathPlannerPaths = null;
+          }
+          List<Pose2d> poses = new ArrayList<>();
+          for (PathPlannerPath path : pathPlannerPaths) {
+              poses.addAll(path.getAllPathPoints().stream().map(point -> new Pose2d(point.position.getX(), point.position.getY(), new Rotation2d())).collect(Collectors.toList()));
+          }
+          m_robotContainer.logger.field.getObject("path").setPoses(poses);
+      }
+    }
+  }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
@@ -159,6 +159,7 @@ public class Robot extends TimedRobot {
       m_autonomousCommand.cancel();
     }
     Elastic.selectTab("Teleoperated");
+    m_robotContainer.logger.field.getObject("path").setPoses();
   }
 
   /** This function is called periodically during operator control. */

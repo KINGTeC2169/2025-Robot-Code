@@ -72,7 +72,7 @@ public class RobotContainer {
           .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
-  private final Telemetry logger = new Telemetry(MaxSpeed);
+  public final Telemetry logger = new Telemetry(MaxSpeed);
 
   
 
