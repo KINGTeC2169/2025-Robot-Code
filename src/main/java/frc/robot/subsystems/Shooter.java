@@ -8,8 +8,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 // import com.ctre.phoenix6.configs.Slot0Configs;
 // import java.util.Map;
 
-import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 // import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -29,12 +28,13 @@ public class Shooter extends SubsystemBase {
     private TalonFX kraken; 
     private double testSpeed = 0;
     private double targetRPM = 0;
-    private PIDController pid = new PIDController(0.25, 0, 0);
-    private SimpleMotorFeedforward feedforward = new SimpleMotorFeedforward(0.25, 0.25);
+    private double timer;
+    private boolean timerStart;
 
 
 
     public Shooter() {
+        timerStart = false;
         
         kraken = new TalonFX(Constants.Ports.shooterMotor);
 
@@ -67,16 +67,6 @@ public class Shooter extends SubsystemBase {
         return 60 * kraken.getRotorVelocity().getValueAsDouble();
     }
 
-    // testing out pid control for shooter
-    public void vroom(double target){
-        kraken.setVoltage(pid.calculate(kraken.getRotorVelocity().getValueAsDouble() * (0.00785 / 2), target) + feedforward.calculate(target));
-    }
-
-    public double getVelocityFly(){
-        double rotor = kraken.getRotorVelocity().getValueAsDouble();
-        return rotor * (Math.PI * 0.00785);
-    }
-
     public void setRPM(double rpm){
         targetRPM = rpm;
 
@@ -89,10 +79,23 @@ public class Shooter extends SubsystemBase {
     public void stopShooter(){
         kraken.set(0);
     }
+    
 
     @Override
     public void periodic(){
+
+        if(kraken.getSupplyCurrent().getValueAsDouble() > 15){
+            timer++;
+            timerStart = true;
+        } 
+        else if(timerStart){
+            System.out.println(timer);
+            timerStart = false;
+            timer = 0;
+        }
+
         SmartDashboard.putNumber("Top Motor RPM", getRPM());
+        SmartDashboard.putNumber("shoot amps", kraken.getStatorCurrent().getValueAsDouble());
+        SmartDashboard.putNumber("shoot volts", kraken.getMotorVoltage().getValueAsDouble());
     }
 }
-

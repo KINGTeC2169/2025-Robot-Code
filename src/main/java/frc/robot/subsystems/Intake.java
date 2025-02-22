@@ -66,7 +66,8 @@ public class Intake extends SubsystemBase {
 
     /**Runs intake backwards at 0.12 speed*/
     public void outTake() {
-        intakeMotor.set(-0.12);
+        intakeMotor.set(-0.3);
+        indexerMotor.set(0.3);
     }
 
     /**Stops the intake. */

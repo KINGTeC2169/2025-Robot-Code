@@ -36,6 +36,7 @@ public class ShootBall extends Command {
         }
         if(shooterReady){
             index.setVoltageIndex(9);
+            index.setVoltageIntake(9);
         } 
        
     }
@@ -47,6 +48,7 @@ public class ShootBall extends Command {
         Timer.delay(0.75);
         shooter.setPower(0);
         index.setVoltageIndex(0);
+        index.setVoltageIntake(0);
     }
     
     @Override

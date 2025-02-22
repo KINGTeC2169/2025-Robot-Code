@@ -91,8 +91,8 @@ public class RobotContainer {
                     .withVelocityY(-leftStick.getX() * MaxSpeed) // Drive left with negative X (left)
                     .withRotationalRate(-rightStick.getTwist() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             */
-            drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
+            drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * 0.5) // Drive forward with negative Y (forward)
+                    .withVelocityY(-m_driverController.getLeftX() * MaxSpeed * 0.5) // Drive left with negative X (left)
                     .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
             
                     )
@@ -128,7 +128,7 @@ public class RobotContainer {
     m_driverController.leftBumper().whileTrue(new Rev(shooter));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().whileTrue(new ProcessorScoring(intake));
-    m_driverController.y().whileTrue(Commands.run(() -> intake.sucker()));
+    m_driverController.y().whileTrue(Commands.run(() -> intake.outTake()));
     m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
 
     m_driverController.rightTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis()*4))));
