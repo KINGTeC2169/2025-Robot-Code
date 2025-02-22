@@ -67,8 +67,14 @@ public class Shooter extends SubsystemBase {
         return 60 * kraken.getRotorVelocity().getValueAsDouble();
     }
 
+    // testing out pid control for shooter
     public void vroom(double target){
         kraken.setVoltage(pid.calculate(kraken.getRotorVelocity().getValueAsDouble() * (0.00785 / 2), target) + feedforward.calculate(target));
+    }
+
+    public double getVelocityFly(){
+        double rotor = kraken.getRotorVelocity().getValueAsDouble();
+        return rotor * (Math.PI * 0.00785);
     }
 
     public void setRPM(double rpm){

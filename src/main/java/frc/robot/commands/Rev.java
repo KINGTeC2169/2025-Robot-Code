@@ -29,8 +29,7 @@ public class Rev extends Command {
     @Override
     public void end(boolean interrupted) {
         //Timer.delay(0.75);
-        //shooter.setPower(0);
-        
+        //shooter.setPower(0);    
     }
     
     
