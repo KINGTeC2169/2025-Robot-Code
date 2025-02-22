@@ -99,7 +99,7 @@ public class RobotContainer {
         );
 
         //Reset orientation
-        m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        m_driverController.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
         bottomLeftButton.whileTrue(drivetrain.applyRequest(() -> brake));
@@ -124,17 +124,16 @@ public class RobotContainer {
   private void configureBindings() {
 
     
-    m_driverController.rightTrigger(.05).whileTrue((new ShootBall(shooter, intake)));
-    m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter));
+    m_driverController.rightBumper().whileTrue((new ShootBall(shooter, intake)));
+    m_driverController.leftBumper().whileTrue(new Rev(shooter));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().whileTrue(new ProcessorScoring(intake));
     m_driverController.y().whileTrue(Commands.run(() -> intake.sucker()));
     m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
 
-    //m_driverController.rightTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis()))));
-    //m_driverController.leftTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(-m_driverController.getLeftTriggerAxis()*12))));
-
-   
+    m_driverController.rightTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis()*4))));
+    m_driverController.leftTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(-12))));
+    m_driverController.start().whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
     // m_driverController.rightTrigger(.05).onTrue(Commands.runOnce(SignalLogger::start));
     // m_driverController.leftTrigger(.05).onTrue(Commands.runOnce(SignalLogger::stop));
 

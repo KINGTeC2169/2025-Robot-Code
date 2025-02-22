@@ -21,20 +21,23 @@ public class ShootBall extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        shooter.vroom(20);
+       // shooter.vroom(20);
+       shooter.setRPM(5000);
     }
     
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        shooter.vroom(20);
+        //shooter.vroom(20);
         //temporary if statement since we do not have a variable target velocity yet
-        if(shooter.getVelocityFly() > 19.5){
+        shooter.setRPM(5000); 
+        if(shooter.getRPM() > 4800){
             shooterReady = true;
         }
         if(shooterReady){
             index.setVoltageIndex(9);
-        }
+        } 
+       
     }
     
     // Called once the command ends or is interrupted.

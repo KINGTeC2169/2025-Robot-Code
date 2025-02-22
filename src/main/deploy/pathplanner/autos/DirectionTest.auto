@@ -11,21 +11,9 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Rev"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "DirectionTest2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Shoot"
           }
         }
       ]
