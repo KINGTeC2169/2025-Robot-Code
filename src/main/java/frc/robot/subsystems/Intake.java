@@ -9,6 +9,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
@@ -39,7 +40,7 @@ public class Intake extends SubsystemBase {
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kP = 0.01;
 
-        distanceSensor = new DistanceSensor();
+        if (RobotBase.isReal()) distanceSensor = new DistanceSensor();
         encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
@@ -78,7 +79,7 @@ public class Intake extends SubsystemBase {
 
     public boolean hasBall(){
     // Checks if ball is in intake to stop motor   
-            if(distanceSensor.ateBall()){
+            if(RobotBase.isReal() && distanceSensor.ateBall()){
                 //LEDs.green();
                 return true; // Ball detected
             }else{
