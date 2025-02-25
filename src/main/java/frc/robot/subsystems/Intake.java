@@ -13,6 +13,9 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.util.Elastic;
+import frc.robot.util.Elastic.Notification;
+import frc.robot.util.Elastic.Notification.NotificationLevel;
 
 public class Intake extends SubsystemBase {
 
@@ -26,7 +29,7 @@ public class Intake extends SubsystemBase {
     private PIDController pivotPID;
     
     private double setPosition;
-    private double difference = 0; //between target and actual position
+    private double difference; //between target and actual position
 
     private final double lowerLimit = IntakeConstants.rest; // needs to be fine tuned
     private final double upperLimit = IntakeConstants.grab; //limits for intake positions 
@@ -47,8 +50,8 @@ public class Intake extends SubsystemBase {
         indexerMotor = new TalonFX(Constants.Ports.indexerMotor);
         pivotMotor = new TalonFX(Constants.Ports.pivotMotor);
 
-        pivotPID = new PIDController(65,0.7,1);
-        pivotForward = new SimpleMotorFeedforward(setPosition, lowerLimit, difference);
+        pivotPID = new PIDController(IntakeConstants.kP, IntakeConstants.kI,IntakeConstants.kD);
+        pivotForward = new SimpleMotorFeedforward(IntakeConstants.kS, IntakeConstants.kV, IntakeConstants.kA);
 
         intakeMotor.getConfigurator().apply(talonFXConfigs);
         intakeMotor.setNeutralMode(NeutralModeValue.Coast);
@@ -152,8 +155,15 @@ public class Intake extends SubsystemBase {
         return pos;
     }
 
+    public boolean isReady(){
+        return difference < 0.05;
+    }
+
     @Override   
     public void periodic() {
+
+        difference = Math.abs(setPosition - getPosition());
+
         SmartDashboard.putBoolean("Ball detected:", hasBall());
         SmartDashboard.putNumber("Intake Motor Speed", getSpeed());
         SmartDashboard.putNumber("IntakeM Voltage", getVoltage());
@@ -162,6 +172,12 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("RPM", getRPM());
         SmartDashboard.putNumber("SetPosition", getSetPosition());
         SmartDashboard.putNumber("IntakePosition", getPosition());
+
+        if (!encoder.isConnected()) Elastic.sendNotification(new Notification().withLevel(NotificationLevel.WARNING)
+                                                                               .withTitle("Warning")
+                                                                               .withDescription("Intake Hex Encoder Disconnected")
+                                                                               .withDisplaySeconds(5));
+
     }
   
 }

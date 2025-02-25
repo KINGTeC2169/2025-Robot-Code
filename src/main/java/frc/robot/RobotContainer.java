@@ -55,8 +55,8 @@ public class RobotContainer {
   //private final CommandXboxController ps4 = new CommandXboxController(0);
   private final CommandXboxController m_driverController = new CommandXboxController(Ports.controller);
   private final Joystick leftStick = new Joystick(Constants.Ports.leftStick);
-  private final JoystickButton topLeftButton = new JoystickButton(leftStick, 1);
-  private final JoystickButton bottomLeftButton = new JoystickButton(leftStick, 2);
+  public final JoystickButton topLeftButton = new JoystickButton(leftStick, 1);
+  public final JoystickButton bottomLeftButton = new JoystickButton(leftStick, 2);
 
   //private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
   private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
@@ -90,9 +90,9 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-            drive.withVelocityX(-leftStick.getY() * MaxSpeed * SmartDashboard.getNumber("Swerve Speed", 0.5)) // Drive forward with negative Y (forward)
-                    .withVelocityY(-leftStick.getX() * MaxSpeed * SmartDashboard.getNumber("Swerve Speed", 0.5)) // Drive left with negative X (left)
-                    .withRotationalRate(rightStick.getTwist() * MaxAngularRate * SmartDashboard.getNumber("Swerve Speed", 0.5)) // Drive counterclockwise with negative X (left)
+            drive.withVelocityX(-leftStick.getY() * MaxSpeed * speed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-leftStick.getX() * MaxSpeed * speed) // Drive left with negative X (left)
+                    .withRotationalRate(rightStick.getTwist() * MaxAngularRate * speed) // Drive counterclockwise with negative X (left)
                     )
 
             // drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * 0.5) // Drive forward with negative Y (forward)
@@ -102,15 +102,29 @@ public class RobotContainer {
         );
 
         //Reset orientation
-        m_driverController.back().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        topRightButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
-        bottomLeftButton.whileTrue(drivetrain.applyRequest(() -> brake));
+        bottomRightButton.whileTrue(drivetrain.applyRequest(() -> brake));
+
+        if (topLeftButton.getAsBoolean()) setFastMode();
 
         drivetrain.registerTelemetry(logger::telemeterize);    
 
       configureBindings();
     
+  }
+
+  public void setFastMode(){
+    speed = 0.8;
+  }
+
+  public void setMediumMode(){
+    speed = SmartDashboard.getNumber("Swerve Speed", 0.5);
+  }
+
+  public void setSlowMode(){
+    speed = 0.2;
   }
 
   /**
