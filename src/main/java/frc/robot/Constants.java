@@ -79,7 +79,16 @@ public final class Constants {
       public static final double encoderOffset = 0;
       public static final double rest = 0.1930392048259801;
       public static final double grab = 0.07124792678119816;
-      //public static final double processor = 0.85; // fine tune for actual value      
+
+      //TODO: Tune values
+      public static double kP = 0.1;
+      public static double kI = 0;
+      public static double kD = 0;
+      
+      public static double kS = 1;
+      public static double kV = 0;
+      public static double kA = 0;
+ 
     }
 }
 
