@@ -139,14 +139,19 @@ public class RobotContainer {
     
     m_driverController.rightBumper().whileTrue((new ShootBall(shooter, intake, 5000)));
     m_driverController.leftBumper().whileTrue(new Rev(shooter));
-    m_driverController.a().onTrue(new IntakeBall(intake));
-    m_driverController.b().whileTrue(new ProcessorScoring(intake));
+    //m_driverController.a().onTrue(new IntakeBall(intake));
+    //m_driverController.b().whileTrue(new ProcessorScoring(intake));
     m_driverController.y().whileTrue(Commands.run(() -> intake.outTake()));
     m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
 
     m_driverController.rightTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis()*4))));
     m_driverController.leftTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(-12))));
     m_driverController.start().whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
+    m_driverController.b().whileTrue(Commands.run(() -> shooter.setRPM(-1500)));
+    m_driverController.b().whileTrue(Commands.run(() -> intake.setVoltageIntake(8)));
+    m_driverController.a().whileTrue(Commands.run(() -> intake.setVoltageIntake(0)));
+    m_driverController.a().whileTrue(Commands.run(() -> shooter.setRPM(0)));
+
     // m_driverController.rightTrigger(.05).onTrue(Commands.runOnce(SignalLogger::start));
     // m_driverController.leftTrigger(.05).onTrue(Commands.runOnce(SignalLogger::stop));
 
