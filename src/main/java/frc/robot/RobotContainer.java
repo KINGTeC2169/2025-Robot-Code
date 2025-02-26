@@ -84,7 +84,7 @@ public class RobotContainer {
         SmartDashboard.putNumber("Swerve Speed", speed);
 
         NamedCommands.registerCommand("Rev", new Rev(shooter));
-        NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake));
+        NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 5000));
    // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
@@ -106,8 +106,6 @@ public class RobotContainer {
 
         //Defense mode
         bottomRightButton.whileTrue(drivetrain.applyRequest(() -> brake));
-
-        if (topLeftButton.getAsBoolean()) setFastMode();
 
         drivetrain.registerTelemetry(logger::telemeterize);    
 
@@ -139,7 +137,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     
-    m_driverController.rightBumper().whileTrue((new ShootBall(shooter, intake)));
+    m_driverController.rightBumper().whileTrue((new ShootBall(shooter, intake, 5000)));
     m_driverController.leftBumper().whileTrue(new Rev(shooter));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().whileTrue(new ProcessorScoring(intake));

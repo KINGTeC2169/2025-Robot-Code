@@ -94,7 +94,7 @@ public class Shooter extends SubsystemBase {
             timer = 0;
         }
 
-        SmartDashboard.putNumber("Top Motor RPM", getRPM());
+        SmartDashboard.putNumber("Top Motor RPM", getRPM() * 2);
         SmartDashboard.putNumber("shoot amps", kraken.getStatorCurrent().getValueAsDouble());
         SmartDashboard.putNumber("shoot volts", kraken.getMotorVoltage().getValueAsDouble());
     }

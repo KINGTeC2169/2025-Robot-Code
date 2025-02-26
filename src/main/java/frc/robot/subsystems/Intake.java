@@ -173,10 +173,10 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("SetPosition", getSetPosition());
         SmartDashboard.putNumber("IntakePosition", getPosition());
 
-        if (!encoder.isConnected()) Elastic.sendNotification(new Notification().withLevel(NotificationLevel.WARNING)
-                                                                               .withTitle("Warning")
-                                                                               .withDescription("Intake Hex Encoder Disconnected")
-                                                                               .withDisplaySeconds(5));
+        //if (!encoder.isConnected()) Elastic.sendNotification(new Notification().withLevel(NotificationLevel.WARNING)
+                                                                            //    .withTitle("Warning")
+                                                                            //    .withDescription("Intake Hex Encoder Disconnected")
+                                                                            //    .withDisplaySeconds(5));
 
     }
   
