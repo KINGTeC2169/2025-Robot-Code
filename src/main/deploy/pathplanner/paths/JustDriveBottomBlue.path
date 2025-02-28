@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 7.024250000000001,
-        "y": 1.8604999999999996
+        "y": 1.8604999999999998
       },
       "isLocked": false,
       "linkedName": "BottomStart"
@@ -45,7 +45,7 @@
     "rotation": 180.0
   },
   "reversed": false,
-  "folder": null,
+  "folder": "BottomBlueShoot",
   "idealStartingState": {
     "velocity": 0,
     "rotation": 180.0

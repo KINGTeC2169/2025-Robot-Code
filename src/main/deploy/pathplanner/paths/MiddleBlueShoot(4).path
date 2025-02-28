@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.193022344565161,
-        "y": 5.979603091770554
+        "x": 6.387154014904786,
+        "y": 5.110634026224442
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "GrabBall2"
     },
     {
       "anchor": {
-        "x": 6.513,
-        "y": 6.638
+        "x": 6.571500000000001,
+        "y": 5.14625
       },
       "prevControl": {
-        "x": 5.975543002488832,
-        "y": 6.696660541883744
+        "x": 5.777791724545835,
+        "y": 5.141962202176858
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Shootpos"
+      "linkedName": "MiddleShoot"
     }
   ],
   "rotationTargets": [],
@@ -45,10 +45,10 @@
     "rotation": 0.0
   },
   "reversed": false,
-  "folder": "TopBlue",
+  "folder": "MiddleBlue",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -126.00600000000001
+    "rotation": -124.875
   },
   "useDefaultConstraints": true
 }
