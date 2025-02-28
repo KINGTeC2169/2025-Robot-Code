@@ -3,6 +3,14 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.revrobotics.spark.SparkMax;
+import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.spark.SparkBase.PersistMode;
+import com.revrobotics.spark.SparkLowLevel.MotorType;
+import com.revrobotics.spark.config.SparkMaxConfig;
+import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
+import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
+
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
 
@@ -13,16 +21,15 @@ import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.util.Elastic;
-import frc.robot.util.Elastic.Notification;
-import frc.robot.util.Elastic.Notification.NotificationLevel;
 
 public class Intake extends SubsystemBase {
 
   /** Creates a new Intake. */
     private TalonFX intakeMotor;
     private TalonFX indexerMotor;
-    private TalonFX pivotMotor;
+    private SparkMax pivotMotor;
+
+    private SparkMaxConfig pivotConfig;
 
     private DutyCycleEncoder encoder;
     private DistanceSensor distanceSensor;
@@ -31,8 +38,8 @@ public class Intake extends SubsystemBase {
     private double setPosition;
     private double difference; //between target and actual position
 
-    private final double lowerLimit = IntakeConstants.rest; // needs to be fine tuned
-    private final double upperLimit = IntakeConstants.grab; //limits for intake positions 
+    private final double upperLimit = IntakeConstants.rest; // needs to be fine tuned
+    private final double lowerLimit = IntakeConstants.grab; //limits for intake positions 
     private SimpleMotorFeedforward pivotForward; //check
     
      
@@ -43,12 +50,24 @@ public class Intake extends SubsystemBase {
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kP = 0.01;
 
+        pivotConfig = new SparkMaxConfig();
+
+        pivotConfig.idleMode(IdleMode.kBrake);
+
+        pivotConfig.encoder.positionConversionFactor(1000);
+        pivotConfig.encoder.velocityConversionFactor(1000);
+
+        pivotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
+
         if (RobotBase.isReal()) distanceSensor = new DistanceSensor();
         encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
         indexerMotor = new TalonFX(Constants.Ports.indexerMotor);
-        pivotMotor = new TalonFX(Constants.Ports.pivotMotor);
+        //pivotMotor = new TalonFX(Constants.Ports.pivotMotor);
+        pivotMotor = new SparkMax(Constants.Ports.pivotMotor, MotorType.kBrushless);
+
+        pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         pivotPID = new PIDController(IntakeConstants.kP, IntakeConstants.kI,IntakeConstants.kD);
         pivotForward = new SimpleMotorFeedforward(IntakeConstants.kS, IntakeConstants.kV, IntakeConstants.kA);
@@ -57,8 +76,9 @@ public class Intake extends SubsystemBase {
         intakeMotor.setNeutralMode(NeutralModeValue.Coast);
         indexerMotor.getConfigurator().apply(talonFXConfigs);
         indexerMotor.setNeutralMode(NeutralModeValue.Coast);
-        pivotMotor.getConfigurator().apply(talonFXConfigs);
-        pivotMotor.setNeutralMode(NeutralModeValue.Brake);
+        // pivotMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
+        //pivotMotor.getConfigurator().apply(talonFXConfigs);
+        //pivotMotor.setNeutralMode(NeutralModeValue.Brake);
     
     }
 
@@ -105,9 +125,7 @@ public class Intake extends SubsystemBase {
     public void setIntakePos(double position) {
         position = MathUtil.clamp(position, lowerLimit, upperLimit);
         setPosition = position;
-        //System.out.println("PID " + armPID.calculate(getPosition(), position) + " FORWARD " + armForward.calculate((position - 0.25)*6.28, 0));
-        pivotMotor.setVoltage(pivotPID.calculate(getPosition(), position) + pivotForward.calculate((position - 0.25)*6.28, 0));
-        difference = position - getPosition();
+        pivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position)); //+ pivotForward.calculate(position));
     }
 
     /**Stops all motors */
@@ -122,23 +140,35 @@ public class Intake extends SubsystemBase {
 
     //********************************************************************************************************************************* */
     /**Returns the velocity of the intake motor. */
-    public double getSpeed(){
+    public double getGrabSpeed(){
         return intakeMotor.getVelocity().getValueAsDouble();
     }
 
     /**Returns the voltage of the intake motor. */
-    public double getVoltage(){
+    public double getGrabVoltage(){
         return intakeMotor.getSupplyVoltage().getValueAsDouble();
     }
 
     /**Returns the current of the intake motor. */
-    public double getCurrent(){
+    public double getGrabCurrent(){
         return intakeMotor.getSupplyCurrent().getValueAsDouble();
+    }
+
+    public double getPivotSpeed(){
+        return pivotMotor.get();
+    }
+
+    public double getPivotVoltage(){
+        return pivotMotor.getBusVoltage();
+    }
+
+    public double getPivotCurrent(){
+        return pivotMotor.getOutputCurrent();
     }
 
     /**Returns true of the intake is on. */
     public boolean isOn(){
-        return Math.abs(getSpeed()) > 0;
+        return Math.abs(getGrabSpeed()) > 0;
     }
         /**Returns the intake motor's rotor velocity in rotations per minute */
     public double getRPM(){
@@ -150,9 +180,7 @@ public class Intake extends SubsystemBase {
 
     /**Gets the position of the arm from the hex encoder */
     public double getPosition(){
-        double pos = (encoder.get());
-         Math.abs(pos);
-        return pos;
+        return encoder.get();
     }
 
     public boolean isReady(){
@@ -165,13 +193,27 @@ public class Intake extends SubsystemBase {
         difference = Math.abs(setPosition - getPosition());
 
         SmartDashboard.putBoolean("Ball detected:", hasBall());
-        SmartDashboard.putNumber("Intake Motor Speed", getSpeed());
-        SmartDashboard.putNumber("IntakeM Voltage", getVoltage());
-        SmartDashboard.putNumber("Confidence", getCurrent());
+        SmartDashboard.putNumber("Intake Motor Speed", getGrabSpeed());
+        SmartDashboard.putNumber("IntakeM Voltage", getGrabVoltage());
         SmartDashboard.putBoolean("Detected Color", isOn());
         SmartDashboard.putNumber("RPM", getRPM());
         SmartDashboard.putNumber("SetPosition", getSetPosition());
         SmartDashboard.putNumber("IntakePosition", getPosition());
+        SmartDashboard.putNumber("Pivot Speed", getPivotSpeed());
+        SmartDashboard.putNumber("Pivot Voltage", getPivotVoltage());
+        SmartDashboard.putNumber("Pivot Current", getPivotCurrent());
+        SmartDashboard.putBoolean("Pivot Ready", isReady());
+        SmartDashboard.putData("Pivot PID", pivotPID);
+
+        if(!isReady()){
+            if(getSetPosition() == Constants.IntakeConstants.rest){
+                setIntakePos(Constants.IntakeConstants.rest);
+            } else {
+                setIntakePos(Constants.IntakeConstants.grab);
+            }
+        } else {
+            setVoltagePivot(0);
+        }
 
         //if (!encoder.isConnected()) Elastic.sendNotification(new Notification().withLevel(NotificationLevel.WARNING)
                                                                             //    .withTitle("Warning")

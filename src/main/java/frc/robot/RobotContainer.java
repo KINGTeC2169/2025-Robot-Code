@@ -92,7 +92,7 @@ public class RobotContainer {
             drivetrain.applyRequest(() ->
             drive.withVelocityX(-leftStick.getY() * MaxSpeed * speed) // Drive forward with negative Y (forward)
                     .withVelocityY(-leftStick.getX() * MaxSpeed * speed) // Drive left with negative X (left)
-                    .withRotationalRate(rightStick.getTwist() * MaxAngularRate * speed) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate(rightStick.getTwist() * MaxAngularRate * 0.8) // Drive counterclockwise with negative X (left)
                     )
 
             // drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * 0.5) // Drive forward with negative Y (forward)
@@ -114,7 +114,7 @@ public class RobotContainer {
   }
 
   public void setFastMode(){
-    speed = 0.8;
+    speed = 1;
   }
 
   public void setMediumMode(){
@@ -139,18 +139,19 @@ public class RobotContainer {
     
     m_driverController.rightBumper().whileTrue((new ShootBall(shooter, intake, 5000)));
     m_driverController.leftBumper().whileTrue(new Rev(shooter));
-    //m_driverController.a().onTrue(new IntakeBall(intake));
+    m_driverController.a().onTrue(new IntakeBall(intake));
     //m_driverController.b().whileTrue(new ProcessorScoring(intake));
-    m_driverController.y().whileTrue(Commands.run(() -> intake.outTake()));
-    m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
+    //m_driverController.y().whileTrue(Commands.run(() -> intake.outTake()));
+    //m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
 
-    m_driverController.rightTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis()*4))));
-    m_driverController.leftTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(-12))));
+    m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));
+    m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
     m_driverController.start().whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
-    m_driverController.b().whileTrue(Commands.run(() -> shooter.setRPM(-1500)));
-    m_driverController.b().whileTrue(Commands.run(() -> intake.setVoltageIntake(8)));
-    m_driverController.a().whileTrue(Commands.run(() -> intake.setVoltageIntake(0)));
-    m_driverController.a().whileTrue(Commands.run(() -> shooter.setRPM(0)));
+    // m_driverController.b().whileTrue(Commands.run(() -> shooter.setRPM(-1500)));
+    m_driverController.x().whileTrue(Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis())));
+    m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltagePivot(-m_driverController.getLeftTriggerAxis())));
+    m_driverController.start().whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
+    // m_driverController.a().whileTrue(Commands.run(() -> shooter.setRPM(0)));
 
     // m_driverController.rightTrigger(.05).onTrue(Commands.runOnce(SignalLogger::start));
     // m_driverController.leftTrigger(.05).onTrue(Commands.runOnce(SignalLogger::stop));

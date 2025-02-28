@@ -1,0 +1,85 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PickupMiddleBlue(1)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Rev"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleBlueShoot(2)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleBlueIntake1(3)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Rev"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleBlueShoot(4)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleBluePickup(5)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Rev"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "MiddleBlueShoot(6)"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "MiddleBlue",
+  "choreoAuto": false
+}

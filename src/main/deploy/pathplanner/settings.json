@@ -8,7 +8,13 @@
     "MiddleBlue",
     "TopBlue"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "BottomBlueShoot",
+    "ExamplesForLearning",
+    "MiddleBlue",
+    "JustDrive",
+    "TopBlue"
+  ],
   "defaultMaxVel": 3.0,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 540.0,

@@ -61,7 +61,7 @@ public final class Constants {
         //Intake CAN id 
         public static final int shooterMotor = 14; //done
         public static final int intakeMotor = 7; //done
-        public static final int pivotMotor = 5; //done
+        public static final int pivotMotor = 50; //done
         public static final int indexerMotor = 6; //done
         
         public static final int encoder = 1;
@@ -77,18 +77,20 @@ public final class Constants {
     public static class IntakeConstants{
 
       public static final double encoderOffset = 0;
-      public static final double rest = 0.1930392048259801;
+      public static final double rest = 0.1776698044417451;
       public static final double grab = 0.07124792678119816;
 
       //TODO: Tune values
-      public static double kP = 0.1;
+      public static double kP = 1;
       public static double kI = 0;
       public static double kD = 0;
       
-      public static double kS = 1;
-      public static double kV = 0;
+      public static double kS = 0;
+      public static double kV = 3.5;
       public static double kA = 0;
  
+
+
     }
 }
 

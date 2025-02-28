@@ -7,6 +7,8 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeBall extends Command{
     private Intake intake;
+    private int counter;
+    
     
     public IntakeBall(Intake intake){
         this.intake = intake;
@@ -16,21 +18,25 @@ public class IntakeBall extends Command{
 
     @Override
     public void initialize(){
-        //intake.setIntakePos(IntakeConstants.grab); 
+        //intake.setIntakePos(IntakeConstants.grab);
     }
 
     @Override
     public void execute(){
         // suck
         intake.sucker();
+        if(intake.hasBall()){
+            intake.stopTake();
+            //intake.setIntakePos(IntakeConstants.rest);
+        }
     }
 
     @Override
     public void end(boolean interrupted){
         // no more suck
         intake.stopTake();
-        //intake.setIntakePos(IntakeConstants.rest);
         
+        //intake.setVoltagePivot(0);
     }
 
     @Override
@@ -43,6 +49,6 @@ public class IntakeBall extends Command{
         // code works now (probably) *thumbs up*
 
         //khanh im from the future changing your code it doesnt work smhsmh
-        return intake.hasBall();
+        return intake.hasBall();//intake.getPosition() == intake.getSetPosition();
     }
 }
