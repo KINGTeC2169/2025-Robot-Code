@@ -9,9 +9,13 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.util.Elastic;
+import frc.robot.util.Elastic.Notification;
+import frc.robot.util.Elastic.Notification.NotificationLevel;
 
 public class Intake extends SubsystemBase {
 
@@ -25,7 +29,7 @@ public class Intake extends SubsystemBase {
     private PIDController pivotPID;
     
     private double setPosition;
-    private double difference = 0; //between target and actual position
+    private double difference; //between target and actual position
 
     private final double lowerLimit = IntakeConstants.rest; // needs to be fine tuned
     private final double upperLimit = IntakeConstants.grab; //limits for intake positions 
@@ -39,15 +43,15 @@ public class Intake extends SubsystemBase {
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kP = 0.01;
 
-        distanceSensor = new DistanceSensor();
+        if (RobotBase.isReal()) distanceSensor = new DistanceSensor();
         encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
         indexerMotor = new TalonFX(Constants.Ports.indexerMotor);
         pivotMotor = new TalonFX(Constants.Ports.pivotMotor);
 
-        pivotPID = new PIDController(65,0.7,1);
-        pivotForward = new SimpleMotorFeedforward(setPosition, lowerLimit, difference);
+        pivotPID = new PIDController(IntakeConstants.kP, IntakeConstants.kI,IntakeConstants.kD);
+        pivotForward = new SimpleMotorFeedforward(IntakeConstants.kS, IntakeConstants.kV, IntakeConstants.kA);
 
         intakeMotor.getConfigurator().apply(talonFXConfigs);
         intakeMotor.setNeutralMode(NeutralModeValue.Coast);
@@ -66,7 +70,8 @@ public class Intake extends SubsystemBase {
 
     /**Runs intake backwards at 0.12 speed*/
     public void outTake() {
-        intakeMotor.set(-0.12);
+        intakeMotor.set(-0.3);
+        indexerMotor.set(0.3);
     }
 
     /**Stops the intake. */
@@ -77,7 +82,7 @@ public class Intake extends SubsystemBase {
 
     public boolean hasBall(){
     // Checks if ball is in intake to stop motor   
-            if(distanceSensor.ateBall()){
+            if(RobotBase.isReal() && distanceSensor.ateBall()){
                 //LEDs.green();
                 return true; // Ball detected
             }else{
@@ -150,8 +155,15 @@ public class Intake extends SubsystemBase {
         return pos;
     }
 
+    public boolean isReady(){
+        return difference < 0.05;
+    }
+
     @Override   
     public void periodic() {
+
+        difference = Math.abs(setPosition - getPosition());
+
         SmartDashboard.putBoolean("Ball detected:", hasBall());
         SmartDashboard.putNumber("Intake Motor Speed", getSpeed());
         SmartDashboard.putNumber("IntakeM Voltage", getVoltage());
@@ -160,6 +172,12 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("RPM", getRPM());
         SmartDashboard.putNumber("SetPosition", getSetPosition());
         SmartDashboard.putNumber("IntakePosition", getPosition());
+
+        //if (!encoder.isConnected()) Elastic.sendNotification(new Notification().withLevel(NotificationLevel.WARNING)
+                                                                            //    .withTitle("Warning")
+                                                                            //    .withDescription("Intake Hex Encoder Disconnected")
+                                                                            //    .withDisplaySeconds(5));
+
     }
   
 }

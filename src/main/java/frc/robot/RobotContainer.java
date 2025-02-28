@@ -48,19 +48,20 @@ public class RobotContainer {
 
   //Commands
  public SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
+  private double speed = 0.5;
 
   //Controller configurations
   // Replace with CommandPS4Controller or CommandJoystick if needed
   //private final CommandXboxController ps4 = new CommandXboxController(0);
   private final CommandXboxController m_driverController = new CommandXboxController(Ports.controller);
   private final Joystick leftStick = new Joystick(Constants.Ports.leftStick);
-  private final JoystickButton topLeftButton = new JoystickButton(leftStick, 2);
-  private final JoystickButton bottomLeftButton = new JoystickButton(leftStick, 1);
+  public final JoystickButton topLeftButton = new JoystickButton(leftStick, 1);
+  public final JoystickButton bottomLeftButton = new JoystickButton(leftStick, 2);
 
   //private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
   private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
-  private final JoystickButton topRightButton = new JoystickButton(rightStick, 2);
-  private final JoystickButton bottomRightButton = new JoystickButton(rightStick, 1);
+  private final JoystickButton topRightButton = new JoystickButton(rightStick, 1);
+  private final JoystickButton bottomRightButton = new JoystickButton(rightStick, 2);
 
   //More Swerve Constants
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -68,7 +69,7 @@ public class RobotContainer {
 
   /* Setting up bindings for necessary control of the swerve drive platform */
   private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-          .withDeadband(MaxSpeed * 0.13).withRotationalDeadband(MaxAngularRate * 0.13) // Add a 13% deadband
+          .withDeadband(MaxSpeed * 0.10).withRotationalDeadband(MaxAngularRate * 0.10) // Add a 10% deadband
           .withDriveRequestType(DriveRequestType.OpenLoopVoltage); // Use open-loop control for drive motors
   private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
@@ -79,37 +80,49 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
+        SmartDashboard.putData("Auto Mode", autoChooser);    
+        SmartDashboard.putNumber("Swerve Speed", speed);
+
         NamedCommands.registerCommand("Rev", new Rev(shooter));
-        NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake));
+        NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 5000));
    // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-            
-                /*drive.withVelocityX(-leftStick.getY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-leftStick.getX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-rightStick.getTwist() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-            */
-            drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed) // Drive forward with negative Y (forward)
-                    .withVelocityY(-m_driverController.getLeftX() * MaxSpeed) // Drive left with negative X (left)
-                    .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate) // Drive counterclockwise with negative X (left)
-            
+            drive.withVelocityX(-leftStick.getY() * MaxSpeed * speed) // Drive forward with negative Y (forward)
+                    .withVelocityY(-leftStick.getX() * MaxSpeed * speed) // Drive left with negative X (left)
+                    .withRotationalRate(rightStick.getTwist() * MaxAngularRate * speed) // Drive counterclockwise with negative X (left)
                     )
+
+            // drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * 0.5) // Drive forward with negative Y (forward)
+            //         .withVelocityY(-m_driverController.getLeftX() * MaxSpeed * 0.5) // Drive left with negative X (left)
+            //         .withRotationalRate(-m_driverController.getRightX() * MaxAngularRate * 0.5) // Drive counterclockwise with negative X (left)        
+            //         )
         );
 
         //Reset orientation
-        m_driverController.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        topRightButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
-        bottomLeftButton.whileTrue(drivetrain.applyRequest(() -> brake));
+        bottomRightButton.whileTrue(drivetrain.applyRequest(() -> brake));
 
-        drivetrain.registerTelemetry(logger::telemeterize);
-
-      SmartDashboard.putData("Auto Mode", autoChooser);        
+        drivetrain.registerTelemetry(logger::telemeterize);    
 
       configureBindings();
     
+  }
+
+  public void setFastMode(){
+    speed = 0.8;
+  }
+
+  public void setMediumMode(){
+    speed = SmartDashboard.getNumber("Swerve Speed", 0.5);
+  }
+
+  public void setSlowMode(){
+    speed = 0.2;
   }
 
   /**
@@ -124,17 +137,21 @@ public class RobotContainer {
   private void configureBindings() {
 
     
-    m_driverController.rightTrigger(.05).whileTrue((new ShootBall(shooter, intake)));
-    m_driverController.leftTrigger(.05).whileTrue(new Rev(shooter));
-    m_driverController.a().onTrue(new IntakeBall(intake));
-    m_driverController.b().whileTrue(new ProcessorScoring(intake));
-    m_driverController.y().whileTrue(Commands.run(() -> intake.sucker()));
+    m_driverController.rightBumper().whileTrue((new ShootBall(shooter, intake, 5000)));
+    m_driverController.leftBumper().whileTrue(new Rev(shooter));
+    //m_driverController.a().onTrue(new IntakeBall(intake));
+    //m_driverController.b().whileTrue(new ProcessorScoring(intake));
+    m_driverController.y().whileTrue(Commands.run(() -> intake.outTake()));
     m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
 
-    //m_driverController.rightTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis()))));
-    //m_driverController.leftTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(-m_driverController.getLeftTriggerAxis()*12))));
+    m_driverController.rightTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis()*4))));
+    m_driverController.leftTrigger(.05).whileTrue((Commands.run(() -> intake.setVoltagePivot(-12))));
+    m_driverController.start().whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
+    m_driverController.b().whileTrue(Commands.run(() -> shooter.setRPM(-1500)));
+    m_driverController.b().whileTrue(Commands.run(() -> intake.setVoltageIntake(8)));
+    m_driverController.a().whileTrue(Commands.run(() -> intake.setVoltageIntake(0)));
+    m_driverController.a().whileTrue(Commands.run(() -> shooter.setRPM(0)));
 
-   
     // m_driverController.rightTrigger(.05).onTrue(Commands.runOnce(SignalLogger::start));
     // m_driverController.leftTrigger(.05).onTrue(Commands.runOnce(SignalLogger::stop));
 
