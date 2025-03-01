@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.37225,
-        "y": 5.3705
+        "x": 5.187,
+        "y": 5.14625
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.387154014904786,
-        "y": 5.110634026224442
+        "x": 6.201904014904786,
+        "y": 4.886384026224443
       },
       "isLocked": false,
       "linkedName": "GrabBall2"
@@ -48,7 +48,7 @@
   "folder": "MiddleBlue",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -124.875
+    "rotation": -120.76271953423884
   },
   "useDefaultConstraints": true
 }
