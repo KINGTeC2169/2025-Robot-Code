@@ -40,7 +40,7 @@ public class ShootBall extends Command {
         //temporary if statement since we do not have a variable target velocity yet
          
         if(shooter.getRPM() > rpm)counter++;
-        if(counter > 10)shooterReady = true;
+        if(counter == 10)shooterReady = true;
         if(shooterReady){
             index.setVoltageIndex(9);
             index.setVoltageIntake(9);
