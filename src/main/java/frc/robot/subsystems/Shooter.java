@@ -67,6 +67,8 @@ public class Shooter extends SubsystemBase {
         return 60 * kraken.getRotorVelocity().getValueAsDouble();
     }
 
+    
+
     public void setRPM(double rpm){
         targetRPM = rpm;
 
@@ -94,7 +96,8 @@ public class Shooter extends SubsystemBase {
             timer = 0;
         }
 
-        SmartDashboard.putNumber("Top Motor RPM", getRPM() * 2);
+        SmartDashboard.putNumber("Top Motor RPM", getRPM());
+        SmartDashboard.putBoolean("shoot ready",getRPM() > 5000);
         SmartDashboard.putNumber("shoot amps", kraken.getStatorCurrent().getValueAsDouble());
         SmartDashboard.putNumber("shoot volts", kraken.getMotorVoltage().getValueAsDouble());
     }
