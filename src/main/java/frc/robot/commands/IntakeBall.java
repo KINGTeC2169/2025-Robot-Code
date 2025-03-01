@@ -7,7 +7,6 @@ import frc.robot.subsystems.Intake;
 
 public class IntakeBall extends Command{
     private Intake intake;
-    private int counter;
     
     
     public IntakeBall(Intake intake){
@@ -25,30 +24,20 @@ public class IntakeBall extends Command{
     public void execute(){
         // suck
         intake.sucker();
-        if(intake.hasBall()){
-            intake.stopTake();
-            //intake.setIntakePos(IntakeConstants.rest);
-        }
+
     }
 
     @Override
     public void end(boolean interrupted){
         // no more suck
         intake.stopTake();
+        intake.setIntakePos(IntakeConstants.rest);
         
-        //intake.setVoltagePivot(0);
     }
 
     @Override
     public boolean isFinished(){
-        // idk how to do this *shrugging emoji*
-        // is ball in intake? is it not in intake? 
-        // who knows. not me. perhaps you? please know.
-        //i know
-
-        // code works now (probably) *thumbs up*
-
-        //khanh im from the future changing your code it doesnt work smhsmh
+      
         return intake.hasBall();//intake.getPosition() == intake.getSetPosition();
     }
 }

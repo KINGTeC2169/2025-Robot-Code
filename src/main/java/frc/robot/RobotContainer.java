@@ -92,7 +92,7 @@ public class RobotContainer {
             drivetrain.applyRequest(() ->
             drive.withVelocityX(-leftStick.getY() * MaxSpeed * speed) // Drive forward with negative Y (forward)
                     .withVelocityY(-leftStick.getX() * MaxSpeed * speed) // Drive left with negative X (left)
-                    .withRotationalRate(rightStick.getTwist() * MaxAngularRate * 0.8) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate(rightStick.getTwist() * MaxAngularRate * Math.sqrt(speed)) // Drive counterclockwise with negative X (left)
                     )
 
             // drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * 0.5) // Drive forward with negative Y (forward)
@@ -137,7 +137,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     
-    m_driverController.rightBumper().whileTrue((new ShootBall(shooter, intake, 5000)));
+    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake, 5000)));
     m_driverController.leftBumper().whileTrue(new Rev(shooter));
     m_driverController.a().onTrue(new IntakeBall(intake));
     //m_driverController.b().whileTrue(new ProcessorScoring(intake));

@@ -3,10 +3,11 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command; 
 import frc.robot.subsystems.Intake; 
 import frc.robot.Constants.IntakeConstants;
+import frc.robot.subsystems.DistanceSensor;
 
 public class ProcessorScoring extends Command{
     private Intake intake;
-    private final double rest = IntakeConstants.rest;
+    private final double rest = IntakeConstants.grab;
 
     public ProcessorScoring(Intake intake){
         this.intake = intake;
@@ -33,7 +34,8 @@ public class ProcessorScoring extends Command{
 
     @Override
 	public boolean isFinished() {
-		return false;
+		return !intake.hasBall();
+        
 	}
 
 

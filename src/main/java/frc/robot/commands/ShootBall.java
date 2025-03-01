@@ -10,15 +10,20 @@ public class ShootBall extends Command {
     private Shooter shooter;
     private Intake index;
     private double rpm;
+    private int counter;
+    private Timer timer;
+    private double t0;
 
     private boolean shooterReady = false;
     
     public ShootBall(Shooter shooter, Intake index, double rpm) {
         this.shooter = shooter;
         this.index = index;
+    
         this.rpm = rpm;
         addRequirements(shooter);
         addRequirements(index);
+
     }
     
     // Called when the command is initially scheduled.
@@ -33,25 +38,24 @@ public class ShootBall extends Command {
     public void execute() {
         //shooter.vroom(20);
         //temporary if statement since we do not have a variable target velocity yet
-        /* 
-        if(shooter.getRPM() > 5000){
-            shooterReady = true;
-        }
+         
+        if(shooter.getRPM() > rpm)counter++;
+        if(counter > 10)shooterReady = true;
         if(shooterReady){
             index.setVoltageIndex(9);
             index.setVoltageIntake(9);
-        } */
-       shooter.setRPM(rpm);
+            shooterReady = false;
+            if (!shooterReady){
+                timer.start();
+            }
+        } 
+        shooter.setRPM(rpm);
        
     }
     
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        Timer.delay(1);
-        index.setVoltageIndex(9);
-        index.setVoltageIntake(9);
-        Timer.delay(0.75);
         shooter.setPower(0);
         index.setVoltageIndex(0);
         index.setVoltageIntake(0);
@@ -59,7 +63,7 @@ public class ShootBall extends Command {
     
     @Override
     public boolean isFinished() {
-        return shooter.getRPM() > (rpm - 100);
+        return index.hasBall() && timer.get() > 1;
     }
 
 }
