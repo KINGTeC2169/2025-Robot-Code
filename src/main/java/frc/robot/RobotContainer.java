@@ -85,6 +85,7 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("Rev", new Rev(shooter));
         NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 5000));
+       // NamedCommands.registerCommand("Intake"., new ) 
    // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
