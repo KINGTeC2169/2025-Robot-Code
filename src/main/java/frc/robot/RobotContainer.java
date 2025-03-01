@@ -9,6 +9,7 @@ import frc.robot.commands.IntakeBall;
 import frc.robot.commands.ProcessorScoring;
 import frc.robot.commands.Rev;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.JustIntakeBallNoSensor;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -30,8 +31,11 @@ import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine;
 
 import static edu.wpi.first.units.Units.*;
 
+import java.util.jar.Attributes.Name;
+
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.fasterxml.jackson.databind.util.Named;
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -85,7 +89,10 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("Rev", new Rev(shooter));
         NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 5000));
-       // NamedCommands.registerCommand("Intake"., new ) 
+        NamedCommands.registerCommand("Intake", new IntakeBall(intake));
+        NamedCommands.registerCommand("ProcessorScoring", new ProcessorScoring(intake));
+       
+        
    // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
         drivetrain.setDefaultCommand(
