@@ -7,16 +7,18 @@ import frc.robot.subsystems.Shooter;
 public class Rev extends Command {
     
     private Shooter shooter;
+    private double rpm;
     
-    public Rev(Shooter shoot){//, CommandXboxController controller) {
+    public Rev(Shooter shoot, double rpm){//, CommandXboxController controller) {
         shooter = shoot;
         addRequirements(shooter);
+        this.rpm = rpm;
     }
     
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        shooter.setTargetRPM(5000); //* controller.getLeftTriggerAxis());
+        shooter.setTargetRPM(rpm); //* controller.getLeftTriggerAxis());
     }
     
     // Called every time the scheduler runs while the command is scheduled.
@@ -36,7 +38,7 @@ public class Rev extends Command {
     
     @Override
     public boolean isFinished() {
-        return shooter.getRPM()>4800;
+        return shooter.isReady();
     }
     
 

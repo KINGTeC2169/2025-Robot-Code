@@ -84,7 +84,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-        NamedCommands.registerCommand("Rev", new Rev(shooter));
+        NamedCommands.registerCommand("Rev", new Rev(shooter, 5000));
         NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 5000));
         NamedCommands.registerCommand("Intake", new IntakeBall(intake,shooter));
         NamedCommands.registerCommand("ProcessorScoring", new ProcessorScoring(intake));
@@ -147,7 +147,7 @@ public class RobotContainer {
 
     
     m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake, 5000)));
-    m_driverController.leftBumper().whileTrue(new Rev(shooter));
+    m_driverController.leftBumper().whileTrue(new Rev(shooter, 5000));
     m_driverController.a().onTrue(new IntakeBall(intake,shooter));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
     m_driverController.y().whileTrue(Commands.run(() ->intake.shouldOuttake = true));
