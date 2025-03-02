@@ -147,7 +147,7 @@ public class RobotContainer {
 
     
     m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake, 5000)));
-    m_driverController.leftBumper().whileTrue(new Rev(shooter, 5000));
+    m_driverController.leftBumper().onTrue(new Rev(shooter, 2000));
     m_driverController.a().onTrue(new IntakeBall(intake,shooter));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
     m_driverController.y().whileTrue(Commands.run(() ->intake.shouldOuttake = true));

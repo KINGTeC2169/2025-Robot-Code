@@ -3,6 +3,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 // import com.ctre.phoenix6.configs.Slot0Configs;
@@ -38,10 +39,20 @@ public class Shooter extends SubsystemBase {
         
         kraken = new TalonFX(Constants.Ports.shooterMotor);
 
+        
+        // var configs = new TalonFXConfiguration();
+        // configs.Slot0.kP = 0.05; //0.25
+        var slot0Configs = new Slot0Configs();
+        slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
+        slot0Configs.kV = 0.13; // A velocity target of 1 rps results in 0.13 V output
+        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kI = 0; // no output for integrated error
+        slot0Configs.kD = 0; // no output for error derivative
 
-        var configs = new TalonFXConfiguration();
-        configs.Slot0.kP = 0.25; //0.25
-        kraken.getConfigurator().apply(configs, 0.05);
+        kraken.getConfigurator().apply(slot0Configs);
+
+
+        //kraken.getConfigurator().apply(configs, 0.05);
         kraken.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive), 0.05);
 
         //ShuffleboardLayout krak = tab.getLayout("Kraken", "List Layout").withPosition(0, 0).withSize(2, 2);
@@ -76,7 +87,8 @@ public class Shooter extends SubsystemBase {
     }
 
     public void setRPM(){
-        testSpeed = targetRPM * (Math.PI * 0.00785);
+        //testSpeed = targetRPM * (Math.PI * 0.00785);
+        testSpeed = targetRPM/60.0;
         //System.out.println(testSpeed);
         motorVelocity.withVelocity(testSpeed);
         kraken.setControl(motorVelocity);
