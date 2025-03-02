@@ -21,6 +21,7 @@ public class ShootBall extends Command {
         this.index = index;
     
         this.rpm = rpm;
+        timer = new Timer();
         addRequirements(shooter);
         addRequirements(index);
 
@@ -39,7 +40,7 @@ public class ShootBall extends Command {
         //shooter.vroom(20);
         //temporary if statement since we do not have a variable target velocity yet
          
-        if(shooter.getRPM() > rpm)counter++;
+        if(shooter.getRPM() > rpm-50)counter++;
         if(counter == 10)shooterReady = true;
         if(shooterReady){
             index.setVoltageIndex(9);
@@ -50,6 +51,7 @@ public class ShootBall extends Command {
             }
         } 
         shooter.setRPM(rpm);
+        System.out.println(timer.get());
        
     }
     
@@ -63,7 +65,7 @@ public class ShootBall extends Command {
     
     @Override
     public boolean isFinished() {
-        return index.hasBall() && timer.get() > 1;
+        return timer.get() > 1;
     }
 
 }

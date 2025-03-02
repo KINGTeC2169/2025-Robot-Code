@@ -84,14 +84,14 @@ public class Intake extends SubsystemBase {
 
   /**Sets intake to suck in */
     public void sucker() {
-        intakeMotor.set(0.3);
-        indexerMotor.set(-0.35);
+        intakeMotor.setVoltage(0.05*12);//0.3
+        indexerMotor.setVoltage(-0.05*12);//0.35
     }
 
     /**Runs intake backwards at 0.12 speed*/
     public void outTake() {
-        intakeMotor.set(-0.3);
-        indexerMotor.set(0.3);
+        //intakeMotor.set(-0.3);
+        indexerMotor.set(0.1);
     }
 
     /**Stops the intake. */

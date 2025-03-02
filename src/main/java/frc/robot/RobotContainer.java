@@ -48,10 +48,10 @@ public class RobotContainer {
   //Subsystems
   public final Shooter shooter = new Shooter();
   public final Intake intake = new Intake();
-  public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+  public final CommandSwerveDrivetrain drivetrain;
 
   //Commands
- public SendableChooser<Command> autoChooser = AutoBuilder.buildAutoChooser();
+ public SendableChooser<Command> autoChooser;
   private double speed = 0.5;
 
   //Controller configurations
@@ -84,14 +84,15 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-        SmartDashboard.putData("Auto Mode", autoChooser);    
-        SmartDashboard.putNumber("Swerve Speed", speed);
-
         NamedCommands.registerCommand("Rev", new Rev(shooter));
         NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 5000));
-        NamedCommands.registerCommand("Intake", new IntakeBall(intake));
+        NamedCommands.registerCommand("Intake", new IntakeBall(intake,shooter));
         NamedCommands.registerCommand("ProcessorScoring", new ProcessorScoring(intake));
-       
+
+        drivetrain = TunerConstants.createDrivetrain();
+        autoChooser = AutoBuilder.buildAutoChooser();
+        SmartDashboard.putData("Auto Mode", autoChooser);    
+        SmartDashboard.putNumber("Swerve Speed", speed);
         
    // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
@@ -147,17 +148,19 @@ public class RobotContainer {
     
     m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake, 5000)));
     m_driverController.leftBumper().whileTrue(new Rev(shooter));
-    m_driverController.a().onTrue(new IntakeBall(intake));
+    m_driverController.a().onTrue(new IntakeBall(intake,shooter));
     //m_driverController.b().whileTrue(new ProcessorScoring(intake));
-    //m_driverController.y().whileTrue(Commands.run(() -> intake.outTake()));
-    //m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
+    // m_driverController.y().whileTrue(Commands.run(() -> intake.outTake()));
+    // m_driverController.x().whileFalse(Commands.run(() -> intake.stopTake()));
+    m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltageIndex(0.3)));
+    m_driverController.x().whileFalse(Commands.run(() -> intake.setVoltageIndex(-0.3)));
 
     m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));
     m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
     m_driverController.start().whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
     // m_driverController.b().whileTrue(Commands.run(() -> shooter.setRPM(-1500)));
-    m_driverController.x().whileTrue(Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis())));
-    m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltagePivot(-m_driverController.getLeftTriggerAxis())));
+    //m_driverController.x().whileTrue(Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis())));
+    //m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltagePivot(-m_driverController.getLeftTriggerAxis())));
     m_driverController.start().whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
     // m_driverController.a().whileTrue(Commands.run(() -> shooter.setRPM(0)));
 
