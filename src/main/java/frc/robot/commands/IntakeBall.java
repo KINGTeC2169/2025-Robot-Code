@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
@@ -21,34 +22,32 @@ public class IntakeBall extends Command{
         addRequirements(shooter);
         timer = new Timer();
         timerStarted = false;
-
-        
     }
 
     @Override
     public void initialize(){
-        //intake.setIntakePos(IntakeConstants.grab);
+        intake.setIntakePos(IntakeConstants.grab);
         
     }
 
     @Override
     public void execute(){
         // suck
-        
-        if(intake.hasBall()){
-            intake.setVoltageIndex(-0.8);
-            intake.setVoltageIntake(0.4);
-            shooter.setPower(0);
-            if(!timerStarted){
-                timerStarted = true;
-                timer.reset();
-                timer.start();
-            }
-        } else {
-            intake.sucker();
-            shooter.setPower(-0.25);
-        }
-        System.out.println(timer.get());
+        intake.shouldIntake = true;
+        // if(intake.hasBall()){
+        //     intake.setVoltageIndex(0);//-0.8
+        //     intake.setVoltageIntake(0);//0.4
+        //     shooter.setPower(0);
+        //     if(!timerStarted){
+        //         timerStarted = true;
+        //         timer.reset();
+        //         timer.start();
+        //     }
+        // } else {
+        //     intake.sucker();
+        //     shooter.setPower(0);//-0.25
+        // }
+        // System.out.println(timer.get());
         
 
     }
@@ -57,16 +56,19 @@ public class IntakeBall extends Command{
     public void end(boolean interrupted){
         // no more suck
         
-        //intake.setIntakePos(IntakeConstants.rest);
+        intake.setIntakePos(IntakeConstants.restball);
         intake.setVoltageIndex(0);
         intake.setVoltageIntake(0);
         shooter.setPower(0);
+        intake.shouldIntake = false;
+        //intake.setIntakePos(IntakeConstants.rest);
+        
         
     }
 
     @Override
     public boolean isFinished(){
       
-        return timer.get() > 0.2 && timer.get() < 0.4;//intake.getPosition() == intake.getSetPosition();
+        return intake.ateBall();//intake.getPosition() == intake.getSetPosition();
     }
 }

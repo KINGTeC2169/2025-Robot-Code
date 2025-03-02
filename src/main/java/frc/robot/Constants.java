@@ -78,10 +78,10 @@ public final class Constants {
 
       public static final double encoderOffset = 0;
       public static final double rest = 0.1776698044417451;
-      public static final double grab = 0.07124792678119816;
-
+      public static final double grab = 0.06343960158599005;
+      public static final double restball = 0.14493320312333007;
       //TODO: Tune values
-      public static double kP = 1;
+      public static double kP = 40.0;
       public static double kI = 0;
       public static double kD = 0;
       
@@ -89,6 +89,9 @@ public final class Constants {
       public static double kV = 3.5;
       public static double kA = 0;
  
+      public static double kPdown = 20.0;
+      public static double kIdown = 0;
+      public static double kDdown = 0;
 
 
     }

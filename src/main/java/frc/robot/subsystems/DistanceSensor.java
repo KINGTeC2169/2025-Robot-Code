@@ -21,9 +21,15 @@ public class DistanceSensor extends SubsystemBase{
         distanceSensor.setEnabled(true);
         distanceSensor.setRangeProfile(RangeProfile.kDefault);
     }
+    public boolean hasBall(){
+        if (distanceSensor.getRange() < 12 && distanceSensor.getRange() > 0) {//12
+            return true;
+        }
+        return false;
+    }
 
     public boolean ateBall(){
-        if (distanceSensor.getRange() < 12 && distanceSensor.getRange() > 0) {
+        if (distanceSensor.getRange() < 2.5 && distanceSensor.getRange() > 0) {//12
             return true;
         }
         return false;
@@ -31,7 +37,7 @@ public class DistanceSensor extends SubsystemBase{
 
     public double getDistance(){
         if (distanceSensor.isRangeValid() == true) {
-            return distanceSensor.getRange();
+            return ((int)(distanceSensor.getRange()*5)) /5.0 ;
         }else{
             return 0;
         }

@@ -34,6 +34,7 @@ public class Intake extends SubsystemBase {
     private DutyCycleEncoder encoder;
     private DistanceSensor distanceSensor;
     private PIDController pivotPID;
+    private PIDController pivotPIDdown;
     
     private double setPosition;
     private double difference; //between target and actual position
@@ -41,6 +42,10 @@ public class Intake extends SubsystemBase {
     private final double upperLimit = IntakeConstants.rest; // needs to be fine tuned
     private final double lowerLimit = IntakeConstants.grab; //limits for intake positions 
     private SimpleMotorFeedforward pivotForward; //check
+
+    public boolean shouldOuttake;
+    public boolean shouldIntake;
+    public boolean shouldIntakeOverride;
     
      
     public Intake(){
@@ -72,6 +77,8 @@ public class Intake extends SubsystemBase {
         pivotPID = new PIDController(IntakeConstants.kP, IntakeConstants.kI,IntakeConstants.kD);
         pivotForward = new SimpleMotorFeedforward(IntakeConstants.kS, IntakeConstants.kV, IntakeConstants.kA);
 
+        pivotPIDdown = new PIDController(IntakeConstants.kPdown, IntakeConstants.kIdown,IntakeConstants.kDdown);
+
         intakeMotor.getConfigurator().apply(talonFXConfigs);
         intakeMotor.setNeutralMode(NeutralModeValue.Coast);
         indexerMotor.getConfigurator().apply(talonFXConfigs);
@@ -79,19 +86,24 @@ public class Intake extends SubsystemBase {
         // pivotMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
         //pivotMotor.getConfigurator().apply(talonFXConfigs);
         //pivotMotor.setNeutralMode(NeutralModeValue.Brake);
+
+        setIntakePos(IntakeConstants.rest);
+        shouldOuttake = false;
+        shouldIntake = false;
+        shouldIntakeOverride = false;
     
     }
 
   /**Sets intake to suck in */
     public void sucker() {
-        intakeMotor.setVoltage(0.05*12);//0.3
-        indexerMotor.setVoltage(-0.05*12);//0.35
+        intakeMotor.setVoltage(0.2*12);//0.3
+        indexerMotor.setVoltage(-0.2*12);//0.35
     }
 
     /**Runs intake backwards at 0.12 speed*/
     public void outTake() {
-        //intakeMotor.set(-0.3);
-        indexerMotor.set(0.1);
+        intakeMotor.setVoltage(-2);
+        indexerMotor.setVoltage(2);
     }
 
     /**Stops the intake. */
@@ -100,7 +112,7 @@ public class Intake extends SubsystemBase {
         indexerMotor.set(0);
     }
 
-    public boolean hasBall(){
+    public boolean ateBall(){
     // Checks if ball is in intake to stop motor   
             if(RobotBase.isReal() && distanceSensor.ateBall()){
                 //LEDs.green();
@@ -109,6 +121,16 @@ public class Intake extends SubsystemBase {
                // LEDs.red(); 
                 return false; // No ball detected
             }
+    }
+
+    public boolean hasBall(){
+        if(RobotBase.isReal() && distanceSensor.hasBall()){
+            //LEDs.green();
+            return true; // Ball detected
+        }else{
+           // LEDs.red(); 
+            return false; // No ball detected
+        }
     }
     
     public void setVoltageIntake(double volts){
@@ -125,7 +147,11 @@ public class Intake extends SubsystemBase {
     public void setIntakePos(double position) {
         position = MathUtil.clamp(position, lowerLimit, upperLimit);
         setPosition = position;
-        pivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position)); //+ pivotForward.calculate(position));
+        if(!(getSetPosition() == IntakeConstants.grab)) pivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position)); //+ pivotForward.calculate(position));
+        else {
+            if(!isReady()) pivotMotor.setVoltage(-pivotPIDdown.calculate(getPosition(), position));
+            else pivotMotor.setVoltage(0);
+        }
     }
 
     /**Stops all motors */
@@ -184,7 +210,17 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean isReady(){
-        return difference < 0.05;
+        return difference < 0.0025 || (getSetPosition() == IntakeConstants.grab && getPosition() < IntakeConstants.grab);
+    }
+
+    public void setMotorDistanceSensor(){
+        if(shouldOuttake){
+            outTake();
+        } else if((shouldIntake && !distanceSensor.ateBall() )||shouldIntakeOverride){
+            sucker();
+        } else {
+            stopTake();
+        }
     }
 
     @Override   
@@ -192,6 +228,7 @@ public class Intake extends SubsystemBase {
 
         difference = Math.abs(setPosition - getPosition());
 
+        SmartDashboard.putBoolean("Ball Ate detected:", ateBall());
         SmartDashboard.putBoolean("Ball detected:", hasBall());
         SmartDashboard.putNumber("Intake Motor Speed", getGrabSpeed());
         SmartDashboard.putNumber("IntakeM Voltage", getGrabVoltage());
@@ -204,16 +241,18 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putNumber("Pivot Current", getPivotCurrent());
         SmartDashboard.putBoolean("Pivot Ready", isReady());
         SmartDashboard.putData("Pivot PID", pivotPID);
+        SmartDashboard.putData("Pivot PID down", pivotPIDdown);
 
-        if(!isReady()){
-            if(getSetPosition() == Constants.IntakeConstants.rest){
-                setIntakePos(Constants.IntakeConstants.rest);
-            } else {
-                setIntakePos(Constants.IntakeConstants.grab);
-            }
+        if(!(getSetPosition() == IntakeConstants.grab)){
+            setIntakePos(getSetPosition());
         } else {
-            setVoltagePivot(0);
+            if(isReady() || ateBall()) setVoltagePivot(0);
+            setIntakePos(Constants.IntakeConstants.grab);
+
         }
+
+        
+        
 
         //if (!encoder.isConnected()) Elastic.sendNotification(new Notification().withLevel(NotificationLevel.WARNING)
                                                                             //    .withTitle("Warning")

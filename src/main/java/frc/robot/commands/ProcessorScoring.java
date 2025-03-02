@@ -7,7 +7,6 @@ import frc.robot.subsystems.DistanceSensor;
 
 public class ProcessorScoring extends Command{
     private Intake intake;
-    private final double rest = IntakeConstants.grab;
 
     public ProcessorScoring(Intake intake){
         this.intake = intake;
@@ -16,26 +15,26 @@ public class ProcessorScoring extends Command{
 
     @Override
     public void initialize(){
-        intake.setIntakePos(0.1); 
+        intake.setIntakePos(IntakeConstants.rest); 
+        intake.shouldOuttake = true;
     }
 
     @Override
     //Runs intake backwards
     public void execute() { 
-        intake.outTake();
+        intake.shouldOuttake = true;
     }
 
     @Override
     //Stops intake
     public void end(boolean interupt) {
-        intake.stopTake();
-        intake.setIntakePos(rest); 
+        intake.shouldOuttake = false;
+        //intake.setIntakePos(IntakeConstants.grab); 
 	}
 
     @Override
 	public boolean isFinished() {
 		return !intake.hasBall();
-        
 	}
 
 

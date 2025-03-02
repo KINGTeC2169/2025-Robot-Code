@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.DistanceSensor;
 import frc.robot.util.Elastic;
 
 /**
@@ -84,6 +85,12 @@ public class Robot extends TimedRobot {
       builder.addDoubleProperty("Robot Angle", () -> m_robotContainer.drivetrain.getPigeon2().getRotation2d().getRadians(), null);
     }
   });
+  addPeriodic(() -> {
+    m_robotContainer.runIntake();
+}, 0.005, 0.005);
+addPeriodic(() -> {
+  m_robotContainer.runShooter();
+}, 0.005, 0.0025);
   }
 
   /**

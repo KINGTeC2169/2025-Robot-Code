@@ -67,11 +67,15 @@ public class Shooter extends SubsystemBase {
         return 60 * kraken.getRotorVelocity().getValueAsDouble();
     }
 
-    
-
-    public void setRPM(double rpm){
+    public void setTargetRPM(double rpm){
         targetRPM = rpm;
+    }
 
+    public boolean isReady(){
+        return getRPM() > targetRPM-50 && getRPM() < targetRPM+50;
+    }
+
+    public void setRPM(){
         testSpeed = targetRPM * (Math.PI * 0.00785);
         //System.out.println(testSpeed);
         motorVelocity.withVelocity(testSpeed);
@@ -80,6 +84,10 @@ public class Shooter extends SubsystemBase {
 
     public void stopShooter(){
         kraken.set(0);
+    }
+
+    public void setMotorWithPID(){
+        setRPM();
     }
     
 

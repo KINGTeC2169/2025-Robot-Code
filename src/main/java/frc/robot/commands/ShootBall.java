@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
+import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
 import edu.wpi.first.wpilibj.Timer;
 
@@ -31,7 +32,8 @@ public class ShootBall extends Command {
     @Override
     public void initialize() {
        // shooter.vroom(20);
-       shooter.setRPM(rpm);
+       shooter.setTargetRPM(rpm);
+       index.setIntakePos(IntakeConstants.restball);
     }
     
     // Called every time the scheduler runs while the command is scheduled.
@@ -40,17 +42,16 @@ public class ShootBall extends Command {
         //shooter.vroom(20);
         //temporary if statement since we do not have a variable target velocity yet
          
-        if(shooter.getRPM() > rpm-50)counter++;
+        if(shooter.isReady())counter++;
         if(counter == 10)shooterReady = true;
         if(shooterReady){
-            index.setVoltageIndex(9);
-            index.setVoltageIntake(9);
+            index.shouldIntakeOverride = true;
             shooterReady = false;
             if (!shooterReady){
                 timer.start();
             }
         } 
-        shooter.setRPM(rpm);
+        shooter.setTargetRPM(rpm);
         System.out.println(timer.get());
        
     }
@@ -58,9 +59,8 @@ public class ShootBall extends Command {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        shooter.setPower(0);
-        index.setVoltageIndex(0);
-        index.setVoltageIntake(0);
+        shooter.setTargetRPM(0);
+        index.shouldIntakeOverride = false;
     }
     
     @Override
