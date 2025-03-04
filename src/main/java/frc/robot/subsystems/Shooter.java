@@ -49,7 +49,7 @@ public class Shooter extends SubsystemBase {
         slot0Configs.kI = 0; // no output for integrated error
         slot0Configs.kD = 0; // no output for error derivative
 
-        kraken.getConfigurator().apply(slot0Configs);
+        kraken.getConfigurator().apply(slot0Configs); 
 
 
         //kraken.getConfigurator().apply(configs, 0.05);

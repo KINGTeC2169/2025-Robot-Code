@@ -36,8 +36,8 @@ public class DistanceSensor extends SubsystemBase{
     }
 
     public double getDistance(){
-        if (distanceSensor.isRangeValid() == true) {
-            return ((int)(distanceSensor.getRange()*5)) /5.0 ;
+        if (distanceSensor.isRangeValid()) {
+            return (distanceSensor.getRange());
         }else{
             return 0;
         }

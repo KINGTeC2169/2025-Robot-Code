@@ -44,6 +44,7 @@ public class Intake extends SubsystemBase {
     private SimpleMotorFeedforward pivotForward; //check
 
     public boolean shouldOuttake;
+    public boolean shouldOuttakeAdjust;
     public boolean shouldIntake;
     public boolean shouldIntakeOverride;
     
@@ -87,7 +88,7 @@ public class Intake extends SubsystemBase {
         //pivotMotor.getConfigurator().apply(talonFXConfigs);
         //pivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
-        //setIntakePos(IntakeConstants.rest); uncomment tis
+        setIntakePos(IntakeConstants.rest); //uncomment tis
         shouldOuttake = false;
         shouldIntake = false;
         shouldIntakeOverride = false;
@@ -213,10 +214,11 @@ public class Intake extends SubsystemBase {
         return difference < 0.0025 || (getSetPosition() == IntakeConstants.grab && getPosition() < IntakeConstants.grab);
     }
 
+    // This method runs periodically every 5ms
     public void setMotorDistanceSensor(){
         if(shouldOuttake){
             outTake();
-        } else if((shouldIntake && !distanceSensor.ateBall() )||shouldIntakeOverride){
+        } else if((shouldIntake && !distanceSensor.ateBall()) || shouldIntakeOverride){
             sucker();
         } else {
             stopTake();
