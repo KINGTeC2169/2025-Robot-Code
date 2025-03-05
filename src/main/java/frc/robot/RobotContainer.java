@@ -53,6 +53,7 @@ public class RobotContainer {
   //Commands
  public SendableChooser<Command> autoChooser;
   private double speed = 0.5;
+  public double shooterSpeedTest = 0;
 
   //Controller configurations
   // Replace with CommandPS4Controller or CommandJoystick if needed
@@ -93,6 +94,7 @@ public class RobotContainer {
         autoChooser = AutoBuilder.buildAutoChooser();
         SmartDashboard.putData("Auto Mode", autoChooser);    
         SmartDashboard.putNumber("Swerve Speed", speed);
+        SmartDashboard.putNumber("Shooter Speed", shooterSpeedTest);
         
    // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
@@ -146,12 +148,13 @@ public class RobotContainer {
   private void configureBindings() {
 
     
-    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake, 1000)));
-    m_driverController.leftBumper().onTrue(new Rev(shooter, 1000));
+    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake, 5500)));
+    m_driverController.leftBumper().onTrue(new Rev(shooter, 5500));
     m_driverController.a().onTrue(new IntakeBall(intake,shooter));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
     m_driverController.y().whileTrue(Commands.run(() ->intake.shouldOuttake = true));
-    m_driverController.x().whileTrue(Commands.run(() -> intake.shouldOuttake = false));
+    m_driverController.x().whileTrue(Commands.run(() -> intake.shouldOuttake
+     = false));
     // m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltageIndex(0.3)));
     // m_driverController.x().whileFalse(Commands.run(() -> intake.setVoltageIndex(-0.3)));
 

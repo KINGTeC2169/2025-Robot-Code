@@ -81,7 +81,7 @@ public final class Constants {
       public static final double grab = 0.06343960158599005;
       public static final double restball = 0.14493320312333007;
       //TODO: Tune values
-      public static double kP = 40.0;
+      public static double kP = 20.0;
       public static double kI = 0;
       public static double kD = 0;
       
@@ -94,6 +94,16 @@ public final class Constants {
       public static double kDdown = 0;
 
 
+    }
+
+    public static class ShooterConstants{
+
+      public static double kP = 0.09; //1.01;
+      public static double kI = 0;
+      public static double kD = 0;
+      
+      public static double kS = 0.1;
+      public static double kV = 0.12325;
     }
 }
 

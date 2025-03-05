@@ -88,7 +88,7 @@ public class Intake extends SubsystemBase {
         //pivotMotor.getConfigurator().apply(talonFXConfigs);
         //pivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
-        setIntakePos(IntakeConstants.rest); //uncomment tis
+        setIntakePos(IntakeConstants.restball); //uncomment tis
         shouldOuttake = false;
         shouldIntake = false;
         shouldIntakeOverride = false;

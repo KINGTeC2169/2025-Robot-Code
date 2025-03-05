@@ -111,7 +111,7 @@ addPeriodic(() -> {
     if (DriverStation.isAutonomous()){
       Elastic.selectTab("Autonomous");
     }
-
+    m_robotContainer.shooterSpeedTest = SmartDashboard.getNumber("Shooter Speed", 0);
    }
 
   /** This function is called once each time the robot enters Disabled mode. */

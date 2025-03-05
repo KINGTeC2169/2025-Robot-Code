@@ -34,6 +34,8 @@ public class ShootBall extends Command {
        // shooter.vroom(20);
        shooter.setTargetRPM(rpm);
        index.setIntakePos(IntakeConstants.restball);
+       timer = new Timer();
+       counter = 0;
     }
     
     // Called every time the scheduler runs while the command is scheduled.

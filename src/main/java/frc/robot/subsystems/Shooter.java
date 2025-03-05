@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
+import com.pathplanner.lib.config.PIDConstants;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -9,6 +10,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 // import com.ctre.phoenix6.configs.Slot0Configs;
 // import java.util.Map;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -20,6 +22,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import frc.robot.Constants.ShooterConstants;
 
 public class Shooter extends SubsystemBase {
 
@@ -32,6 +35,8 @@ public class Shooter extends SubsystemBase {
     private double timer;
     private boolean timerStart;
 
+    //private PIDController shootPID;
+
 
 
     public Shooter() {
@@ -39,15 +44,15 @@ public class Shooter extends SubsystemBase {
         
         kraken = new TalonFX(Constants.Ports.shooterMotor);
 
-        
+        //shootPID = new PIDController(ShooterConstants.kP,ShooterConstants.kV,ShooterConstants.kS);
         // var configs = new TalonFXConfiguration();
         // configs.Slot0.kP = 0.05; //0.25
         var slot0Configs = new Slot0Configs();
-        slot0Configs.kS = 0.1; // Add 0.1 V output to overcome static friction
-        slot0Configs.kV = 0.13; // A velocity target of 1 rps results in 0.13 V output
-        slot0Configs.kP = 0.11; // An error of 1 rps results in 0.11 V output
-        slot0Configs.kI = 0; // no output for integrated error
-        slot0Configs.kD = 0; // no output for error derivative
+        slot0Configs.kS = ShooterConstants.kS; // Add 0.1 V output to overcome static friction
+        slot0Configs.kV = ShooterConstants.kV; // A velocity target of 1 rps results in 0.13 V output
+        slot0Configs.kP = ShooterConstants.kP; // An error of 1 rps results in 0.11 V output
+        slot0Configs.kI = ShooterConstants.kI; // no output for integrated error
+        slot0Configs.kD = ShooterConstants.kD; // no output for error derivative
 
         kraken.getConfigurator().apply(slot0Configs); 
 
@@ -83,7 +88,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isReady(){
-        return getRPM() > targetRPM-50 && getRPM() < targetRPM+50;
+        return getRPM() > targetRPM-200 && getRPM() < targetRPM+250;
     }
 
     public void setRPM(){
@@ -117,8 +122,9 @@ public class Shooter extends SubsystemBase {
         }
 
         SmartDashboard.putNumber("Top Motor RPM", getRPM());
-        SmartDashboard.putBoolean("shoot ready",getRPM() > 5000);
+        SmartDashboard.putBoolean("shoot ready",isReady());
         SmartDashboard.putNumber("shoot amps", kraken.getStatorCurrent().getValueAsDouble());
         SmartDashboard.putNumber("shoot volts", kraken.getMotorVoltage().getValueAsDouble());
+        //SmartDashboard.putData("shooter pid", ShooterConstants.kP);
     }
 }
