@@ -5,6 +5,10 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ResetMode;
+import com.revrobotics.Rev2mDistanceSensor;
+import com.revrobotics.Rev2mDistanceSensor.Port;
+import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
+import com.revrobotics.Rev2mDistanceSensor.Unit;
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -29,10 +33,11 @@ public class Intake extends SubsystemBase {
     private TalonFX indexerMotor;
     private SparkMax pivotMotor;
 
+    private Rev2mDistanceSensor distanceSensor;
+
     private SparkMaxConfig pivotConfig;
 
     private DutyCycleEncoder encoder;
-    private DistanceSensor distanceSensor;
     private PIDController pivotPID;
     private PIDController pivotPIDdown;
     
@@ -51,6 +56,14 @@ public class Intake extends SubsystemBase {
      
     public Intake(){
 
+        if (RobotBase.isReal()){
+            distanceSensor = new Rev2mDistanceSensor(Port.kOnboard);
+            distanceSensor.setDistanceUnits(Unit.kInches);
+            distanceSensor.setAutomaticMode(true);
+            distanceSensor.setEnabled(true);
+            distanceSensor.setRangeProfile(RangeProfile.kDefault);
+        }
+
         var talonFXConfigs = new TalonFXConfiguration();
 
         var slot0Configs = talonFXConfigs.Slot0;
@@ -65,7 +78,6 @@ public class Intake extends SubsystemBase {
 
         pivotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
 
-        if (RobotBase.isReal()) distanceSensor = new DistanceSensor();
         encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
@@ -95,6 +107,47 @@ public class Intake extends SubsystemBase {
     
     }
 
+    public boolean distanceSensorHasBall(){
+        if (distanceSensor.getRange() < 12 && distanceSensor.getRange() > 0) {//12
+            return true;
+        }
+        return false;
+    }
+
+    public boolean distanceSensorAteBall(){
+        if (distanceSensor.getRange() < 2.5 && distanceSensor.getRange() > 0) {//12
+            return true;
+        }
+        return false;
+    }
+
+    public boolean distanceSensorAdjustedBall(){
+        if (distanceSensor.getRange() < 1.5 && distanceSensor.getRange() > 0) {//12
+            return true;
+        }
+        return false;
+    }
+
+    public double distanceSensorGetDistance(){
+        if (distanceSensor.isRangeValid()) {
+            return (distanceSensor.getRange());
+        }else{
+            return 0;
+        }         
+    }
+
+    public boolean distanceSensorIsEnabled(){
+        return distanceSensor.isEnabled();
+    }
+
+    public double distanceSensorGetTimeStamp(){
+        return distanceSensor.getTimestamp();
+    }
+
+    public void distanceSensorSetEnabled(boolean x){
+        distanceSensor.setEnabled(x);
+    }
+
   /**Sets intake to suck in */
     public void sucker() {
         intakeMotor.setVoltage(0.2*12);//0.3
@@ -115,7 +168,7 @@ public class Intake extends SubsystemBase {
 
     public boolean adjustBall(){
         // Checks if ball is in intake to stop motor   
-                if(RobotBase.isReal() && distanceSensor.adjustedBall()){
+                if(RobotBase.isReal() && distanceSensorAdjustedBall()){
                     //LEDs.green();
                     return true; // Ball detected
                 }else{
@@ -126,7 +179,7 @@ public class Intake extends SubsystemBase {
 
     public boolean ateBall(){
     // Checks if ball is in intake to stop motor   
-            if(RobotBase.isReal() && distanceSensor.ateBall()){
+            if(RobotBase.isReal() && distanceSensorAteBall()){
                 //LEDs.green();
                 return true; // Ball detected
             }else{
@@ -136,7 +189,7 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean hasBall(){
-        if(RobotBase.isReal() && distanceSensor.hasBall()){
+        if(RobotBase.isReal() && distanceSensorHasBall()){
             //LEDs.green();
             return true; // Ball detected
         }else{
@@ -229,7 +282,7 @@ public class Intake extends SubsystemBase {
     public void setMotorDistanceSensor(){
         if(shouldOuttake || shouldOuttakeAdjust){
             outTake();
-        } else if((shouldIntake && !distanceSensor.ateBall()) || shouldIntakeOverride){
+        } else if((shouldIntake && !distanceSensorAteBall()) || shouldIntakeOverride){
             sucker();
         } else {
             stopTake();
@@ -255,6 +308,8 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putBoolean("Pivot Ready", isReady());
         SmartDashboard.putData("Pivot PID", pivotPID);
         SmartDashboard.putData("Pivot PID down", pivotPIDdown);
+
+        SmartDashboard.putNumber("BallDistance:", distanceSensorGetDistance());
 
         if(!(getSetPosition() == IntakeConstants.grab)){
             setIntakePos(getSetPosition());

@@ -3,7 +3,6 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command; 
 import frc.robot.subsystems.Intake; 
 import frc.robot.Constants.IntakeConstants;
-import frc.robot.subsystems.DistanceSensor;
 
 public class ProcessorScoring extends Command{
     private Intake intake;
