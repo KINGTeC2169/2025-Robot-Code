@@ -35,6 +35,13 @@ public class DistanceSensor extends SubsystemBase{
         return false;
     }
 
+    public boolean adjustedBall(){
+        if (distanceSensor.getRange() < 1.5 && distanceSensor.getRange() > 0) {//12
+            return true;
+        }
+        return false;
+    }
+
     public double getDistance(){
         if (distanceSensor.isRangeValid()) {
             return (distanceSensor.getRange());

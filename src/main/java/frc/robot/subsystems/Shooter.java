@@ -88,7 +88,7 @@ public class Shooter extends SubsystemBase {
     }
 
     public boolean isReady(){
-        return getRPM() > targetRPM-200 && getRPM() < targetRPM+250;
+        return getRPM() > targetRPM -(targetRPM * 0.01) && getRPM() < targetRPM + (targetRPM * 0.01);
     }
 
     public void setRPM(){

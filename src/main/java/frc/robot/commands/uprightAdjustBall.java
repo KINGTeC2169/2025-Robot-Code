@@ -9,39 +9,41 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 
-public class AdjustBall extends Command{
+public class uprightAdjustBall extends Command{
     private Intake intake;
     private Shooter shooter;
     private Timer timer;
+    private double position;
     
     
-    public AdjustBall(Intake intake, Shooter shooter){
+    public uprightAdjustBall(Intake intake, Shooter shooter){
         this.intake = intake;
         addRequirements(intake);
         this.shooter = shooter;
         addRequirements(shooter);
         timer = new Timer();
+        position = IntakeConstants.rest;
     }
 
     @Override
     public void initialize(){
-        intake.shouldOuttakeAdjust = true;
     }
 
     @Override
     public void execute(){
+        
+
     }
 
     @Override
     public void end(boolean interrupted){
-        intake.shouldOuttakeAdjust = false;
-        
-        
+        position = IntakeConstants.rest;
+        System.out.println(position);
     }
 
     @Override
     public boolean isFinished(){
       
-        return intake.adjustBall();//intake.getDistance();
+        return (intake.getPosition() > 0.1 && shooter.getCurrent() > 0.4) || intake.getPosition() >= IntakeConstants.rest;//intake.getDistance();
     }
 }

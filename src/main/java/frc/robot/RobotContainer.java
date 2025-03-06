@@ -5,11 +5,12 @@
 package frc.robot;
 
 import frc.robot.Constants.Ports;
+import frc.robot.commands.AdjustBall;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.ProcessorScoring;
 import frc.robot.commands.Rev;
 import frc.robot.commands.ShootBall;
-import frc.robot.commands.JustIntakeBallNoSensor;
+import frc.robot.commands.uprightAdjustBall;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -35,7 +36,7 @@ import java.util.jar.Attributes.Name;
 
 import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
-import com.fasterxml.jackson.databind.util.Named;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -67,6 +68,9 @@ public class RobotContainer {
   private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
   private final JoystickButton topRightButton = new JoystickButton(rightStick, 1);
   private final JoystickButton bottomRightButton = new JoystickButton(rightStick, 2);
+
+  //Button Board
+  private final CommandXboxController buttonBoard = new CommandXboxController(Ports.buttons);
 
   //More Swerve Constants
   private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -148,18 +152,21 @@ public class RobotContainer {
   private void configureBindings() {
 
     
-    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake, 5500)));
-    m_driverController.leftBumper().onTrue(new Rev(shooter, 5500));
+    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake,4150)));
+    m_driverController.leftBumper().onTrue(new Rev(shooter, 4150));
     m_driverController.a().onTrue(new IntakeBall(intake,shooter));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
     m_driverController.y().whileTrue(Commands.run(() ->intake.shouldOuttake = true));
     m_driverController.x().whileTrue(Commands.run(() -> intake.shouldOuttake
      = false));
+     m_driverController.back().onTrue(new AdjustBall(intake, shooter));
+     m_driverController.povRight().onTrue(new uprightAdjustBall(intake, shooter));
     // m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltageIndex(0.3)));
     // m_driverController.x().whileFalse(Commands.run(() -> intake.setVoltageIndex(-0.3)));
 
     m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));
-    m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
+    m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
+    m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
     m_driverController.start().whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
     // m_driverController.b().whileTrue(Commands.run(() -> shooter.setRPM(-1500)));
     //m_driverController.x().whileTrue(Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis())));
@@ -180,6 +187,16 @@ public class RobotContainer {
     // m_driverController.a().whileTrue(drivetrain.sysIdQuasistatic(SysIdRoutine.Direction.kReverse));
     // m_driverController.b().whileTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kForward));
     // m_driverController.x().whileTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kReverse));
+
+    //Button Board
+    buttonBoard.button(1).whileTrue(Commands.run(() -> intake.shouldIntakeOverride = true));
+    buttonBoard.button(2).whileTrue(Commands.run(() ->  intake.shouldIntakeOverride = false));
+    buttonBoard.button(3).whileTrue(Commands.run(() -> shooter.setTargetRPM(1000)));
+    buttonBoard.button(4).whileTrue(Commands.run(() -> shooter.setTargetRPM(-1000)));
+    buttonBoard.button(5).whileTrue(Commands.run(() ->  intake.shouldOuttake = true));
+    buttonBoard.button(6).whileTrue(Commands.run(() -> intake.shouldOuttake = false));
+
+
 
   }
   public void runIntake(){

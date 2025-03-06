@@ -93,7 +93,7 @@ public final class Constants {
       public static double kIdown = 0;
       public static double kDdown = 0;
 
-
+      public double shootBallPivotPos = 0;
     }
 
     public static class ShooterConstants{

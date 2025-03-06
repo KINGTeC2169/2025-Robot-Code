@@ -22,7 +22,6 @@ public class ProcessorScoring extends Command{
     @Override
     //Runs intake backwards
     public void execute() { 
-        intake.shouldOuttake = true;
     }
 
     @Override

@@ -36,6 +36,11 @@ public class ShootBall extends Command {
        index.setIntakePos(IntakeConstants.restball);
        timer = new Timer();
        counter = 0;
+
+
+
+
+       
     }
     
     // Called every time the scheduler runs while the command is scheduled.
@@ -63,6 +68,7 @@ public class ShootBall extends Command {
     public void end(boolean interrupted) {
         shooter.setTargetRPM(0);
         index.shouldIntakeOverride = false;
+        index.setIntakePos(IntakeConstants.rest);
     }
     
     @Override

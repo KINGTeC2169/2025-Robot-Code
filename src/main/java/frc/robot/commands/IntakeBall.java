@@ -56,9 +56,7 @@ public class IntakeBall extends Command{
     public void end(boolean interrupted){
         // no more suck
         
-        intake.setIntakePos(IntakeConstants.restball);
-        intake.setVoltageIndex(0);
-        intake.setVoltageIntake(0);
+        intake.setIntakePos(IntakeConstants.rest);
         shooter.setPower(0);
         intake.shouldIntake = false;
         //intake.setIntakePos(IntakeConstants.rest);

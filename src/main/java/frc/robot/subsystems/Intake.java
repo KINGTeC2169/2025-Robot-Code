@@ -103,8 +103,8 @@ public class Intake extends SubsystemBase {
 
     /**Runs intake backwards at 0.12 speed*/
     public void outTake() {
-        intakeMotor.setVoltage(-2);
-        indexerMotor.setVoltage(2);
+        intakeMotor.setVoltage(-2.4);
+        indexerMotor.setVoltage(2.4);
     }
 
     /**Stops the intake. */
@@ -112,6 +112,17 @@ public class Intake extends SubsystemBase {
         intakeMotor.set(0);
         indexerMotor.set(0);
     }
+
+    public boolean adjustBall(){
+        // Checks if ball is in intake to stop motor   
+                if(RobotBase.isReal() && distanceSensor.adjustedBall()){
+                    //LEDs.green();
+                    return true; // Ball detected
+                }else{
+                   // LEDs.red(); 
+                    return false; // No ball detected
+                }
+        }
 
     public boolean ateBall(){
     // Checks if ball is in intake to stop motor   
@@ -134,11 +145,11 @@ public class Intake extends SubsystemBase {
         }
     }
     
-    public void setVoltageIntake(double volts){
+    private void setVoltageIntake(double volts){
         intakeMotor.setVoltage(volts);
     }
 
-    public void setVoltageIndex(double volts){
+    private void setVoltageIndex(double volts){
         indexerMotor.setVoltage(-volts);
     }
     public void setVoltagePivot(double volts){
@@ -216,7 +227,7 @@ public class Intake extends SubsystemBase {
 
     // This method runs periodically every 5ms
     public void setMotorDistanceSensor(){
-        if(shouldOuttake){
+        if(shouldOuttake || shouldOuttakeAdjust){
             outTake();
         } else if((shouldIntake && !distanceSensor.ateBall()) || shouldIntakeOverride){
             sucker();
