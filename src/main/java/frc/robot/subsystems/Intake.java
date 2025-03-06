@@ -53,6 +53,8 @@ public class Intake extends SubsystemBase {
     public boolean shouldIntake;
     public boolean shouldIntakeOverride;
     
+    private double latestDistance;
+    
      
     public Intake(){
 
@@ -115,14 +117,14 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean distanceSensorAteBall(){
-        if (distanceSensor.getRange() < 2.5 && distanceSensor.getRange() > 0) {//12
+        if (latestDistance < 2.5 && latestDistance > 0) {//12
             return true;
         }
         return false;
     }
 
     public boolean distanceSensorAdjustedBall(){
-        if (distanceSensor.getRange() < 1.5 && distanceSensor.getRange() > 0) {//12
+        if (latestDistance < 1.5 && latestDistance > 0) {//12
             return true;
         }
         return false;
@@ -309,7 +311,7 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putData("Pivot PID", pivotPID);
         SmartDashboard.putData("Pivot PID down", pivotPIDdown);
 
-        SmartDashboard.putNumber("BallDistance:", distanceSensorGetDistance());
+        SmartDashboard.putNumber("BallDistance:", latestDistance);
 
         if(!(getSetPosition() == IntakeConstants.grab)){
             setIntakePos(getSetPosition());
@@ -318,6 +320,7 @@ public class Intake extends SubsystemBase {
             setIntakePos(Constants.IntakeConstants.grab);
 
         }
+        latestDistance = distanceSensor.getRange();
 
         
         
