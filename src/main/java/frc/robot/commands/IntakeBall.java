@@ -13,6 +13,7 @@ public class IntakeBall extends Command{
     private Shooter shooter;
     private Timer timer;
     private boolean timerStarted;
+    private int step;
     
     
     public IntakeBall(Intake intake, Shooter shooter){
@@ -22,11 +23,15 @@ public class IntakeBall extends Command{
         addRequirements(shooter);
         timer = new Timer();
         timerStarted = false;
+        step = 0;
     }
 
     @Override
     public void initialize(){
         intake.setIntakePos(IntakeConstants.grab);
+        timer.start();
+        timer.reset();
+        timerStarted = false;
         
     }
 
@@ -34,6 +39,28 @@ public class IntakeBall extends Command{
     public void execute(){
         // suck
         intake.shouldIntake = true;
+        if(intake.getGrabCurrent() > 9 && !timerStarted && timer.get() > 0.5){
+            timer.reset();
+            timerStarted = true;
+            
+        }
+        System.out.println(timer.get());
+        
+        /* 
+        intake.shouldIntake = true;
+
+        if(intake.ateBall() && step == 0) step++;
+        if(step == 1){
+            intake.setIntakePos(IntakeConstants.restball);
+            shooter.setPower(0);
+            intake.shouldIntake = false;
+            if(intake.isReady() && step == 1) step++;
+        }
+        if(step == 2){
+            intake.shouldOuttakeAdjust = true;
+
+        }
+        */
         // if(intake.hasBall()){
         //     intake.setVoltageIndex(0);//-0.8
         //     intake.setVoltageIntake(0);//0.4
@@ -55,10 +82,11 @@ public class IntakeBall extends Command{
     @Override
     public void end(boolean interrupted){
         // no more suck
-        
-        intake.setIntakePos(IntakeConstants.rest);
-        shooter.setPower(0);
+
         intake.shouldIntake = false;
+        intake.setIntakePos(IntakeConstants.rest);
+        System.out.println(timer.get());
+        timerStarted = false;
         //intake.setIntakePos(IntakeConstants.rest);
         
         
@@ -66,7 +94,6 @@ public class IntakeBall extends Command{
 
     @Override
     public boolean isFinished(){
-      
-        return intake.ateBall();//intake.getPosition() == intake.getSetPosition();
+        return timer.get() > 0.3 && timerStarted; //intake.getPosition() == intake.getSetPosition();
     }
 }

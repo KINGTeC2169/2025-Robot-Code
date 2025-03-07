@@ -110,21 +110,21 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean distanceSensorHasBall(){
-        if (distanceSensor.getRange() < 12 && distanceSensor.getRange() > 0) {//12
+        if (latestDistance < 15 && latestDistance > 0) {//12
             return true;
         }
         return false;
     }
 
     public boolean distanceSensorAteBall(){
-        if (latestDistance < 2.5 && latestDistance > 0) {//12
+        if (latestDistance < 20 && latestDistance > 0) {//12
             return true;
         }
         return false;
     }
 
     public boolean distanceSensorAdjustedBall(){
-        if (latestDistance < 1.5 && latestDistance > 0) {//12
+        if (latestDistance > 8.5) {//12
             return true;
         }
         return false;
@@ -152,8 +152,12 @@ public class Intake extends SubsystemBase {
 
   /**Sets intake to suck in */
     public void sucker() {
-        intakeMotor.setVoltage(0.2*12);//0.3
-        indexerMotor.setVoltage(-0.2*12);//0.35
+        intakeMotor.setVoltage(0.2*12);//0.2
+        //indexerMotor.setVoltage(-0.2*12);//0.35
+    }
+    public void supersucker() {
+        intakeMotor.setVoltage(0.7*12);//0.3
+        indexerMotor.setVoltage(-0.7*12);//0.35
     }
 
     /**Runs intake backwards at 0.12 speed*/
@@ -282,11 +286,14 @@ public class Intake extends SubsystemBase {
 
     // This method runs periodically every 5ms
     public void setMotorDistanceSensor(){
+
         if(shouldOuttake || shouldOuttakeAdjust){
             outTake();
-        } else if((shouldIntake && !distanceSensorAteBall()) || shouldIntakeOverride){
+        } else if((shouldIntake )){//&& !distanceSensorAteBall())){
             sucker();
-        } else {
+        } else if (shouldIntakeOverride) {
+            supersucker();
+        }else {
             stopTake();
         }
     }
@@ -300,6 +307,7 @@ public class Intake extends SubsystemBase {
         SmartDashboard.putBoolean("Ball detected:", hasBall());
         SmartDashboard.putNumber("Intake Motor Speed", getGrabSpeed());
         SmartDashboard.putNumber("IntakeM Voltage", getGrabVoltage());
+        SmartDashboard.putNumber("IntakeM Current", getGrabCurrent());
         SmartDashboard.putBoolean("Detected Color", isOn());
         SmartDashboard.putNumber("RPM", getRPM());
         SmartDashboard.putNumber("SetPosition", getSetPosition());
