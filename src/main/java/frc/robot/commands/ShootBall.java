@@ -59,7 +59,7 @@ public class ShootBall extends Command {
             }
         } 
         shooter.setTargetRPM(rpm);
-        System.out.println(timer.get());
+        //System.out.println(timer.get());
        
     }
     

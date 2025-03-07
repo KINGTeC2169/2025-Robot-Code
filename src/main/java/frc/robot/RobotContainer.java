@@ -150,7 +150,7 @@ public class RobotContainer {
   private void configureBindings() {
 
     
-    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake,4150)));
+    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake,4500)));
     m_driverController.leftBumper().onTrue(new Rev(shooter, 4150));
     m_driverController.a().onTrue(new IntakeBall(intake,shooter));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
@@ -193,6 +193,8 @@ public class RobotContainer {
     buttonBoard.button(4).whileTrue(Commands.run(() -> shooter.setTargetRPM(-1000)));
     buttonBoard.button(5).whileTrue(Commands.run(() ->  intake.shouldOuttake = true));
     buttonBoard.button(6).whileTrue(Commands.run(() -> intake.shouldOuttake = false));
+    buttonBoard.button(7).whileTrue(Commands.run(() -> intake.shouldOuttakeAdjust = false));
+    buttonBoard.button(8).whileTrue(Commands.run(() -> intake.shouldOuttakeAdjust = false));
 
 
 
