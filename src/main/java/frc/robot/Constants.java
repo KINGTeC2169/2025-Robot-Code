@@ -128,6 +128,12 @@ public final class Constants {
       public static double kS = 0.1;
       public static double kV = 0.12325;
     }
+
+    public static class Vision{
+      public static double LLAngle = 0;
+      public static double bargeTagHeight = 0;
+      public static double LLHeight = 0;
+    }
 }
 
 
