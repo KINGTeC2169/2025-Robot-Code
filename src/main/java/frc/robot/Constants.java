@@ -63,6 +63,9 @@ public final class Constants {
         public static final int intakeMotor = 7; //done
         public static final int pivotMotor = 50; //done
         public static final int indexerMotor = 6; //done
+        public static final int reefIntakeMotor = 100; 
+        public static final int reefPivotMotor = 101; 
+        
         
         public static final int encoder = 1;
 
@@ -95,6 +98,26 @@ public final class Constants {
 
       public double shootBallPivotPos = 0;
     }
+
+    public static class ReefIntakeConstants{
+// tune all of these this is just temporary                           
+      public static final double encoderOffset = 0;
+      public static final double reefrest = 0.1776698044417451;
+      public static final double reefgrab = 0.06343960158599005;
+      public static final double reefrestball = 0.14493320312333007;
+
+      public static double kP = 20.0;
+      public static double kI = 0;
+      public static double kD = 0;
+      
+      public static double kS = 0;
+      public static double kV = 3.5;
+      public static double kA = 0;
+ 
+      public static double kPdown = 20.0;
+      public static double kIdown = 0;
+      public static double kDdown = 0;
+    }  
 
     public static class ShooterConstants{
 
