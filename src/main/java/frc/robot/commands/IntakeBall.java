@@ -90,7 +90,7 @@ public class IntakeBall extends Command{
         System.out.println(timer.get());
         timerStarted = false;
         //intake.setIntakePos(IntakeConstants.rest);
-        
+        intake.smallIntake = true;
         
     }
 

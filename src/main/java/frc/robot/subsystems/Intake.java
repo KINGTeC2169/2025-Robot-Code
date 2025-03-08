@@ -52,6 +52,7 @@ public class Intake extends SubsystemBase {
     public boolean shouldOuttakeAdjust;
     public boolean shouldIntake;
     public boolean shouldIntakeOverride;
+    public boolean smallIntake;
     
     private double latestDistance;
     
@@ -95,9 +96,9 @@ public class Intake extends SubsystemBase {
         pivotPIDdown = new PIDController(IntakeConstants.kPdown, IntakeConstants.kIdown,IntakeConstants.kDdown);
 
         intakeMotor.getConfigurator().apply(talonFXConfigs);
-        intakeMotor.setNeutralMode(NeutralModeValue.Coast);
+        intakeMotor.setNeutralMode(NeutralModeValue.Brake);
         indexerMotor.getConfigurator().apply(talonFXConfigs);
-        indexerMotor.setNeutralMode(NeutralModeValue.Coast);
+        indexerMotor.setNeutralMode(NeutralModeValue.Brake);
         // pivotMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
         //pivotMotor.getConfigurator().apply(talonFXConfigs);
         //pivotMotor.setNeutralMode(NeutralModeValue.Brake);
@@ -106,6 +107,7 @@ public class Intake extends SubsystemBase {
         shouldOuttake = false;
         shouldIntake = false;
         shouldIntakeOverride = false;
+        smallIntake = false;
     
     }
 
@@ -151,9 +153,13 @@ public class Intake extends SubsystemBase {
     }
 
   /**Sets intake to suck in */
+  public void smallIntaking() {
+    intakeMotor.setVoltage(0.05*12);
+    indexerMotor.setVoltage(0);
+  }
     public void sucker() {
         intakeMotor.setVoltage(0.4*12);//0.2
-        //indexerMotor.setVoltage(-0.2*12);//0.35
+        indexerMotor.setVoltage(0.05*12);//0.35
     }
     public void supersucker() {
         intakeMotor.setVoltage(0.7*12);//0.3
@@ -293,6 +299,8 @@ public class Intake extends SubsystemBase {
             sucker();
         } else if (shouldIntakeOverride) {
             supersucker();
+        } else if(smallIntake){
+            smallIntaking();
         }else {
             stopTake();
         }

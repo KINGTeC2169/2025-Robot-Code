@@ -46,12 +46,12 @@ public class Limelight extends SubsystemBase{
 
     public static double setPower(){
         if(!getTv()) return 0;
-        if((distanceFromTag() - 196)/ 100.0 > 0.3) return 0.3;
-        if((distanceFromTag() - 196)/ 100.0 < -0.3) return -0.3;
-        return (distanceFromTag() - 196)/ 100.0;
+        if((distanceFromTag() - 206)/ 100.0 > 0.3) return 0.3;
+        if((distanceFromTag() - 206)/ 100.0 < -0.3) return -0.3;
+        return (distanceFromTag() - 206)/ 100.0;
     }
 
     public static boolean shootNow(){
-        return Math.abs(distanceFromTag() - 196) < 3;
+        return Math.abs(distanceFromTag() - 206) < 3;
     }
 }

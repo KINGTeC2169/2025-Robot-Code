@@ -89,6 +89,8 @@ public class LollipopIntakeBall extends Command{
         intake.setIntakePos(IntakeConstants.restball);
         System.out.println(timer.get());
         timerStarted = false;
+
+        intake.smallIntake = true;
         //intake.setIntakePos(IntakeConstants.rest);
         
         

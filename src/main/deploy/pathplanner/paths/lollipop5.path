@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.2227459016393443,
-        "y": 2.2148565573770487
+        "x": 1.2467213114754097,
+        "y": 2.1788934426229516
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7382172131147542,
-        "y": 2.982069672131148
+        "x": 1.7621926229508196,
+        "y": 2.946106557377051
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "lol4"
     },
     {
       "anchor": {
@@ -48,7 +48,7 @@
   "folder": null,
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -112.30620505490771
+    "rotation": -106.82140989004085
   },
   "useDefaultConstraints": true
 }

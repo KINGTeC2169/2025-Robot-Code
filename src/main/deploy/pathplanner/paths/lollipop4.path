@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.234733606557377,
-        "y": 2.2028688524590168
+        "x": 1.2467213114754097,
+        "y": 2.1788934426229516
       },
       "prevControl": {
-        "x": 1.6662909836065571,
-        "y": 3.1738729508196717
+        "x": 1.6782786885245897,
+        "y": 3.1498975409836065
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "lol4"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -140.06361685303017
+    "rotation": -106.82140989004085
   },
   "reversed": false,
   "folder": null,

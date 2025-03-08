@@ -68,6 +68,7 @@ public class ShootBall extends Command {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        index.smallIntake = false;
         shooter.setTargetRPM(0);
         index.shouldIntakeOverride = false;
         index.setIntakePos(IntakeConstants.rest);
