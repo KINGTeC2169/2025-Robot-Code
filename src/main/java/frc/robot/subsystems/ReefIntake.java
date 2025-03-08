@@ -5,10 +5,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.revrobotics.spark.SparkMax;
 import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.Rev2mDistanceSensor;
-import com.revrobotics.Rev2mDistanceSensor.Port;
-import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
-import com.revrobotics.Rev2mDistanceSensor.Unit;
+
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -23,6 +20,7 @@ import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ReefIntakeConstants;
@@ -48,6 +46,8 @@ public class ReefIntake extends SubsystemBase {
     public boolean shouldOuttakeAdjust;
     public boolean shouldIntake;
     public boolean shouldIntakeOverride;
+
+    private boolean started = false;
 
     public ReefIntake(){
         var talonFXConfigs = new TalonFXConfiguration();
@@ -108,49 +108,39 @@ public class ReefIntake extends SubsystemBase {
         reefIntakeMotor.set(0);
         
     }
-    // public boolean reefHasBall(){
-    //     if (getGrabVoltage()< 12 && distanceSensor.getRange() > 0) {//12
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    
 
-    // public boolean reefAteBall(){
-    //     if (reefIntake.getRPM() < 2.5 && latestDistance > 0) {//12
-    //         return true;
-    //     }
-    //     return false;
-    // }
-
-    // public boolean reefAdjustedBall(){
-    //     if (latestDistance < 1.5 && latestDistance > 0) {//12
-    //         return true;
-    //     }
-    //     return false;
-    // }
+    public boolean reefAteBall(){
+        if (getRPM() > 1700) {
+            started = true; 
+            
+        }
+        if(started && getRPM() < 1550){
+            stopTake();
+            started = false;
+            return true;
+            
+        }
+        return false;
+    }
 
     
 
-    // public boolean ateBall(){
-    // // Checks if ball is in intake to stop motor   
-    //         if(RobotBase.isReal() && reefAteBall()){
-    //             //LEDs.green();
-    //             return true; // Ball detected
-    //         }else{
-    //            // LEDs.red(); 
-    //             return false; // No ball detected
-    //         }
-    // }
+    
 
-    // public boolean hasBall(){
-    //     if(RobotBase.isReal() && reefHasBall()){
-    //         //LEDs.green();
-    //         return true; // Ball detected
-    //     }else{
-    //        // LEDs.red(); 
-    //         return false; // No ball detected
-    //     }
-    // }
+    public boolean ateBall(){
+    // Checks if ball is in intake to stop motor   
+            if(RobotBase.isReal() && reefAteBall()){
+                //LEDs.green();
+                return true; // Ball detected
+            }else{
+               // LEDs.red(); 
+                return false; // No ball detected
+            }
+    }
+
+   
+    
     
     private void setVoltageIntake(double volts){
         reefIntakeMotor.setVoltage(volts);
@@ -230,15 +220,15 @@ public class ReefIntake extends SubsystemBase {
     }
 
     // This method runs periodically every 5ms
-    // public void setMotorDistanceSensor(){
-    //     if(shouldOuttake || shouldOuttakeAdjust){
-    //         outTake();
-    //     } else if((shouldIntake && !reefAteBall()) || shouldIntakeOverride){
-    //         sucker();
-    //     } else {
-    //         stopTake();
-    //     }
-    // }
+    public void setMotorDistanceSensor(){
+        if(shouldOuttake || shouldOuttakeAdjust){
+            outTake();
+        } else if((shouldIntake && !reefAteBall()) || shouldIntakeOverride){
+            sucker();
+        } else {
+            stopTake();
+        }
+    }
 
     @Override   
     public void periodic() {
@@ -262,13 +252,13 @@ public class ReefIntake extends SubsystemBase {
 
         
 
-        // if(!(getSetPosition() == IntakeConstants.grab)){
-        //     setIntakePos(getSetPosition());
-        // } else {
-        //     if(isReady() || ateBall()) setVoltagePivot(0);
-        //     setIntakePos(Constants.IntakeConstants.grab);
+        if(!(getSetPosition() == IntakeConstants.grab)){
+            setIntakePos(getSetPosition());
+        } else {
+            if(isReady() || ateBall()) setVoltagePivot(0);
+            setIntakePos(Constants.IntakeConstants.grab);
 
-        // }
+        }
 
 }
 }
