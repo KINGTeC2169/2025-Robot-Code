@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj.Timer;
 
 public class ShootBall extends Command {
@@ -59,6 +60,7 @@ public class ShootBall extends Command {
             }
         } 
         shooter.setTargetRPM(rpm);
+        
         //System.out.println(timer.get());
        
     }

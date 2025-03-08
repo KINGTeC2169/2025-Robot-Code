@@ -20,11 +20,14 @@ public class AdjustBall extends Command{
         this.shooter = shooter;
         addRequirements(shooter);
         timer = new Timer();
+        
     }
 
     @Override
     public void initialize(){
         intake.shouldOuttakeAdjust = true;
+        timer.start();
+        timer.reset();
     }
 
     @Override
@@ -41,6 +44,6 @@ public class AdjustBall extends Command{
     @Override
     public boolean isFinished(){
       
-        return intake.adjustBall();//intake.getDistance();
+        return intake.ateBall() && timer.get() > 0.04;//intake.getDistance();
     }
 }

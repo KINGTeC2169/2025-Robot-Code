@@ -15,6 +15,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.Limelight;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -52,6 +53,7 @@ public class RobotContainer {
   //Commands
  public SendableChooser<Command> autoChooser;
   private double speed = 0.5;
+  private double dif = 0;
   public double shooterSpeedTest = 0;
 
   //Controller configurations
@@ -65,7 +67,7 @@ public class RobotContainer {
   //private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
   private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
   private final JoystickButton topRightButton = new JoystickButton(rightStick, 1);
-  private final JoystickButton bottomRightButton = new JoystickButton(rightStick, 2);
+  public final JoystickButton bottomRightButton = new JoystickButton(rightStick, 2);
 
   //Button Board
   private final CommandXboxController buttonBoard = new CommandXboxController(Ports.buttons);
@@ -100,10 +102,11 @@ public class RobotContainer {
         
    // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.
+        
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-            drive.withVelocityX(-leftStick.getY() * MaxSpeed * speed) // Drive forward with negative Y (forward)
+            drive.withVelocityX(-leftStick.getY() * MaxSpeed * speed + (dif * MaxSpeed)) // Drive forward with negative Y (forward)
                     .withVelocityY(-leftStick.getX() * MaxSpeed * speed) // Drive left with negative X (left)
                     .withRotationalRate(rightStick.getTwist() * MaxAngularRate * speed * 2) // Drive counterclockwise with negative X (left)
                     )
@@ -118,7 +121,7 @@ public class RobotContainer {
         topRightButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
-        bottomRightButton.whileTrue(drivetrain.applyRequest(() -> brake));
+        //bottomRightButton.whileTrue(drivetrain.applyRequest(() -> brake));
 
         drivetrain.registerTelemetry(logger::telemeterize);    
 
@@ -136,6 +139,13 @@ public class RobotContainer {
 
   public void setSlowMode(){
     speed = 0.2;
+  }
+
+  public void setOverrideMode(){
+    speed = 0;
+    dif = Limelight.setPower();
+    System.out.println(dif);
+    //if(Limelight.shootNow()) new ShootBall(shooter, intake,4500);
   }
 
   /**

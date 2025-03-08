@@ -117,7 +117,7 @@ public class Intake extends SubsystemBase {
     }
 
     public boolean distanceSensorAteBall(){
-        if (latestDistance < 20 && latestDistance > 0) {//12
+        if (latestDistance < 4 && latestDistance > 0) {//12
             return true;
         }
         return false;
@@ -152,7 +152,7 @@ public class Intake extends SubsystemBase {
 
   /**Sets intake to suck in */
     public void sucker() {
-        intakeMotor.setVoltage(0.2*12);//0.2
+        intakeMotor.setVoltage(0.4*12);//0.2
         //indexerMotor.setVoltage(-0.2*12);//0.35
     }
     public void supersucker() {

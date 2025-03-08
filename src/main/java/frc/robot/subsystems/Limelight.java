@@ -41,6 +41,17 @@ public class Limelight extends SubsystemBase{
         double angle = Math.toRadians(Vision.LLAngle + getTy());
         // Difference between the height of barge tag and limelight
         double heightDiff = Vision.bargeTagHeight - Vision.LLHeight;
-        return heightDiff / Math.tan(angle);
+        return (heightDiff / Math.tan(angle)) +22;
+    }
+
+    public static double setPower(){
+        if(!getTv()) return 0;
+        if((distanceFromTag() - 196)/ 100.0 > 0.15) return 0.3;
+        if((distanceFromTag() - 196)/ 100.0 < -0.15) return -0.3;
+        return (distanceFromTag() - 196)/ 100.0 * 2;
+        }
+
+    public static boolean shootNow(){
+        return Math.abs(distanceFromTag() - 196) < 3;
     }
 }

@@ -39,11 +39,13 @@ public class IntakeBall extends Command{
     public void execute(){
         // suck
         intake.shouldIntake = true;
+        
+        /* 
         if(intake.getGrabCurrent() > 9 && !timerStarted && timer.get() > 0.5){
             timer.reset();
             timerStarted = true;
             
-        }
+        }*/
         System.out.println(timer.get());
         
         /* 
@@ -94,6 +96,6 @@ public class IntakeBall extends Command{
 
     @Override
     public boolean isFinished(){
-        return timer.get() > 0.3 && timerStarted; //intake.getPosition() == intake.getSetPosition();
+        return intake.ateBall(); //intake.getPosition() == intake.getSetPosition();
     }
 }

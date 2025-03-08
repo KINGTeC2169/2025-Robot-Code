@@ -130,9 +130,11 @@ public final class Constants {
     }
 
     public static class Vision{
-      public static double LLAngle = 0;
-      public static double bargeTagHeight = 0;
-      public static double LLHeight = 0;
+      public static double LLAngle = 30;
+      public static double bargeTagHeight = 70;
+      public static double LLHeight = 28;
+
+      public static double dif1 = 0;
     }
 }
 
