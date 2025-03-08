@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.5977499999999996,
-        "y": 5.3705
+        "x": 3.7245000000000004,
+        "y": 5.1267499999999995
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.514060762288469,
-        "y": 5.739102737538962
+        "x": 4.640810762288471,
+        "y": 5.495352737538962
       },
       "isLocked": false,
-      "linkedName": "GrabBall1"
+      "linkedName": "blah"
     },
     {
       "anchor": {

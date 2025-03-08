@@ -17,7 +17,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "UpIntake"
                 }
               }
             ]
@@ -61,7 +61,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "UpIntake"
                 }
               }
             ]
@@ -75,6 +75,50 @@
                 "type": "path",
                 "data": {
                   "pathName": "lollipop3"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Rev"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "lollipop4"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "lollipop5"
                 }
               },
               {
