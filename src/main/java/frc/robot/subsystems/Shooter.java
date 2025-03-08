@@ -119,6 +119,7 @@ public class Shooter extends SubsystemBase {
         SmartDashboard.putBoolean("shoot ready",isReady());
         SmartDashboard.putNumber("shoot amps", kraken.getStatorCurrent().getValueAsDouble());
         SmartDashboard.putNumber("shoot volts", kraken.getMotorVoltage().getValueAsDouble());
+        SmartDashboard.putBoolean("LL ready", Limelight.shootNow());
         SmartDashboard.putNumber("LL power" , Limelight.setPower());
         SmartDashboard.putNumber("LL distance" , Limelight.distanceFromTag());
         SmartDashboard.putNumber("tx", Limelight.getTx());

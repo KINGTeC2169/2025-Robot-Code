@@ -7,6 +7,7 @@ package frc.robot;
 import frc.robot.Constants.Ports;
 import frc.robot.commands.AdjustBall;
 import frc.robot.commands.IntakeBall;
+import frc.robot.commands.LollipopIntakeBall;
 import frc.robot.commands.ProcessorScoring;
 import frc.robot.commands.Rev;
 import frc.robot.commands.ShootBall;
@@ -92,7 +93,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("Rev", new Rev(shooter, 5000));
         NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 5000));
         NamedCommands.registerCommand("Intake", new IntakeBall(intake,shooter));
-        NamedCommands.registerCommand("ProcessorScoring", new ProcessorScoring(intake));
+        NamedCommands.registerCommand("Processor", new ProcessorScoring(intake));
+        NamedCommands.registerCommand("UpIntake", new LollipopIntakeBall(intake, shooter));
 
         drivetrain = TunerConstants.createDrivetrain();
         autoChooser = AutoBuilder.buildAutoChooser();
