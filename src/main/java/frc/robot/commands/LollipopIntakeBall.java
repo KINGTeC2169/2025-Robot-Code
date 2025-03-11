@@ -38,47 +38,8 @@ public class LollipopIntakeBall extends Command{
 
     @Override
     public void execute(){
-        // suck
-        intake.shouldIntake = true;
-        
-        /* 
-        if(intake.getGrabCurrent() > 9 && !timerStarted && timer.get() > 0.5){
-            timer.reset();
-            timerStarted = true;
-            
-        }*/
-        System.out.println(timer.get());
-        
-        /* 
-        intake.shouldIntake = true;
-
-        if(intake.ateBall() && step == 0) step++;
-        if(step == 1){
-            intake.setIntakePos(IntakeConstants.restball);
-            shooter.setPower(0);
-            intake.shouldIntake = false;
-            if(intake.isReady() && step == 1) step++;
-        }
-        if(step == 2){
-            intake.shouldOuttakeAdjust = true;
-
-        }
-        */
-        // if(intake.hasBall()){
-        //     intake.setVoltageIndex(0);//-0.8
-        //     intake.setVoltageIntake(0);//0.4
-        //     shooter.setPower(0);
-        //     if(!timerStarted){
-        //         timerStarted = true;
-        //         timer.reset();
-        //         timer.start();
-        //     }
-        // } else {
-        //     intake.sucker();
-        //     shooter.setPower(0);//-0.25
-        // }
-        // System.out.println(timer.get());
-        
+        intake.setVoltageIntake(0.4*12);
+        intake.setVoltageIndex(0.05*12);
 
     }
 
@@ -86,12 +47,14 @@ public class LollipopIntakeBall extends Command{
     public void end(boolean interrupted){
         // no more suck
 
-        intake.shouldIntake = false;
+        intake.setVoltageIntake(0);
+        intake.setVoltageIndex(0);
         intake.setIntakePos(IntakeConstants.restball);
         System.out.println(timer.get());
         timerStarted = false;
 
-        intake.smallIntake = true;
+        intake.setVoltageIntake(0.05*12);
+        intake.setVoltageIndex(0);
         //intake.setIntakePos(IntakeConstants.rest);
         
         

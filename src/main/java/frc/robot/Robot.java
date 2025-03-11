@@ -84,12 +84,6 @@ public class Robot extends TimedRobot {
       builder.addDoubleProperty("Robot Angle", () -> m_robotContainer.drivetrain.getPigeon2().getRotation2d().getRadians(), null);
     }
   });
-  addPeriodic(() -> {//remove
-    m_robotContainer.runIntake();
-}, 0.005, 0.005);
-addPeriodic(() -> { //remove
-  m_robotContainer.runShooter();
-}, 0.005, 0.0025);
   }
 
   /**

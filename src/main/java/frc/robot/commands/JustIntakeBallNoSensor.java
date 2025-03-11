@@ -6,6 +6,7 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
 
 //remove this whole command too
+//actually if we can make it work we can make as an alt button for operator (manual control)
 public class JustIntakeBallNoSensor extends Command{
     private Intake intake;
     private boolean lowRPM;
@@ -30,12 +31,14 @@ public class JustIntakeBallNoSensor extends Command{
     @Override
     public void execute(){
         // suck
-        intake.sucker();
+        intake.setVoltageIntake(0.4*12);
+        intake.setVoltageIndex(0.05*12);
         if(intake.getRPM() > 1700)counter++;
              if(counter > 10)started = true;
          
         if(started && intake.getRPM() < 1550){
-            intake.stopTake();
+            intake.setVoltageIntake(0);
+            intake.setVoltageIndex(0);
             started = false;
             if (!started){
                 timer.start();
@@ -47,7 +50,8 @@ public class JustIntakeBallNoSensor extends Command{
     @Override
     public void end(boolean interrupted){
         // no more suck
-        intake.stopTake();
+        intake.setVoltageIntake(0);
+        intake.setVoltageIndex(0);
         intake.setIntakePos(IntakeConstants.rest);
     }
 

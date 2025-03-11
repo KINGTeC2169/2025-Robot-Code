@@ -10,44 +10,29 @@ import frc.robot.subsystems.Shooter;
 
 public class IntakeBall extends Command{
     private Intake intake;
-    private Shooter shooter;//remove
-    private Timer timer;//remove
-    private boolean timerStarted;//remove
-    private int step;//remove
     
-    
-    public IntakeBall(Intake intake, Shooter shooter){
+    public IntakeBall(Intake intake){
         this.intake = intake;
         addRequirements(intake);
-        this.shooter = shooter;//remove
-        addRequirements(shooter);//remove
-        timer = new Timer(); //remove
-        timerStarted = false; //remove
-        step = 0; //remove
     }
 
     @Override
     public void initialize(){
         intake.setIntakePos(IntakeConstants.grab);
-        timer.start();//remove
-        timer.reset();//remove
-        timerStarted = false;//remove
         
     }
 
     @Override
     public void execute(){
-        intake.shouldIntake = true; //remove
-        System.out.println(timer.get());//remove
+        intake.setVoltageIntake(0.4*12);
+        intake.setVoltageIndex(0.05*12);
     }
 
     @Override
     public void end(boolean interrupted){
-        intake.shouldIntake = false; //remove
         intake.setIntakePos(IntakeConstants.rest);
-        System.out.println(timer.get()); //remove
-        timerStarted = false; //remove
-        intake.smallIntake = true; //remove
+        intake.setVoltageIntake(0.05*12);
+        intake.setVoltageIndex(0);
     }
 
     @Override

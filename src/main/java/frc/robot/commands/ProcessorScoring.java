@@ -15,7 +15,8 @@ public class ProcessorScoring extends Command{
     @Override
     public void initialize(){
         intake.setIntakePos(IntakeConstants.rest); 
-        intake.shouldOuttake = true; //remove
+        intake.setVoltageIntake(-2.4);
+        intake.setVoltageIndex(2.4);
     }
 
     @Override
@@ -26,7 +27,8 @@ public class ProcessorScoring extends Command{
     @Override
     //Stops intake
     public void end(boolean interupt) {
-        intake.shouldOuttake = false; //remove
+        intake.setVoltageIntake(0);
+        intake.setVoltageIndex(0);
         //intake.setIntakePos(IntakeConstants.grab); 
 	}
 

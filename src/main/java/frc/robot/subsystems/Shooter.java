@@ -93,9 +93,7 @@ public class Shooter extends SubsystemBase {
 
     //good
     public void setRPM(){
-        //testSpeed = targetRPM * (Math.PI * 0.00785);
         testSpeed = targetRPM/60.0;
-        //System.out.println(testSpeed);
         motorVelocity.withVelocity(testSpeed);
         kraken.setControl(motorVelocity);
     }
@@ -105,26 +103,10 @@ public class Shooter extends SubsystemBase {
         kraken.set(0);
     }
 
-    //ok what the fuck
-    public void setMotorWithPID(){
-        setRPM();
-    }
-    
-
-    //
     @Override
     public void periodic(){
 
-        //only used for debugging, remove
-        if(kraken.getSupplyCurrent().getValueAsDouble() > 15){
-            timer++;
-            timerStart = true;
-        } 
-        else if(timerStart){
-            System.out.println(timer);
-            timerStart = false;
-            timer = 0;
-        }
+        setRPM();
 
         SmartDashboard.putNumber("Top Motor RPM", getRPM());
         SmartDashboard.putBoolean("shoot ready",isReady());

@@ -47,12 +47,6 @@ public class Intake extends SubsystemBase {
     private final double upperLimit = IntakeConstants.rest; // needs to be fine tuned
     private final double lowerLimit = IntakeConstants.grab; //limits for intake positions 
     private SimpleMotorFeedforward pivotForward; //check //remove
-
-    public boolean shouldOuttake; //remove
-    public boolean shouldOuttakeAdjust; //remove
-    public boolean shouldIntake; //remove
-    public boolean shouldIntakeOverride; //remove
-    public boolean smallIntake; //remove
     
     private double latestDistance;
     
@@ -103,12 +97,7 @@ public class Intake extends SubsystemBase {
         //pivotMotor.getConfigurator().apply(talonFXConfigs);
         //pivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
-        setIntakePos(IntakeConstants.restball); //uncomment tis
-        shouldOuttake = false; //remove
-        shouldIntake = false; //remove
-        shouldIntakeOverride = false; //remove
-        smallIntake = false; //remove
-    
+        setIntakePos(IntakeConstants.restball); //uncomment tis  
     }
 
     //remove
@@ -159,37 +148,6 @@ public class Intake extends SubsystemBase {
         distanceSensor.setEnabled(x);
     }
 
-  /**Sets intake to suck in */
-  //remove
-  public void smallIntaking() {
-    intakeMotor.setVoltage(0.05*12);
-    indexerMotor.setVoltage(0);
-  }
-  //remove
-    public void sucker() {
-        intakeMotor.setVoltage(0.4*12);//0.2
-        indexerMotor.setVoltage(0.05*12);//0.35
-    }
-    //remove
-    public void supersucker() {
-        intakeMotor.setVoltage(0.7*12);//0.3
-        indexerMotor.setVoltage(-0.7*12);//0.35
-    }
-
-    /**Runs intake backwards at 0.12 speed*/
-    //remove
-    public void outTake() {
-        intakeMotor.setVoltage(-2.4);
-        indexerMotor.setVoltage(2.4);
-    }
-
-    /**Stops the intake. */
-    //remove
-    public void stopTake(){
-        intakeMotor.set(0);
-        indexerMotor.set(0);
-    }
-
     //remove
     public boolean adjustBall(){
         // Checks if ball is in intake to stop motor   
@@ -226,12 +184,12 @@ public class Intake extends SubsystemBase {
     }
     
     //make public
-    private void setVoltageIntake(double volts){
+    public void setVoltageIntake(double volts){
         intakeMotor.setVoltage(volts);
     }
 
     //make public
-    private void setVoltageIndex(double volts){
+    public void setVoltageIndex(double volts){
         indexerMotor.setVoltage(-volts);
     }
     //make public
@@ -321,23 +279,6 @@ public class Intake extends SubsystemBase {
     //isReadyPivot
     public boolean isReady(){
         return difference < 0.0025 || (getSetPosition() == IntakeConstants.grab && getPosition() < IntakeConstants.grab);
-    }
-
-    // This method runs periodically every 5ms
-    //remove this we aren't doing 5ms periodics for the intake anymore
-    public void setMotorDistanceSensor(){
-
-        if(shouldOuttake || shouldOuttakeAdjust){
-            outTake();
-        } else if((shouldIntake )){//&& !distanceSensorAteBall())){
-            sucker();
-        } else if (shouldIntakeOverride) {
-            supersucker();
-        } else if(smallIntake){
-            smallIntaking();
-        }else {
-            stopTake();
-        }
     }
     
 

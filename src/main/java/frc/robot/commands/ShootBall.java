@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj.Timer;
 public class ShootBall extends Command {
     
     private Shooter shooter;
-    private Intake index;
+    private Intake intake;
     private double rpm;
     private int counter;
     private Timer timer;
@@ -19,14 +19,14 @@ public class ShootBall extends Command {
 
     private boolean shooterReady = false;
     
-    public ShootBall(Shooter shooter, Intake index, double rpm) {
+    public ShootBall(Shooter shooter, Intake intake, double rpm) {
         this.shooter = shooter;
-        this.index = index;
+        this.intake = intake;
     
         this.rpm = rpm;
         timer = new Timer();
         addRequirements(shooter);
-        addRequirements(index);
+        addRequirements(intake);
 
     }
     
@@ -35,7 +35,7 @@ public class ShootBall extends Command {
     public void initialize() {
        // shooter.vroom(20);
        shooter.setTargetRPM(rpm);
-       index.setIntakePos(IntakeConstants.restball);
+       intake.setIntakePos(IntakeConstants.restball);
        timer = new Timer();
        counter = 0;
 
@@ -54,7 +54,8 @@ public class ShootBall extends Command {
         if(shooter.isReady())counter++;
         if(counter == 10)shooterReady = true;
         if(shooterReady){
-            index.shouldIntakeOverride = true;
+            intake.setVoltageIntake(0.7*12);
+            intake.setVoltageIndex(-0.7*12);
             shooterReady = false;
             if (!shooterReady){
                 timer.start();
@@ -69,10 +70,10 @@ public class ShootBall extends Command {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        index.smallIntake = false;
+        intake.setVoltageIntake(0);
+        intake.setVoltageIndex(0);
         shooter.setTargetRPM(0);
-        index.shouldIntakeOverride = false;
-        index.setIntakePos(IntakeConstants.rest);
+        intake.setIntakePos(IntakeConstants.rest);
     }
     
     @Override

@@ -5,13 +5,11 @@
 package frc.robot;
 
 import frc.robot.Constants.Ports;
-import frc.robot.commands.AdjustBall;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LollipopIntakeBall;
 import frc.robot.commands.ProcessorScoring;
 import frc.robot.commands.Rev;
 import frc.robot.commands.ShootBall;
-import frc.robot.commands.uprightAdjustBall;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -92,7 +90,7 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("Rev", new Rev(shooter, 4500));
         NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 4500));
-        NamedCommands.registerCommand("Intake", new IntakeBall(intake,shooter));
+        NamedCommands.registerCommand("Intake", new IntakeBall(intake));
         NamedCommands.registerCommand("Processor", new ProcessorScoring(intake));
         NamedCommands.registerCommand("UpIntake", new LollipopIntakeBall(intake, shooter));
 
@@ -166,13 +164,10 @@ public class RobotContainer {
     m_driverController.rightTrigger().onTrue((new ShootBall(shooter, intake,3750)));
     m_driverController.leftTrigger().onTrue((new ShootBall(shooter, intake,3750)));
     m_driverController.leftBumper().onTrue(new Rev(shooter, 4100));
-    m_driverController.a().onTrue(new IntakeBall(intake,shooter));
+    m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
-    m_driverController.y().whileTrue(Commands.run(() ->intake.shouldOuttake = true));
-    m_driverController.x().whileTrue(Commands.run(() -> intake.shouldOuttake
-     = false));
-     m_driverController.back().onTrue(new AdjustBall(intake, shooter));
-     m_driverController.povRight().onTrue(new uprightAdjustBall(intake, shooter));
+    //m_driverController.y().whileTrue(Commands.run(() ->intake.shouldOuttake = true));
+    //m_driverController.x().whileTrue(Commands.run(() -> intake.shouldOuttake = false));
     // m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltageIndex(0.3)));
     // m_driverController.x().whileFalse(Commands.run(() -> intake.setVoltageIndex(-0.3)));
 
@@ -201,27 +196,20 @@ public class RobotContainer {
     // m_driverController.x().whileTrue(drivetrain.sysIdDynamic(SysIdRoutine.Direction.kReverse));
 
     //Button Board
-    buttonBoard.button(1).whileTrue(Commands.run(() -> intake.shouldIntakeOverride = true));
-    buttonBoard.button(2).whileTrue(Commands.run(() ->  intake.shouldIntakeOverride = false));
+    //buttonBoard.button(1).whileTrue(Commands.run(() -> intake.shouldIntakeOverride = true));
+    //buttonBoard.button(2).whileTrue(Commands.run(() ->  intake.shouldIntakeOverride = false));
     buttonBoard.button(3).whileTrue(Commands.run(() -> shooter.setTargetRPM(1000)));
     buttonBoard.button(4).whileTrue(Commands.run(() -> shooter.setTargetRPM(-1000)));
-    buttonBoard.button(5).whileTrue(Commands.run(() ->  intake.shouldOuttake = true));
-    buttonBoard.button(6).whileTrue(Commands.run(() -> intake.shouldOuttake = false));
-    buttonBoard.button(7).whileTrue(Commands.run(() -> intake.shouldOuttakeAdjust = true));
-    buttonBoard.button(8).whileTrue(Commands.run(() -> intake.shouldOuttakeAdjust = false));
-    buttonBoard.button(7).whileTrue(Commands.run(() -> intake.smallIntake = true));
-    buttonBoard.button(8).whileTrue(Commands.run(() -> intake.smallIntake = false));
+    //buttonBoard.button(5).whileTrue(Commands.run(() ->  intake.shouldOuttake = true));
+    //buttonBoard.button(6).whileTrue(Commands.run(() -> intake.shouldOuttake = false));
+    // buttonBoard.button(7).whileTrue(Commands.run(() -> intake.shouldOuttakeAdjust = true));
+    // buttonBoard.button(8).whileTrue(Commands.run(() -> intake.shouldOuttakeAdjust = false));
+    //buttonBoard.button(7).whileTrue(Commands.run(() -> intake.smallIntake = true));
+    //buttonBoard.button(8).whileTrue(Commands.run(() -> intake.smallIntake = false));
 
 
 
   }
-  public void runIntake(){
-    intake.setMotorDistanceSensor();
-  }
-  public void runShooter(){
-    shooter.setMotorWithPID();
-  }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
