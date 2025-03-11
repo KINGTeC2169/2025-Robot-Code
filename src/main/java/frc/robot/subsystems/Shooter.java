@@ -61,30 +61,37 @@ public class Shooter extends SubsystemBase {
 
     }
 
+    //voltage, also it should always go through targetRPM
     public void setPower(double power) {
         kraken.set(power);
     }
 
+    //good
     public double getCurrent(){
         return kraken.getSupplyCurrent().getValueAsDouble();
     }
 
+    //good
     public double getVoltage(){
         return kraken.getSupplyVoltage().getValueAsDouble();
     }
 
+    //good
     public double getRPM(){
         return 60 * kraken.getRotorVelocity().getValueAsDouble();
     }
 
+    //good
     public void setTargetRPM(double rpm){
         targetRPM = rpm;
     }
 
+    //good
     public boolean isReady(){
         return getRPM() > targetRPM -(targetRPM * 0.01) && getRPM() < targetRPM + (targetRPM * 0.01);
     }
 
+    //good
     public void setRPM(){
         //testSpeed = targetRPM * (Math.PI * 0.00785);
         testSpeed = targetRPM/60.0;
@@ -93,18 +100,22 @@ public class Shooter extends SubsystemBase {
         kraken.setControl(motorVelocity);
     }
 
+    //good
     public void stopShooter(){
         kraken.set(0);
     }
 
+    //ok what the fuck
     public void setMotorWithPID(){
         setRPM();
     }
     
 
+    //
     @Override
     public void periodic(){
 
+        //only used for debugging, remove
         if(kraken.getSupplyCurrent().getValueAsDouble() > 15){
             timer++;
             timerStart = true;

@@ -7,7 +7,8 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-
+//remove all the same things that we removed in IntakeBall
+//We only use this command for autos (also we shouldn't have any autos with lollipop if mechanical does their fucking job)
 public class LollipopIntakeBall extends Command{
     private Intake intake;
     private Shooter shooter;

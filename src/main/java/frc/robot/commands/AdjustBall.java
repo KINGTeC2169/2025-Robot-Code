@@ -7,7 +7,7 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
-
+//remove this whole command
 public class AdjustBall extends Command{
     private Intake intake;
     private Shooter shooter;

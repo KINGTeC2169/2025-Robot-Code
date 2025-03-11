@@ -46,13 +46,13 @@ public class Intake extends SubsystemBase {
 
     private final double upperLimit = IntakeConstants.rest; // needs to be fine tuned
     private final double lowerLimit = IntakeConstants.grab; //limits for intake positions 
-    private SimpleMotorFeedforward pivotForward; //check
+    private SimpleMotorFeedforward pivotForward; //check //remove
 
-    public boolean shouldOuttake;
-    public boolean shouldOuttakeAdjust;
-    public boolean shouldIntake;
-    public boolean shouldIntakeOverride;
-    public boolean smallIntake;
+    public boolean shouldOuttake; //remove
+    public boolean shouldOuttakeAdjust; //remove
+    public boolean shouldIntake; //remove
+    public boolean shouldIntakeOverride; //remove
+    public boolean smallIntake; //remove
     
     private double latestDistance;
     
@@ -104,13 +104,14 @@ public class Intake extends SubsystemBase {
         //pivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
         setIntakePos(IntakeConstants.restball); //uncomment tis
-        shouldOuttake = false;
-        shouldIntake = false;
-        shouldIntakeOverride = false;
-        smallIntake = false;
+        shouldOuttake = false; //remove
+        shouldIntake = false; //remove
+        shouldIntakeOverride = false; //remove
+        smallIntake = false; //remove
     
     }
 
+    //remove
     public boolean distanceSensorHasBall(){
         if (latestDistance < 15 && latestDistance > 0) {//12
             return true;
@@ -118,6 +119,7 @@ public class Intake extends SubsystemBase {
         return false;
     }
 
+    //remove
     public boolean distanceSensorAteBall(){
         if (latestDistance < 4 && latestDistance > 0) {//12
             return true;
@@ -125,6 +127,7 @@ public class Intake extends SubsystemBase {
         return false;
     }
 
+    //remove
     public boolean distanceSensorAdjustedBall(){
         if (latestDistance > 8.5) {//12
             return true;
@@ -132,6 +135,7 @@ public class Intake extends SubsystemBase {
         return false;
     }
 
+    //remove
     public double distanceSensorGetDistance(){
         if (distanceSensor.isRangeValid()) {
             return (distanceSensor.getRange());
@@ -140,44 +144,53 @@ public class Intake extends SubsystemBase {
         }         
     }
 
+    //remove
     public boolean distanceSensorIsEnabled(){
         return distanceSensor.isEnabled();
     }
 
+    //remove
     public double distanceSensorGetTimeStamp(){
         return distanceSensor.getTimestamp();
     }
 
+    //remove
     public void distanceSensorSetEnabled(boolean x){
         distanceSensor.setEnabled(x);
     }
 
   /**Sets intake to suck in */
+  //remove
   public void smallIntaking() {
     intakeMotor.setVoltage(0.05*12);
     indexerMotor.setVoltage(0);
   }
+  //remove
     public void sucker() {
         intakeMotor.setVoltage(0.4*12);//0.2
         indexerMotor.setVoltage(0.05*12);//0.35
     }
+    //remove
     public void supersucker() {
         intakeMotor.setVoltage(0.7*12);//0.3
         indexerMotor.setVoltage(-0.7*12);//0.35
     }
 
     /**Runs intake backwards at 0.12 speed*/
+    //remove
     public void outTake() {
         intakeMotor.setVoltage(-2.4);
         indexerMotor.setVoltage(2.4);
     }
 
     /**Stops the intake. */
+    //remove
     public void stopTake(){
         intakeMotor.set(0);
         indexerMotor.set(0);
     }
 
+    //remove
     public boolean adjustBall(){
         // Checks if ball is in intake to stop motor   
                 if(RobotBase.isReal() && distanceSensorAdjustedBall()){
@@ -189,6 +202,7 @@ public class Intake extends SubsystemBase {
                 }
         }
 
+        //remove
     public boolean ateBall(){
     // Checks if ball is in intake to stop motor   
             if(RobotBase.isReal() && distanceSensorAteBall()){
@@ -200,6 +214,7 @@ public class Intake extends SubsystemBase {
             }
     }
 
+    //remove
     public boolean hasBall(){
         if(RobotBase.isReal() && distanceSensorHasBall()){
             //LEDs.green();
@@ -210,17 +225,21 @@ public class Intake extends SubsystemBase {
         }
     }
     
+    //make public
     private void setVoltageIntake(double volts){
         intakeMotor.setVoltage(volts);
     }
 
+    //make public
     private void setVoltageIndex(double volts){
         indexerMotor.setVoltage(-volts);
     }
+    //make public
     public void setVoltagePivot(double volts){
         pivotMotor.setVoltage(volts);
     }
 
+    //generalize this method
     public void setIntakePos(double position) {
         position = MathUtil.clamp(position, lowerLimit, upperLimit);
         setPosition = position;
@@ -232,6 +251,7 @@ public class Intake extends SubsystemBase {
     }
 
     /**Stops all motors */
+    //remove
     public void stopAll(){
         intakeMotor.set(0);
         indexerMotor.set(0);
@@ -243,54 +263,68 @@ public class Intake extends SubsystemBase {
 
     //********************************************************************************************************************************* */
     /**Returns the velocity of the intake motor. */
+    //its velocity not speed, speed would be math.abs
     public double getGrabSpeed(){
         return intakeMotor.getVelocity().getValueAsDouble();
     }
 
     /**Returns the voltage of the intake motor. */
+    //getVoltageIntake?? Name your methods properly
     public double getGrabVoltage(){
         return intakeMotor.getSupplyVoltage().getValueAsDouble();
     }
 
     /**Returns the current of the intake motor. */
+    //rename
     public double getGrabCurrent(){
         return intakeMotor.getSupplyCurrent().getValueAsDouble();
     }
 
+    //Set speed should not be get pivot speed, this is just returning the cached value not a encoder based value
+    //Probably remove this and rewrite
     public double getPivotSpeed(){
         return pivotMotor.get();
     }
 
+    //getVoltagePivot
     public double getPivotVoltage(){
         return pivotMotor.getBusVoltage();
     }
 
+    //getCurrentPivot
     public double getPivotCurrent(){
         return pivotMotor.getOutputCurrent();
     }
 
     /**Returns true of the intake is on. */
+    //This one is fine
     public boolean isOn(){
         return Math.abs(getGrabSpeed()) > 0;
     }
         /**Returns the intake motor's rotor velocity in rotations per minute */
+    //getRPMIntake/getVelocityIntake, we do not need 2 methods that do the same thing
     public double getRPM(){
         return -(60 * intakeMotor.getRotorVelocity().getValueAsDouble());
     }
+
+    //good it sets getSetPosition, dunno why we would need it tho but I'm fine with keeping it just for use between commands
     public double getSetPosition(){
         return setPosition;
     }
 
     /**Gets the position of the arm from the hex encoder */
+    //Good
     public double getPosition(){
         return encoder.get();
     }
 
+    //isReadyPivot
     public boolean isReady(){
         return difference < 0.0025 || (getSetPosition() == IntakeConstants.grab && getPosition() < IntakeConstants.grab);
     }
 
     // This method runs periodically every 5ms
+    //remove this we aren't doing 5ms periodics for the intake anymore
     public void setMotorDistanceSensor(){
 
         if(shouldOuttake || shouldOuttakeAdjust){
@@ -305,6 +339,7 @@ public class Intake extends SubsystemBase {
             stopTake();
         }
     }
+    
 
     @Override   
     public void periodic() {

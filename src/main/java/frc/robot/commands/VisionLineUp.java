@@ -8,7 +8,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.Shooter;
 
-
+//delete this whole command I'll rewrite it later
 public class VisionLineUp extends Command{
     private Intake intake;
     private Shooter shooter;

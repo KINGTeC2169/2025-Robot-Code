@@ -7,6 +7,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
 import edu.wpi.first.wpilibj.Timer;
 
+// just remove all the useless stuff
 public class ShootBall extends Command {
     
     private Shooter shooter;
