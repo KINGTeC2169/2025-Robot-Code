@@ -19,6 +19,7 @@ public class ShootBall extends Command {
 
     private boolean shooterReady = false;
     
+    // Creates a new ShootBall command to run the shooter and intake to shoot the ball
     public ShootBall(Shooter shooter, Intake intake, double rpm) {
         this.shooter = shooter;
         this.intake = intake;
@@ -35,7 +36,7 @@ public class ShootBall extends Command {
     public void initialize() {
        // shooter.vroom(20);
        shooter.setTargetRPM(rpm);
-       intake.setIntakePos(IntakeConstants.restball);
+       intake.setIntakePos(IntakeConstants.restball); // set the intake to restball position
        timer = new Timer();
        counter = 0;
 
@@ -51,9 +52,9 @@ public class ShootBall extends Command {
         //shooter.vroom(20);
         //temporary if statement since we do not have a variable target velocity yet
          
-        if(shooter.isReady())counter++;
-        if(counter == 10)shooterReady = true;
-        if(shooterReady){
+        if(shooter.isReady())counter++; //counter creates a delay to make sure the shooter is ready to shoot and 
+        if(counter == 10)shooterReady = true; 
+        if(shooterReady){ //if the shooter is ready to shoot, set the intake to run at a certain voltage to shoot the ball
             intake.setVoltageIntake(0.7*12);
             intake.setVoltageIndex(-0.7*12);
             shooterReady = false;
@@ -61,24 +62,22 @@ public class ShootBall extends Command {
                 timer.start();
             }
         } 
-        shooter.setTargetRPM(rpm);
-        
-        //System.out.println(timer.get());
+        shooter.setTargetRPM(rpm); // set the target RPM to the desired RPM to shoot the ball
        
     }
     
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        intake.setVoltageIntake(0);
+        intake.setVoltageIntake(0); // set the intake and shooter to stop shooting
         intake.setVoltageIndex(0);
         shooter.setTargetRPM(0);
-        intake.setIntakePos(IntakeConstants.rest);
+        intake.setIntakePos(IntakeConstants.rest); // set the intake to rest position
     }
     
     @Override
     public boolean isFinished() {
-        return timer.get() > 1;
+        return timer.get() > 1; // check if the timer is greater than 1 second to end the command, this will give a short burst to shoot the ball
     }
 
 }

@@ -204,7 +204,7 @@ public class Intake extends SubsystemBase {
         if(!(getSetPosition() == IntakeConstants.grab)) pivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position)); //+ pivotForward.calculate(position));
         else {
             if(!isReadyPivot()) pivotMotor.setVoltage(-pivotPIDdown.calculate(getPosition(), position));
-            else pivotMotor.setVoltage(0)
+            else pivotMotor.setVoltage(0);
         }
     }
 

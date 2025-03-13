@@ -8,7 +8,7 @@ import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 
 //remove all the same things that we removed in IntakeBall
-//We only use this command for autos (also we shouldn't have any autos with lollipop if mechanical does their fucking job)
+//WE ONLY USE THIS COMMAND IN AUTOS !!!!!!!!!!!!!!!!!!!
 public class LollipopIntakeBall extends Command{
     private Intake intake;
     private Shooter shooter;
@@ -29,7 +29,7 @@ public class LollipopIntakeBall extends Command{
 
     @Override
     public void initialize(){
-        intake.setIntakePos(IntakeConstants.restball);
+        intake.setIntakePos(IntakeConstants.rest); // set the intake to rest position
         timer.start();
         timer.reset();
         timerStarted = false;
@@ -38,7 +38,7 @@ public class LollipopIntakeBall extends Command{
 
     @Override
     public void execute(){
-        intake.setVoltageIntake(0.4*12);
+        intake.setVoltageIntake(0.4*12); 
         intake.setVoltageIndex(0.05*12);
 
     }
@@ -62,6 +62,6 @@ public class LollipopIntakeBall extends Command{
 
     @Override
     public boolean isFinished(){
-        return intake.ateBall(); //intake.getPosition() == intake.getSetPosition();
+        return intake.distanceSensorCheckRange(0,4); //intake.getPosition() == intake.getSetPosition();
     }
 }

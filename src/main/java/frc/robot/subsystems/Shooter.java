@@ -26,16 +26,12 @@ public class Shooter extends SubsystemBase {
     private TalonFX kraken; 
     private double testSpeed = 0;
     private double targetRPM = 0;
-    private double timer;
-    private boolean timerStart;
 
     //private PIDController shootPID;
 
 
 
-    public Shooter() {
-        timerStart = false;
-        
+    public Shooter() {     
         kraken = new TalonFX(Constants.Ports.shooterMotor);
 
         //shootPID = new PIDController(ShooterConstants.kP,ShooterConstants.kV,ShooterConstants.kS);
@@ -61,48 +57,54 @@ public class Shooter extends SubsystemBase {
 
     }
 
-    //voltage, also it should always go through targetRPM
+    /* sets the power of the motor voltage, 
+    YOU SHOULD ALWAYS HAVE IT GO THROUGH targetRPM 
+    */
+
     public void setPower(double power) {
         kraken.set(power);
     }
 
-    //good
+    //Returns the current of the shooting motor
     public double getCurrent(){
         return kraken.getSupplyCurrent().getValueAsDouble();
     }
 
-    //good
+    //Returns the voltage of the shooting motor
     public double getVoltage(){
         return kraken.getSupplyVoltage().getValueAsDouble();
     }
 
-    //good
+    //Returns the velocity of the shooting motor in RPM
     public double getRPM(){
         return 60 * kraken.getRotorVelocity().getValueAsDouble();
     }
 
-    //good
+    //Sets the targetRPM for the shooting motor. This is the RPM that the motor will try to reach.
     public void setTargetRPM(double rpm){
         targetRPM = rpm;
     }
 
-    //good
+    //Returns true if the shooting motor is within 1% of the targetRPM. This is used to check if the motor is ready to shoot.
     public boolean isReady(){
         return getRPM() > targetRPM -(targetRPM * 0.01) && getRPM() < targetRPM + (targetRPM * 0.01);
     }
 
-    //good
-    public void setRPM(){
+    //This is a PRIVATE method that sets the motor to the targetRPM. It is called in the periodic method.
+    private void setRPM(){
         testSpeed = targetRPM/60.0;
         motorVelocity.withVelocity(testSpeed);
         kraken.setControl(motorVelocity);
     }
 
-    //good
+    /*This stops the shooter, should not be used.
+     when you want to stop the shooter set targetRPM to 0.
+     */
     public void stopShooter(){
         kraken.set(0);
     }
 
+    //This is called every 20ms. It sets the motor to the targetRPM and updates the SmartDashboard with the current RPM, current, voltage, and if the motor is ready to shoot.
     @Override
     public void periodic(){
 

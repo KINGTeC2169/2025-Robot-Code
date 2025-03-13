@@ -18,7 +18,7 @@ public class Rev extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        shooter.setTargetRPM(rpm); //* controller.getLeftTriggerAxis());
+        shooter.setTargetRPM(rpm); // set the target RPM to the desired RPM to run the shooter at
     }
     
     // Called every time the scheduler runs while the command is scheduled.
@@ -29,10 +29,6 @@ public class Rev extends Command {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-        //Timer.delay(0.75);
-        //shooter.setPower(0);    
-        
-        
     }
     
     

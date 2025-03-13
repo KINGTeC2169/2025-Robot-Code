@@ -18,25 +18,25 @@ public class IntakeBall extends Command{
 
     @Override
     public void initialize(){
-        intake.setIntakePos(IntakeConstants.grab);
+        intake.setIntakePos(IntakeConstants.grab); //Sets intake to grab position
         
     }
 
     @Override
     public void execute(){
-        intake.setVoltageIntake(0.4*12);
-        intake.setVoltageIndex(0.05*12);
+        intake.setVoltageIntake(0.4*12); //runs intake to suck in the ball
+        intake.setVoltageIndex(0.05*12); //runs indexer slightly backward to stop the ball from going into the shooter
     }
 
     @Override
     public void end(boolean interrupted){
-        intake.setIntakePos(IntakeConstants.rest);
-        intake.setVoltageIntake(0.05*12);
-        intake.setVoltageIndex(0);
+        intake.setIntakePos(IntakeConstants.rest); //Puts intake in rest position
+        intake.setVoltageIntake(0.05*12); //Keeps the intake motor running to keep the ball in the intake
+        intake.setVoltageIndex(0); //Stops indexer
     }
 
     @Override
     public boolean isFinished(){
-        return intake.ateBall();
+        return intake.distanceSensorCheckRange(0,4);
     }
 }

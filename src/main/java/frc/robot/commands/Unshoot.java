@@ -9,7 +9,8 @@ public class Unshoot extends Command {
     
     private Shooter shooter;
     
-    public Unshoot(Shooter shoot){//, CommandXboxController controller) {
+    // Creates a new Unshoot command to run the shooter backwards to unjam the ball
+    public Unshoot(Shooter shoot){
         shooter = shoot;
         addRequirements(shooter);
     }
@@ -17,26 +18,25 @@ public class Unshoot extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-        shooter.setTargetRPM(-1500); //* controller.getLeftTriggerAxis());
+        shooter.setTargetRPM(-1500); // set the target RPM to negative to run backwards
     }
     
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {
-        shooter.setTargetRPM(-1500);
+        shooter.setTargetRPM(-1500); // set the target RPM to negative to run backwards
     }
     
     // Called once the command ends or is interrupted.
     @Override
-    public void end(boolean interrupted) {
-        //Timer.delay(0.75);
-        //shooter.setPower(0);    
+    public void end(boolean interrupted) { 
+        shooter.setTargetRPM(0);
     }
     
     
     @Override
     public boolean isFinished() {
-        return shooter.getRPM() < -1300;
+        return shooter.getRPM() > -1300; //check if the RPM is below -1300 to end the command, This will give a short burst to put the ball back in the intake
     }
     
 
