@@ -1,14 +1,12 @@
 package frc.robot.subsystems;
 
-import java.security.Key;
-
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.Vision;
+import frc.robot.util.LimelightHelpers;
 
 public class Limelight extends SubsystemBase{
     private static NetworkTable table = NetworkTableInstance.getDefault().getTable("limelight");
@@ -53,5 +51,9 @@ public class Limelight extends SubsystemBase{
 
     public static boolean shootNow(){
         return Math.abs(distanceFromTag() - 206) < 3;
+    }
+
+    public static Pose2d getLimelightPose(){
+        return LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight").pose;
     }
 }

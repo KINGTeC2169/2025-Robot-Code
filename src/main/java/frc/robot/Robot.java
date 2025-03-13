@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Limelight;
 import frc.robot.util.Elastic;
 
 /**
@@ -44,6 +45,7 @@ public class Robot extends TimedRobot {
   private final RobotContainer m_robotContainer;
   private final PowerDistribution pdh;
   private String autoName, newAutoName;
+  private List<PathPlannerPath> pathPlannerPaths = null;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -63,7 +65,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     SmartDashboard.putData("pdh", pdh);
 
-  //   //Swerve Widget
+    //Swerve Widget
     SmartDashboard.putData("Swerve Drive", new Sendable() {
     @Override
     public void initSendable(SendableBuilder builder) {
@@ -115,10 +117,11 @@ public class Robot extends TimedRobot {
   public void disabledPeriodic() {
 
     newAutoName = m_robotContainer.getAutonomousCommand().getName();
+
     if (autoName != newAutoName) {
       autoName = newAutoName;
       if (AutoBuilder.getAllAutoNames().contains(autoName)) {
-          List<PathPlannerPath> pathPlannerPaths;
+          
           try {
             pathPlannerPaths = PathPlannerAuto.getPathGroupFromAutoFile(newAutoName);
           } catch (IOException | ParseException e) {
@@ -131,6 +134,20 @@ public class Robot extends TimedRobot {
               else poses.addAll(path.getAllPathPoints().stream().map(point -> new Pose2d(point.position.getX(), point.position.getY(), new Rotation2d())).collect(Collectors.toList()));
             }
           m_robotContainer.logger.field.getObject("path").setPoses(poses);
+      }
+    }
+
+    if (DriverStation.isAutonomous()){
+      if (pathPlannerPaths.get(0).getPathPoses().get(0).equals(Limelight.getLimelightPose())){
+        //Set LEDs Green
+      }
+      else if (Limelight.getLimelightPose().getY() > pathPlannerPaths.get(0).getPathPoses().get(0).getY()){
+        //Robot is too far to the left
+        //Change right LEDs to different color
+      }
+      else if (Limelight.getLimelightPose().getY() < pathPlannerPaths.get(0).getPathPoses().get(0).getY()){
+        //Robot is too far to the right
+        //Change left LEDs to different color
       }
     }
   }
