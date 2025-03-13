@@ -37,6 +37,6 @@ public class IntakeBall extends Command{
 
     @Override
     public boolean isFinished(){
-        return intake.ateBall();
+        return intake.distanceSensorCheckRange(0,4);
     }
 }

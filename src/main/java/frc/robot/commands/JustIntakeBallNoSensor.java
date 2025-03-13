@@ -33,10 +33,10 @@ public class JustIntakeBallNoSensor extends Command{
         // suck
         intake.setVoltageIntake(0.4*12);
         intake.setVoltageIndex(0.05*12);
-        if(intake.getRPM() > 1700)counter++;
+        if(intake.getIntakeVelocity() > 1700)counter++;
              if(counter > 10)started = true;
          
-        if(started && intake.getRPM() < 1550){
+        if(started && intake.getIntakeVelocity() < 1550){
             intake.setVoltageIntake(0);
             intake.setVoltageIndex(0);
             started = false;

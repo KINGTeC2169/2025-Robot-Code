@@ -62,6 +62,6 @@ public class LollipopIntakeBall extends Command{
 
     @Override
     public boolean isFinished(){
-        return intake.ateBall(); //intake.getPosition() == intake.getSetPosition();
+        return intake.distanceSensorCheckRange(0,4); //intake.getPosition() == intake.getSetPosition();
     }
 }

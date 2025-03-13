@@ -49,6 +49,10 @@ public class Intake extends SubsystemBase {
     private SimpleMotorFeedforward pivotForward; //check //remove
     
     private double latestDistance;
+
+    public boolean distanceSensorHasBall = false;
+    public boolean distanceSensorAteBall = false;
+    public boolean distanceSensorAdjustedBall = false; 
     
      
     public Intake(){
@@ -101,36 +105,8 @@ public class Intake extends SubsystemBase {
     }
 
     //remove
-    public boolean distanceSensorHasBall(){
-        if (latestDistance < 15 && latestDistance > 0) {//12
-            return true;
-        }
-        return false;
-    }
-
-    //remove
-    public boolean distanceSensorAteBall(){
-        if (latestDistance < 4 && latestDistance > 0) {//12
-            return true;
-        }
-        return false;
-    }
-
-    //remove
-    public boolean distanceSensorAdjustedBall(){
-        if (latestDistance > 8.5) {//12
-            return true;
-        }
-        return false;
-    }
-
-    //remove
-    public double distanceSensorGetDistance(){
-        if (distanceSensor.isRangeValid()) {
-            return (distanceSensor.getRange());
-        }else{
-            return 0;
-        }         
+    public boolean distanceSensorCheckRange(double min, double max) {
+        return (RobotBase.isReal() && (latestDistance < max && latestDistance > min));
     }
 
     //remove
@@ -146,41 +122,6 @@ public class Intake extends SubsystemBase {
     //remove
     public void distanceSensorSetEnabled(boolean x){
         distanceSensor.setEnabled(x);
-    }
-
-    //remove
-    public boolean adjustBall(){
-        // Checks if ball is in intake to stop motor   
-                if(RobotBase.isReal() && distanceSensorAdjustedBall()){
-                    //LEDs.green();
-                    return true; // Ball detected
-                }else{
-                   // LEDs.red(); 
-                    return false; // No ball detected
-                }
-        }
-
-        //remove
-    public boolean ateBall(){
-    // Checks if ball is in intake to stop motor   
-            if(RobotBase.isReal() && distanceSensorAteBall()){
-                //LEDs.green();
-                return true; // Ball detected
-            }else{
-               // LEDs.red(); 
-                return false; // No ball detected
-            }
-    }
-
-    //remove
-    public boolean hasBall(){
-        if(RobotBase.isReal() && distanceSensorHasBall()){
-            //LEDs.green();
-            return true; // Ball detected
-        }else{
-           // LEDs.red(); 
-            return false; // No ball detected
-        }
     }
     
     //make public
@@ -204,7 +145,7 @@ public class Intake extends SubsystemBase {
         if(!(getSetPosition() == IntakeConstants.grab)) pivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position)); //+ pivotForward.calculate(position));
         else {
             if(!isReadyPivot()) pivotMotor.setVoltage(-pivotPIDdown.calculate(getPosition(), position));
-            else pivotMotor.setVoltage(0)
+            else pivotMotor.setVoltage(0);
         }
     }
 
@@ -278,8 +219,6 @@ public class Intake extends SubsystemBase {
 
         difference = Math.abs(setPosition - getPosition());
 
-        SmartDashboard.putBoolean("Ball Ate detected:", ateBall());
-        SmartDashboard.putBoolean("Ball detected:", hasBall());
         SmartDashboard.putNumber("Intake Motor Velocity", getIntakeVelocity());
         SmartDashboard.putNumber("IntakeM Voltage", getIntakeVolts());
         SmartDashboard.putNumber("IntakeM Current", getIntakeCurrent());
@@ -298,7 +237,7 @@ public class Intake extends SubsystemBase {
         if(!(getSetPosition() == IntakeConstants.grab)){
             setIntakePos(getSetPosition());
         } else {
-            if(isReadyPivot() || ateBall()) setVoltagePivot(0);
+            if(isReadyPivot() || distanceSensorCheckRange(0,4)) setVoltagePivot(0);
             setIntakePos(Constants.IntakeConstants.grab);
 
         }

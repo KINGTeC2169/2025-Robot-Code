@@ -34,7 +34,7 @@ public class ProcessorScoring extends Command{
 
     @Override
 	public boolean isFinished() {
-		return !intake.hasBall();
+		return !intake.distanceSensorCheckRange(0,4);
 	}
 
 
