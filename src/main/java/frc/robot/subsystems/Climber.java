@@ -46,9 +46,23 @@ public class Climber extends SubsystemBase{
         climberPID = new PIDController(ClimberConstants.kP, ClimberConstants.kI, ClimberConstants.kD);
 
         climberMotor.getConfigurator().apply(talonFXConfigs);
-        climberMotor.setNeutralMode(NeutralModeValue.Brake);
+        climberMotor.setNeutralMode(NeutralModeValue.Brake);  
+    }
 
-        
+    public double getPosition(){
+        return climberEncoder.get();
+    }
+
+    public double getClimberVelocity(){
+        return climberMotor.getVelocity().getValueAsDouble();
+    }
+
+    public double getClimberVolts(){
+        return climberMotor.getSupplyVoltage().getValueAsDouble();
+    }
+    
+    public double getClimberCurent(){
+        return climberMotor.getSupplyCurrent().getValueAsDouble();
     }
 
     
