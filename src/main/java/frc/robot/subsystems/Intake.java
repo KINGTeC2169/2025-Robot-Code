@@ -203,38 +203,31 @@ public class Intake extends SubsystemBase {
         setPosition = position;
         if(!(getSetPosition() == IntakeConstants.grab)) pivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position)); //+ pivotForward.calculate(position));
         else {
-            if(!isReady()) pivotMotor.setVoltage(-pivotPIDdown.calculate(getPosition(), position));
-            else pivotMotor.setVoltage(0);
+            if(!isReadyPivot()) pivotMotor.setVoltage(-pivotPIDdown.calculate(getPosition(), position));
+            else pivotMotor.setVoltage(0)
         }
     }
 
-    /**Stops all motors */
-    //remove
-    public void stopAll(){
-        intakeMotor.set(0);
-        indexerMotor.set(0);
-        pivotMotor.set(0);
 
-    }
 
     //gets and misc status givers
 
     //********************************************************************************************************************************* */
     /**Returns the velocity of the intake motor. */
-    //its velocity not speed, speed would be math.abs
-    public double getGrabSpeed(){
+ 
+    public double getIntakeVelocity(){
         return intakeMotor.getVelocity().getValueAsDouble();
     }
 
     /**Returns the voltage of the intake motor. */
-    //getVoltageIntake?? Name your methods properly
-    public double getGrabVoltage(){
+    
+    public double getIntakeVolts(){
         return intakeMotor.getSupplyVoltage().getValueAsDouble();
     }
 
     /**Returns the current of the intake motor. */
-    //rename
-    public double getGrabCurrent(){
+    
+    public double getIntakeCurrent(){
         return intakeMotor.getSupplyCurrent().getValueAsDouble();
     }
 
@@ -257,27 +250,25 @@ public class Intake extends SubsystemBase {
     /**Returns true of the intake is on. */
     //This one is fine
     public boolean isOn(){
-        return Math.abs(getGrabSpeed()) > 0;
+        return Math.abs(getIntakeVelocity()) > 0;
     }
         /**Returns the intake motor's rotor velocity in rotations per minute */
     //getRPMIntake/getVelocityIntake, we do not need 2 methods that do the same thing
-    public double getRPM(){
-        return -(60 * intakeMotor.getRotorVelocity().getValueAsDouble());
-    }
+    
 
     //good it sets getSetPosition, dunno why we would need it tho but I'm fine with keeping it just for use between commands
     public double getSetPosition(){
         return setPosition;
     }
 
-    /**Gets the position of the arm from the hex encoder */
-    //Good
+    /**Gets the position of the intake from the hex encoder */
+
     public double getPosition(){
         return encoder.get();
     }
 
-    //isReadyPivot
-    public boolean isReady(){
+    //checks if the pivot is ready 
+    public boolean isReadyPivot(){
         return difference < 0.0025 || (getSetPosition() == IntakeConstants.grab && getPosition() < IntakeConstants.grab);
     }
     
@@ -289,17 +280,16 @@ public class Intake extends SubsystemBase {
 
         SmartDashboard.putBoolean("Ball Ate detected:", ateBall());
         SmartDashboard.putBoolean("Ball detected:", hasBall());
-        SmartDashboard.putNumber("Intake Motor Speed", getGrabSpeed());
-        SmartDashboard.putNumber("IntakeM Voltage", getGrabVoltage());
-        SmartDashboard.putNumber("IntakeM Current", getGrabCurrent());
+        SmartDashboard.putNumber("Intake Motor Velocity", getIntakeVelocity());
+        SmartDashboard.putNumber("IntakeM Voltage", getIntakeVolts());
+        SmartDashboard.putNumber("IntakeM Current", getIntakeCurrent());
         SmartDashboard.putBoolean("Detected Color", isOn());
-        SmartDashboard.putNumber("RPM", getRPM());
         SmartDashboard.putNumber("SetPosition", getSetPosition());
         SmartDashboard.putNumber("IntakePosition", getPosition());
         SmartDashboard.putNumber("Pivot Speed", getPivotSpeed());
         SmartDashboard.putNumber("Pivot Voltage", getPivotVoltage());
         SmartDashboard.putNumber("Pivot Current", getPivotCurrent());
-        SmartDashboard.putBoolean("Pivot Ready", isReady());
+        SmartDashboard.putBoolean("Pivot Ready", isReadyPivot());
         SmartDashboard.putData("Pivot PID", pivotPID);
         SmartDashboard.putData("Pivot PID down", pivotPIDdown);
 
@@ -308,7 +298,7 @@ public class Intake extends SubsystemBase {
         if(!(getSetPosition() == IntakeConstants.grab)){
             setIntakePos(getSetPosition());
         } else {
-            if(isReady() || ateBall()) setVoltagePivot(0);
+            if(isReadyPivot() || ateBall()) setVoltagePivot(0);
             setIntakePos(Constants.IntakeConstants.grab);
 
         }
