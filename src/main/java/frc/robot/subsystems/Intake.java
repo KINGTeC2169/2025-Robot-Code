@@ -272,6 +272,8 @@ public class Intake extends SubsystemBase {
 
     /**Gets the position of the arm from the hex encoder */
     //Good
+
+    //use 
     public double getPosition(){
         return encoder.get();
     }
