@@ -34,7 +34,7 @@ public class ProcessorScoring extends Command{
 
     @Override
 	public boolean isFinished() {
-		return !intake.distanceSensorCheckRange(0,14); // check if the intake doesnt have a ball to end the command
+		return !intake.distanceSensorCheckRange(0,4); // check if the intake doesnt have a ball to end the command
 	}
 
 
