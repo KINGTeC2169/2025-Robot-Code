@@ -64,6 +64,10 @@ public class Climber extends SubsystemBase{
     public double getClimberCurent(){
         return climberMotor.getSupplyCurrent().getValueAsDouble();
     }
+    public void setVoltageIntake(double volts){
+        climberMotor.setVoltage(volts);
+    }
+    
 
     
 

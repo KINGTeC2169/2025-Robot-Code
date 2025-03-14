@@ -179,7 +179,7 @@ public class ReefIntake extends SubsystemBase {
         return reefIntakeMotor.getSupplyVoltage().getValueAsDouble();
     }
 
-    /**Returns the current of the intake motor. */
+    /**Returns the current of the reef intake motor. */
     public double getreefgrabCurrent(){
         return reefIntakeMotor.getSupplyCurrent().getValueAsDouble();
     }
@@ -212,7 +212,7 @@ public class ReefIntake extends SubsystemBase {
     public double getPosition(){
         return encoder.get();
     }
-
+    // checks if the reef intake is ready to intake based on the position its in.     
     public boolean isReady(){
         return difference < 0.0025 || (getSetPosition() == ReefIntakeConstants.reefgrab && getPosition() < ReefIntakeConstants.reefgrab);
     }
