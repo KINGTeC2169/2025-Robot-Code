@@ -5,63 +5,38 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
-import frc.robot.subsystems.Shooter;
 
 //remove all the same things that we removed in IntakeBall
 //WE ONLY USE THIS COMMAND IN AUTOS !!!!!!!!!!!!!!!!!!!
 public class LollipopIntakeBall extends Command{
     private Intake intake;
-    private Shooter shooter;
-    private Timer timer;
-    private boolean timerStarted;
-    private int step;
     
-    
-    public LollipopIntakeBall(Intake intake, Shooter shooter){
+    public LollipopIntakeBall(Intake intake){
         this.intake = intake;
         addRequirements(intake);
-        this.shooter = shooter;
-        addRequirements(shooter);
-        timer = new Timer();
-        timerStarted = false;
-        step = 0;
     }
 
     @Override
     public void initialize(){
         intake.setIntakePos(IntakeConstants.rest); // set the intake to rest position
-        timer.start();
-        timer.reset();
-        timerStarted = false;
         
     }
 
     @Override
     public void execute(){
-        intake.setVoltageIntake(0.4*12); 
-        intake.setVoltageIndex(0.05*12);
-
+        intake.setVoltageIntake(0.4*12); //runs intake to suck in the ball
+        intake.setVoltageIndex(0.05*12); //runs indexer slightly backward to stop the ball from going into the shooter
     }
 
     @Override
     public void end(boolean interrupted){
-        // no more suck
-
-        intake.setVoltageIntake(0);
-        intake.setVoltageIndex(0);
-        intake.setIntakePos(IntakeConstants.restball);
-        System.out.println(timer.get());
-        timerStarted = false;
-
-        intake.setVoltageIntake(0.05*12);
-        intake.setVoltageIndex(0);
-        //intake.setIntakePos(IntakeConstants.rest);
-        
-        
+        intake.setIntakePos(IntakeConstants.rest); //Puts intake in rest position
+        intake.setVoltageIntake(0.05*12); //Keeps the intake motor running to keep the ball in the intake
+        intake.setVoltageIndex(0); //Stops indexer
     }
 
     @Override
     public boolean isFinished(){
-        return intake.distanceSensorCheckRange(0,4); //intake.getPosition() == intake.getSetPosition();
+        return intake.distanceSensorCheckRange(0,4);
     }
 }

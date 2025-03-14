@@ -29,12 +29,11 @@ public class ProcessorScoring extends Command{
     public void end(boolean interupt) {
         intake.setVoltageIntake(0);// stops the indexer
         intake.setVoltageIndex(0);// stops the intake
-        //intake.setIntakePos(IntakeConstants.grab); 
 	}
 
     @Override
 	public boolean isFinished() {
-		return !intake.distanceSensorCheckRange(0,4); // check if the intake doesnt have a ball to end the command
+		return !intake.distanceSensorCheckRange(0,14); // check if the intake doesnt have a ball to end the command
 	}
 
 

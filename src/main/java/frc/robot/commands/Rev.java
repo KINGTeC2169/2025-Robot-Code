@@ -9,7 +9,7 @@ public class Rev extends Command {
     private Shooter shooter;
     private double rpm;
     
-    public Rev(Shooter shoot, double rpm){//, CommandXboxController controller) {
+    public Rev(Shooter shoot, double rpm){
         shooter = shoot;
         addRequirements(shooter);
         this.rpm = rpm;

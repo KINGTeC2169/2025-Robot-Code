@@ -8,12 +8,6 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-// import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-// import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-// import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ShooterConstants;
@@ -24,19 +18,11 @@ public class Shooter extends SubsystemBase {
     private VelocityVoltage motorVelocity = new VelocityVoltage(0);
 
     private TalonFX kraken; 
-    private double testSpeed = 0;
-    private double targetRPM = 0;
-
-    //private PIDController shootPID;
-
-
+    private double targetRPM = 0; //RPM
 
     public Shooter() {     
         kraken = new TalonFX(Constants.Ports.shooterMotor);
 
-        //shootPID = new PIDController(ShooterConstants.kP,ShooterConstants.kV,ShooterConstants.kS);
-        // var configs = new TalonFXConfiguration();
-        // configs.Slot0.kP = 0.05; //0.25
         var slot0Configs = new Slot0Configs();
         slot0Configs.kS = ShooterConstants.kS; // Add 0.1 V output to overcome static friction
         slot0Configs.kV = ShooterConstants.kV; // A velocity target of 1 rps results in 0.13 V output
@@ -45,24 +31,7 @@ public class Shooter extends SubsystemBase {
         slot0Configs.kD = ShooterConstants.kD; // no output for error derivative
 
         kraken.getConfigurator().apply(slot0Configs); 
-
-
-        //kraken.getConfigurator().apply(configs, 0.05);
         kraken.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive), 0.05);
-
-        //ShuffleboardLayout krak = tab.getLayout("Kraken", "List Layout").withPosition(0, 0).withSize(2, 2);
-        //krak.addDouble("Top Motor RPM", () -> getRPM()).withWidget(BuiltInWidgets.kDial).withProperties(Map.of("Max", 6000));
-        
-
-
-    }
-
-    /* sets the power of the motor voltage, 
-    YOU SHOULD ALWAYS HAVE IT GO THROUGH targetRPM 
-    */
-
-    public void setPower(double power) {
-        kraken.set(power);
     }
 
     //Returns the current of the shooting motor
@@ -87,21 +56,13 @@ public class Shooter extends SubsystemBase {
 
     //Returns true if the shooting motor is within 1% of the targetRPM. This is used to check if the motor is ready to shoot.
     public boolean isReady(){
-        return getRPM() > targetRPM -(targetRPM * 0.01) && getRPM() < targetRPM + (targetRPM * 0.01);
+        return Math.abs(targetRPM) * 0.01 > Math.abs(targetRPM - getRPM());
     }
 
     //This is a PRIVATE method that sets the motor to the targetRPM. It is called in the periodic method.
     private void setRPM(){
-        testSpeed = targetRPM/60.0;
-        motorVelocity.withVelocity(testSpeed);
+        motorVelocity.withVelocity(targetRPM/60.0);
         kraken.setControl(motorVelocity);
-    }
-
-    /*This stops the shooter, should not be used.
-     when you want to stop the shooter set targetRPM to 0.
-     */
-    public void stopShooter(){
-        kraken.set(0);
     }
 
     //This is called every 20ms. It sets the motor to the targetRPM and updates the SmartDashboard with the current RPM, current, voltage, and if the motor is ready to shoot.
@@ -112,12 +73,8 @@ public class Shooter extends SubsystemBase {
 
         SmartDashboard.putNumber("Top Motor RPM", getRPM());
         SmartDashboard.putBoolean("shoot ready",isReady());
-        SmartDashboard.putNumber("shoot amps", kraken.getStatorCurrent().getValueAsDouble());
-        SmartDashboard.putNumber("shoot volts", kraken.getMotorVoltage().getValueAsDouble());
-        SmartDashboard.putBoolean("LL ready", Limelight.shootNow());
-        SmartDashboard.putNumber("LL power" , Limelight.setPower());
-        SmartDashboard.putNumber("LL distance" , Limelight.distanceFromTag());
-        SmartDashboard.putNumber("tx", Limelight.getTx());
-        //SmartDashboard.putData("shooter pid", ShooterConstants.kP);
+        SmartDashboard.putNumber("shoot amps", getCurrent());
+        SmartDashboard.putNumber("shoot volts", getVoltage());
+        
     }
 }

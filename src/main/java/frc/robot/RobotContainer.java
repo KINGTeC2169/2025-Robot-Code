@@ -49,8 +49,8 @@ public class RobotContainer {
   public final Intake intake = new Intake();
   public final CommandSwerveDrivetrain drivetrain;
 
-  //Commands
- public SendableChooser<Command> autoChooser;
+  //Commands add commnets
+  public SendableChooser<Command> autoChooser;
   private double speed = 0.5;
   private double dif = 0;
   public double shooterSpeedTest = 0;
@@ -63,7 +63,7 @@ public class RobotContainer {
   public final JoystickButton topLeftButton = new JoystickButton(leftStick, 1);
   public final JoystickButton bottomLeftButton = new JoystickButton(leftStick, 2);
 
-  //private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
+  
   private final Joystick rightStick = new Joystick(Constants.Ports.rightStick);
   private final JoystickButton topRightButton = new JoystickButton(rightStick, 1);
   public final JoystickButton bottomRightButton = new JoystickButton(rightStick, 2);
@@ -159,17 +159,14 @@ public class RobotContainer {
    */
   private void configureBindings() {
 
-    
+    //Controller
     m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake,4500)));
     m_driverController.rightTrigger().onTrue((new ShootBall(shooter, intake,3750)));
     m_driverController.leftTrigger().onTrue((new ShootBall(shooter, intake,3750)));
     m_driverController.leftBumper().onTrue(new Rev(shooter, 4100));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
-    //m_driverController.y().whileTrue(Commands.run(() ->intake.shouldOuttake = true));
-    //m_driverController.x().whileTrue(Commands.run(() -> intake.shouldOuttake = false));
-    // m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltageIndex(0.3)));
-    // m_driverController.x().whileFalse(Commands.run(() -> intake.setVoltageIndex(-0.3)));
+    
 
     m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));
     m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));

@@ -137,19 +137,19 @@ public class Robot extends TimedRobot {
       }
     }
 
-    if (DriverStation.isAutonomous()){
-      if (pathPlannerPaths.get(0).getPathPoses().get(0).equals(Limelight.getLimelightPose())){
-        //Set LEDs Green
-      }
-      else if (Limelight.getLimelightPose().getY() > pathPlannerPaths.get(0).getPathPoses().get(0).getY()){
-        //Robot is too far to the left
-        //Change right LEDs to different color
-      }
-      else if (Limelight.getLimelightPose().getY() < pathPlannerPaths.get(0).getPathPoses().get(0).getY()){
-        //Robot is too far to the right
-        //Change left LEDs to different color
-      }
-    }
+    // if (DriverStation.isAutonomous()){
+    //   if (pathPlannerPaths.get(0).getPathPoses().get(0).equals(Limelight.getLimelightPose())){
+    //     //Set LEDs Green
+    //   }
+    //   else if (Limelight.getLimelightPose().getY() > pathPlannerPaths.get(0).getPathPoses().get(0).getY()){
+    //     //Robot is too far to the left
+    //     //Change right LEDs to different color
+    //   }
+    //   else if (Limelight.getLimelightPose().getY() < pathPlannerPaths.get(0).getPathPoses().get(0).getY()){
+    //     //Robot is too far to the right
+    //     //Change left LEDs to different color
+    //   }
+    // }
   }
 
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */

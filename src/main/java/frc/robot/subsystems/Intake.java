@@ -50,9 +50,6 @@ public class Intake extends SubsystemBase {
     
     private double latestDistance;
 
-    public boolean distanceSensorHasBall = false;
-    public boolean distanceSensorAteBall = false;
-    public boolean distanceSensorAdjustedBall = false; 
     
      
     public Intake(){
@@ -83,7 +80,7 @@ public class Intake extends SubsystemBase {
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
         indexerMotor = new TalonFX(Constants.Ports.indexerMotor);
-        //pivotMotor = new TalonFX(Constants.Ports.pivotMotor);
+      
         pivotMotor = new SparkMax(Constants.Ports.pivotMotor, MotorType.kBrushless);
 
         pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
@@ -97,53 +94,39 @@ public class Intake extends SubsystemBase {
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
         indexerMotor.getConfigurator().apply(talonFXConfigs);
         indexerMotor.setNeutralMode(NeutralModeValue.Brake);
-        // pivotMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
-        //pivotMotor.getConfigurator().apply(talonFXConfigs);
-        //pivotMotor.setNeutralMode(NeutralModeValue.Brake);
+        
 
-        setIntakePos(IntakeConstants.restball); //uncomment tis  
+        setIntakePos(IntakeConstants.restball);  
     }
 
-    //remove
+
     public boolean distanceSensorCheckRange(double min, double max) {
         return (RobotBase.isReal() && (latestDistance < max && latestDistance > min));
     }
 
-    //remove
-    public boolean distanceSensorIsEnabled(){
-        return distanceSensor.isEnabled();
-    }
-
-    //remove
-    public double distanceSensorGetTimeStamp(){
-        return distanceSensor.getTimestamp();
-    }
-
-    //remove
-    public void distanceSensorSetEnabled(boolean x){
-        distanceSensor.setEnabled(x);
-    }
     
-    //make public
+    
     public void setVoltageIntake(double volts){
         intakeMotor.setVoltage(volts);
     }
 
-    //make public
+    
     public void setVoltageIndex(double volts){
         indexerMotor.setVoltage(-volts);
     }
-    //make public
+    
     public void setVoltagePivot(double volts){
         pivotMotor.setVoltage(volts);
     }
 
     //generalize this method
+    // make more simple
     public void setIntakePos(double position) {
         position = MathUtil.clamp(position, lowerLimit, upperLimit);
         setPosition = position;
-        if(!(getSetPosition() == IntakeConstants.grab)) pivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position)); //+ pivotForward.calculate(position));
-        else {
+        if(!(getSetPosition() == IntakeConstants.grab)){
+            pivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
+        } else {
             if(!isReadyPivot()) pivotMotor.setVoltage(-pivotPIDdown.calculate(getPosition(), position));
             else pivotMotor.setVoltage(0);
         }
@@ -245,11 +228,6 @@ public class Intake extends SubsystemBase {
 
         
         
-
-        //if (!encoder.isConnected()) Elastic.sendNotification(new Notification().withLevel(NotificationLevel.WARNING)
-                                                                            //    .withTitle("Warning")
-                                                                            //    .withDescription("Intake Hex Encoder Disconnected")
-                                                                            //    .withDisplaySeconds(5));
 
     }
   
