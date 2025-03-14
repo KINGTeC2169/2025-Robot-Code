@@ -7,6 +7,8 @@ package frc.robot;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 
+import edu.wpi.first.wpilibj.SerialPort.Port;
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
  * constants. This class should not be used for any other purpose. All constants should be declared
@@ -69,6 +71,8 @@ public final class Constants {
         
         
         public static final int encoder = 1;
+
+        public static final Port arduino = 5;
         
 
     }
