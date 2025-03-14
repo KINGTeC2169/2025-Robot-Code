@@ -64,10 +64,12 @@ public final class Constants {
         public static final int pivotMotor = 50; //done
         public static final int indexerMotor = 6; //done
         public static final int reefIntakeMotor = 100; 
-        public static final int reefPivotMotor = 101; 
+        public static final int reefPivotMotor = 101;
+        public static final int climberMotor = 105; 
         
         
         public static final int encoder = 1;
+        
 
     }
 
@@ -118,6 +120,22 @@ public final class Constants {
       public static double kIdown = 0;
       public static double kDdown = 0;
     }  
+    
+    public static class ClimberConstants{
+      public static final double encoderOffset = 0;
+
+      public static double kP = 20.0;
+      public static double kI = 0;
+      public static double kD = 0;
+
+      public static double kS = 0;
+      public static double kV = 3.5;
+      public static double kA = 0;
+
+      public static double kPdown =20.0;
+      public static double kIdown = 0;
+      public static double kDdown = 0;
+    }
 
     public static class ShooterConstants{
 
