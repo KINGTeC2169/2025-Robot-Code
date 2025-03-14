@@ -128,6 +128,8 @@ public final class Constants {
     
     public static class ClimberConstants{
       public static final double encoderOffset = 0;
+      public static final double rest = 0.1776698044417451;
+      public static final double takeOff = 0.06343960158599005;
 
       public static double kP = 20.0;
       public static double kI = 0;

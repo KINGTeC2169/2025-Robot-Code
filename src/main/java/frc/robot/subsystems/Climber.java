@@ -32,6 +32,9 @@ public class Climber extends SubsystemBase{
     private TalonFX climberMotor;
     private DutyCycleEncoder climberEncoder;
     private PIDController climberPID;
+
+    double difference = 0;
+    double setPosition = 0;
     public Climber() {
     
         var talonFXConfigs = new TalonFXConfiguration();
@@ -68,6 +71,10 @@ public class Climber extends SubsystemBase{
         climberMotor.setVoltage(volts);
     }
     
+    @Override
+    public void periodic() {
+        difference = Math.abs(setPosition - getPosition());
+    }
 
     
 

@@ -140,7 +140,7 @@ public class ReefIntake extends SubsystemBase {
    
     
     
-    private void setVoltageIntake(double volts){
+    public void setVoltageIntake(double volts){
         reefIntakeMotor.setVoltage(volts);
     }
 
