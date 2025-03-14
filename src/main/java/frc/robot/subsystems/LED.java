@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.Constants;
 
 public class LED {
-    private static SerialPort arduino = new SerialPort(9600, Constants.Ports.arduino, 0);
+    private static SerialPort arduino = new SerialPort(9600, Constants.Ports.arduino, 8, SerialPort.Parity.kNone, SerialPort.StopBits.kOne);
 
     public static void intialize(){
         arduino.writeString("A");
