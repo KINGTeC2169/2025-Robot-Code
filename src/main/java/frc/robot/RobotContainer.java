@@ -92,7 +92,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 4500));
         NamedCommands.registerCommand("Intake", new IntakeBall(intake));
         NamedCommands.registerCommand("Processor", new ProcessorScoring(intake));
-        NamedCommands.registerCommand("UpIntake", new LollipopIntakeBall(intake, shooter));
+        NamedCommands.registerCommand("UpIntake", new LollipopIntakeBall(intake));
 
         drivetrain = TunerConstants.createDrivetrain();
         autoChooser = AutoBuilder.buildAutoChooser();
