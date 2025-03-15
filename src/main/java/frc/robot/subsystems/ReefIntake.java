@@ -14,7 +14,7 @@ import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
-
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -24,15 +24,15 @@ import frc.robot.Constants;
 import frc.robot.Constants.ReefIntakeConstants;
 
 public class ReefIntake extends SubsystemBase {
-	private SparkMax reefPivotMotor;
-    private TalonFX reefIntakeMotor;
+	private TalonFX reefPivotMotor;
+    private SparkMax reefIntakeMotor;
 
-    private SparkMaxConfig pivotConfig;
+    private SparkMaxConfig intakeConfig;
 
     private DutyCycleEncoder encoder;
 
     private PIDController pivotPID;
-    private PIDController pivotPIDdown;
+    private ArmFeedforward armFeedforward; 
 
     private final double upperLimit = ReefIntakeConstants.reefrest; // needs to be fine tuned
     private final double lowerLimit = ReefIntakeConstants.reefgrab; //limits for intake positions 
@@ -40,12 +40,8 @@ public class ReefIntake extends SubsystemBase {
     private double setPosition;
     private double difference;
 
-    public boolean shouldOuttake;
-    public boolean shouldOuttakeAdjust;
-    public boolean shouldIntake;
-    public boolean shouldIntakeOverride;
-
-    private boolean started = false;
+    //Reef Intake is 2.8 lbs
+    //Bar is 20 inches long
 
     public ReefIntake(){
         var talonFXConfigs = new TalonFXConfiguration();
@@ -53,36 +49,32 @@ public class ReefIntake extends SubsystemBase {
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kP = 0.01;
 
-        pivotConfig = new SparkMaxConfig();
+        intakeConfig = new SparkMaxConfig();
 
-        pivotConfig.idleMode(IdleMode.kBrake);
+        intakeConfig.idleMode(IdleMode.kBrake);
 
-        pivotConfig.encoder.positionConversionFactor(1000);
-        pivotConfig.encoder.velocityConversionFactor(1000);
+        intakeConfig.encoder.positionConversionFactor(1000);
+        intakeConfig.encoder.velocityConversionFactor(1000);
 
-        pivotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
+        intakeConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
 
-        encoder = new DutyCycleEncoder(1,1,Constants.ReefIntakeConstants.encoderOffset);
+        encoder = new DutyCycleEncoder(Constants.Ports.reefHexPort,1,Constants.ReefIntakeConstants.encoderOffset);
         
-        reefIntakeMotor = new TalonFX(Constants.Ports.reefIntakeMotor);
-        reefPivotMotor = new SparkMax(Constants.Ports.reefPivotMotor, MotorType.kBrushless);
+        reefPivotMotor = new TalonFX(Constants.Ports.reefPivotMotor);
+        reefIntakeMotor = new SparkMax(Constants.Ports.reefIntakeMotor, MotorType.kBrushless);
 
-        reefPivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        reefIntakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         pivotPID = new PIDController(ReefIntakeConstants.kP, ReefIntakeConstants.kI,ReefIntakeConstants.kD);
+        armFeedforward = new ArmFeedforward(ReefIntakeConstants.kS, ReefIntakeConstants.kG, ReefIntakeConstants.kV);
         
-        pivotPIDdown = new PIDController(ReefIntakeConstants.kPdown, ReefIntakeConstants.kIdown,ReefIntakeConstants.kDdown);
-
-        reefIntakeMotor.getConfigurator().apply(talonFXConfigs);
-        reefIntakeMotor.setNeutralMode(NeutralModeValue.Coast);
+        reefPivotMotor.getConfigurator().apply(talonFXConfigs);
+        reefPivotMotor.setNeutralMode(NeutralModeValue.Brake);
         // reefPivotMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
         //reefPivotMotor.getConfigurator().apply(talonFXConfigs);
         //reefPivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
-        setIntakePos(ReefIntakeConstants.reefrestball); //uncomment tis
-        shouldOuttake = false;
-        shouldIntake = false;
-        shouldIntakeOverride = false;
+        setIntakePos(ReefIntakeConstants.reefrest); //uncomment tis
     }
 
     
@@ -105,95 +97,61 @@ public class ReefIntake extends SubsystemBase {
     public void stopTake(){
         reefIntakeMotor.set(0);
         
-    }
-    
-
-    public boolean reefAteBall(){
-        if (getRPM() > 1700) {
-            started = true; 
-            
-        }
-        if(started && getRPM() < 1550){
-            stopTake();
-            started = false;
-            return true;
-            
-        }
-        return false;
-    }
-
-    
-
-    
-
-    public boolean ateBall(){
-    // Checks if ball is in intake to stop motor   
-            if(RobotBase.isReal() && reefAteBall()){
-                //LEDs.green();
-                return true; // Ball detected
-            }else{
-               // LEDs.red(); 
-                return false; // No ball detected
-            }
-    }
-
-   
-    
+    }   
     
     public void setVoltageIntake(double volts){
         reefIntakeMotor.setVoltage(volts);
+        
     }
 
     public void setVoltagePivot(double volts){
         reefPivotMotor.setVoltage(volts);
+        System.out.println("Volts " + volts);
     }
 
     public void setIntakePos(double position) {
         position = MathUtil.clamp(position, lowerLimit, upperLimit);
+        
         setPosition = position;
-        if(!(getSetPosition() == ReefIntakeConstants.reefgrab)) reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position)); //+ pivotForward.calculate(position));
-        else {
-            if(!isReady()) reefPivotMotor.setVoltage(-pivotPIDdown.calculate(getPosition(), position));
-            else reefPivotMotor.setVoltage(0);
-        }
+        //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
+        System.out.println("PID " + pivotPID.calculate(getPosition(), position));
+        System.out.println("FeedForward" + armFeedforward.calculate(getPosition() * 6.28 ,position * 6.28));//radians
+        System.out.println("Both " + (pivotPID.calculate(getPosition(), position) + armFeedforward.calculate(getPosition(),position)));
     }
 
     /**Stops all motors */
     public void stopAll(){
         reefIntakeMotor.set(0);
-        
+
         reefPivotMotor.set(0);
 
     }
-
-    //gets and misc status givers
-
-    //********************************************************************************************************************************* */
+    
     /**Returns the velocity of the intake motor. */
     public double getreefgrabSpeed(){
-        return reefIntakeMotor.getVelocity().getValueAsDouble();
+        return reefIntakeMotor.getEncoder().getVelocity();
     }
 
     /**Returns the voltage of the intake motor. */
     public double getreefgrabVoltage(){
-        return reefIntakeMotor.getSupplyVoltage().getValueAsDouble();
+        return reefIntakeMotor.getBusVoltage();
     }
 
     /**Returns the current of the reef intake motor. */
     public double getreefgrabCurrent(){
-        return reefIntakeMotor.getSupplyCurrent().getValueAsDouble();
+        return reefIntakeMotor.getOutputCurrent();
     }
 
     public double getPivotSpeed(){
-        return reefPivotMotor.get();
+        return reefPivotMotor.getVelocity().getValueAsDouble();
     }
 
     public double getPivotVoltage(){
-        return reefPivotMotor.getBusVoltage();
+        return reefPivotMotor.getMotorVoltage().getValueAsDouble();
     }
 
     public double getPivotCurrent(){
-        return reefPivotMotor.getOutputCurrent();
+        return reefPivotMotor.getSupplyCurrent().getValueAsDouble();
     }
 
     /**Returns true of the intake is on. */
@@ -202,7 +160,7 @@ public class ReefIntake extends SubsystemBase {
     }
         /**Returns the intake motor's rotor velocity in rotations per minute */
     public double getRPM(){
-        return -(60 * reefIntakeMotor.getRotorVelocity().getValueAsDouble());
+        return -(60 * reefIntakeMotor.getEncoder().getVelocity());
     }
     public double getSetPosition(){
         return setPosition;
@@ -217,17 +175,6 @@ public class ReefIntake extends SubsystemBase {
         return difference < 0.0025 || (getSetPosition() == ReefIntakeConstants.reefgrab && getPosition() < ReefIntakeConstants.reefgrab);
     }
 
-    // This method runs periodically every 5ms
-    public void setMotorDistanceSensor(){
-        if(shouldOuttake || shouldOuttakeAdjust){
-            outTake();
-        } else if((shouldIntake && !reefAteBall()) || shouldIntakeOverride){
-            sucker();
-        } else {
-            stopTake();
-        }
-    }
-
     @Override   
     public void periodic() {
 
@@ -235,28 +182,21 @@ public class ReefIntake extends SubsystemBase {
 
         // SmartDashboard.putBoolean("Ball Ate detected:", ateBall());
         // SmartDashboard.putBoolean("Ball detected:", hasBall());
-        SmartDashboard.putNumber("Intake Motor Speed", getreefgrabSpeed());
-        SmartDashboard.putNumber("IntakeM Voltage", getreefgrabVoltage());
-        SmartDashboard.putBoolean("Detected Color", isOn());
-        SmartDashboard.putNumber("RPM", getRPM());
-        SmartDashboard.putNumber("SetPosition", getSetPosition());
-        SmartDashboard.putNumber("IntakePosition", getPosition());
-        SmartDashboard.putNumber("Pivot Speed", getPivotSpeed());
-        SmartDashboard.putNumber("Pivot Voltage", getPivotVoltage());
-        SmartDashboard.putNumber("Pivot Current", getPivotCurrent());
-        SmartDashboard.putBoolean("Pivot Ready", isReady());
-        SmartDashboard.putData("Pivot PID", pivotPID);
-        SmartDashboard.putData("Pivot PID down", pivotPIDdown);
+        SmartDashboard.putNumber("reef Intake Motor Speed", getreefgrabSpeed());
+        SmartDashboard.putNumber("reef IntakeM Voltage", getreefgrabVoltage());
+        SmartDashboard.putBoolean("reef Detected Color", isOn());
+        SmartDashboard.putNumber("reef RPM", getRPM());
+        SmartDashboard.putNumber("reef SetPosition", getSetPosition());
+        SmartDashboard.putNumber("reef IntakePosition", getPosition());
+        SmartDashboard.putNumber("reef Pivot Speed", getPivotSpeed());
+        SmartDashboard.putNumber("reef Pivot Voltage", getPivotVoltage());
+        SmartDashboard.putNumber("reef Pivot Current", getPivotCurrent());
+        SmartDashboard.putBoolean("reef Pivot Ready", isReady());
+        SmartDashboard.putData("reef Pivot PID", pivotPID);
 
         
 
-        if(!(getSetPosition() == ReefIntakeConstants.reefgrab)){
-            setIntakePos(getSetPosition());
-        } else {
-            if(isReady() || ateBall()) setVoltagePivot(0);
-            setIntakePos(Constants.ReefIntakeConstants.reefgrab);
-
-        }
+        setIntakePos(getSetPosition());
 
 }
 }

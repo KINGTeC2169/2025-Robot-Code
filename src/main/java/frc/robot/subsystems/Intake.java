@@ -49,7 +49,8 @@ public class Intake extends SubsystemBase {
     private SimpleMotorFeedforward pivotForward; //check //remove
     
     private double latestDistance;
-
+    private double secondLastDistance;
+    private double distanceSensorDerivative;
     
      
     public Intake(){
@@ -76,7 +77,7 @@ public class Intake extends SubsystemBase {
 
         pivotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
 
-        encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
+        encoder = new DutyCycleEncoder(Constants.Ports.intakeHexPort,1,Constants.IntakeConstants.encoderOffset);
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
         indexerMotor = new TalonFX(Constants.Ports.indexerMotor);
@@ -97,6 +98,8 @@ public class Intake extends SubsystemBase {
         
 
         setIntakePos(IntakeConstants.restball);  
+
+        distanceSensorDerivative = 0.0; //initialize to 0
     }
 
 
@@ -197,6 +200,10 @@ public class Intake extends SubsystemBase {
     public boolean isReadyPivot(){
         return difference < 0.0025 || (getSetPosition() == IntakeConstants.grab && getPosition() < IntakeConstants.grab);
     }
+
+    public boolean getDerivativePositive(){
+        return distanceSensorDerivative > 1.0; //So that it doesnt get tripped by noise, this is a guess for the threshold
+    }
     
 
     @Override   
@@ -226,7 +233,10 @@ public class Intake extends SubsystemBase {
             setIntakePos(Constants.IntakeConstants.grab);
 
         }
+        secondLastDistance = latestDistance;
         latestDistance = distanceSensor.getRange();
+        distanceSensorDerivative = (latestDistance - secondLastDistance) / 0.02; // 0.02 is the period of the periodic method
+
 
         
         
