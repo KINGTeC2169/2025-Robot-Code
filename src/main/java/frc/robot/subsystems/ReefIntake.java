@@ -24,10 +24,10 @@ import frc.robot.Constants;
 import frc.robot.Constants.ReefIntakeConstants;
 
 public class ReefIntake extends SubsystemBase {
-	private SparkMax reefPivotMotor;
-    private TalonFX reefIntakeMotor;
+	private TalonFX reefPivotMotor;
+    private SparkMax reefIntakeMotor;
 
-    private SparkMaxConfig pivotConfig;
+    private SparkMaxConfig intakeConfig;
 
     private DutyCycleEncoder encoder;
 
@@ -40,13 +40,6 @@ public class ReefIntake extends SubsystemBase {
     private double setPosition;
     private double difference;
 
-    public boolean shouldOuttake;
-    public boolean shouldOuttakeAdjust;
-    public boolean shouldIntake;
-    public boolean shouldIntakeOverride;
-
-    private boolean started = false;
-
     //Reef Intake is 2.8 lbs
     //Bar is 20 inches long
 
@@ -56,35 +49,32 @@ public class ReefIntake extends SubsystemBase {
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kP = 0.01;
 
-        pivotConfig = new SparkMaxConfig();
+        intakeConfig = new SparkMaxConfig();
 
-        pivotConfig.idleMode(IdleMode.kBrake);
+        intakeConfig.idleMode(IdleMode.kBrake);
 
-        pivotConfig.encoder.positionConversionFactor(1000);
-        pivotConfig.encoder.velocityConversionFactor(1000);
+        intakeConfig.encoder.positionConversionFactor(1000);
+        intakeConfig.encoder.velocityConversionFactor(1000);
 
-        pivotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
+        intakeConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
 
         encoder = new DutyCycleEncoder(1,1,Constants.ReefIntakeConstants.encoderOffset);
         
-        reefIntakeMotor = new TalonFX(Constants.Ports.reefIntakeMotor);
-        reefPivotMotor = new SparkMax(Constants.Ports.reefPivotMotor, MotorType.kBrushless);
+        reefPivotMotor = new TalonFX(Constants.Ports.reefPivotMotor);
+        reefIntakeMotor = new SparkMax(Constants.Ports.reefIntakeMotor, MotorType.kBrushless);
 
-        reefPivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        reefIntakeMotor.configure(intakeConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         pivotPID = new PIDController(ReefIntakeConstants.kP, ReefIntakeConstants.kI,ReefIntakeConstants.kD);
         armFeedforward = new ArmFeedforward(ReefIntakeConstants.kS, ReefIntakeConstants.kG, ReefIntakeConstants.kV);
         
-        reefIntakeMotor.getConfigurator().apply(talonFXConfigs);
-        reefIntakeMotor.setNeutralMode(NeutralModeValue.Coast);
+        reefPivotMotor.getConfigurator().apply(talonFXConfigs);
+        reefPivotMotor.setNeutralMode(NeutralModeValue.Brake);
         // reefPivotMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
         //reefPivotMotor.getConfigurator().apply(talonFXConfigs);
         //reefPivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
         setIntakePos(ReefIntakeConstants.reefrest); //uncomment tis
-        shouldOuttake = false;
-        shouldIntake = false;
-        shouldIntakeOverride = false;
     }
 
     
@@ -107,40 +97,7 @@ public class ReefIntake extends SubsystemBase {
     public void stopTake(){
         reefIntakeMotor.set(0);
         
-    }
-    
-
-    public boolean reefAteBall(){
-        if (getRPM() > 1700) {
-            started = true; 
-            
-        }
-        if(started && getRPM() < 1550){
-            stopTake();
-            started = false;
-            return true;
-            
-        }
-        return false;
-    }
-
-    
-
-    
-
-    public boolean ateBall(){
-    // Checks if ball is in intake to stop motor   
-            if(RobotBase.isReal() && reefAteBall()){
-                //LEDs.green();
-                return true; // Ball detected
-            }else{
-               // LEDs.red(); 
-                return false; // No ball detected
-            }
-    }
-
-   
-    
+    }   
     
     public void setVoltageIntake(double volts){
         reefIntakeMotor.setVoltage(volts);
@@ -158,46 +115,43 @@ public class ReefIntake extends SubsystemBase {
         setPosition = position;
         //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
         System.out.println("PID " + pivotPID.calculate(getPosition(), position));
-        System.out.println("FeedForward" + armFeedforward.calculate(getPosition(),position));
+        System.out.println("FeedForward" + armFeedforward.calculate(getPosition() * 6.28 ,position * 6.28));//radians
         System.out.println("Both " + (pivotPID.calculate(getPosition(), position) + armFeedforward.calculate(getPosition(),position)));
     }
 
     /**Stops all motors */
     public void stopAll(){
         reefIntakeMotor.set(0);
-        
+
         reefPivotMotor.set(0);
 
     }
-
-    //gets and misc status givers
-
-    //********************************************************************************************************************************* */
+    
     /**Returns the velocity of the intake motor. */
     public double getreefgrabSpeed(){
-        return reefIntakeMotor.getVelocity().getValueAsDouble();
+        return reefIntakeMotor.getEncoder().getVelocity();
     }
 
     /**Returns the voltage of the intake motor. */
     public double getreefgrabVoltage(){
-        return reefIntakeMotor.getSupplyVoltage().getValueAsDouble();
+        return reefIntakeMotor.getBusVoltage();
     }
 
     /**Returns the current of the reef intake motor. */
     public double getreefgrabCurrent(){
-        return reefIntakeMotor.getSupplyCurrent().getValueAsDouble();
+        return reefIntakeMotor.getOutputCurrent();
     }
 
     public double getPivotSpeed(){
-        return reefPivotMotor.get();
+        return reefPivotMotor.getVelocity().getValueAsDouble();
     }
 
     public double getPivotVoltage(){
-        return reefPivotMotor.getBusVoltage();
+        return reefPivotMotor.getMotorVoltage().getValueAsDouble();
     }
 
     public double getPivotCurrent(){
-        return reefPivotMotor.getOutputCurrent();
+        return reefPivotMotor.getSupplyCurrent().getValueAsDouble();
     }
 
     /**Returns true of the intake is on. */
@@ -206,7 +160,7 @@ public class ReefIntake extends SubsystemBase {
     }
         /**Returns the intake motor's rotor velocity in rotations per minute */
     public double getRPM(){
-        return -(60 * reefIntakeMotor.getRotorVelocity().getValueAsDouble());
+        return -(60 * reefIntakeMotor.getEncoder().getVelocity());
     }
     public double getSetPosition(){
         return setPosition;
