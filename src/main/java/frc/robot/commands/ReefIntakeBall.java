@@ -5,13 +5,23 @@ import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ReefIntakeConstants;
 import frc.robot.subsystems.ReefIntake;
+import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Intake;
+
+
 
 public class ReefIntakeBall extends Command{
     private ReefIntake reefIntake;
+    private Shooter shooter;
+    private Intake intake;
     
-    public ReefIntakeBall(ReefIntake reefIntake){
+    public ReefIntakeBall(ReefIntake reefIntake, Shooter shooter, Intake intake){
         this.reefIntake = reefIntake;
         addRequirements(reefIntake);
+        this.shooter = shooter;
+        addRequirements(shooter);
+        this.intake = intake;
+        addRequirements(intake);
     }
 
     @Override

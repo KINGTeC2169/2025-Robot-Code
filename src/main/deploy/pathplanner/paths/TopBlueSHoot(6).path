@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 4.974897540983607,
-        "y": 4.90609631147541
+        "x": 3.22725,
+        "y": 4.015249999999999
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.795669885548768,
-        "y": 5.515199403245964
+        "x": 2.91525,
+        "y": 5.18525
       },
       "isLocked": false,
-      "linkedName": "blahh"
+      "linkedName": "IntakeLeft"
     },
     {
       "anchor": {
-        "x": 6.513,
+        "x": 4.724,
         "y": 6.638
       },
       "prevControl": {
-        "x": 5.975543002488832,
-        "y": 6.696660541883744
+        "x": 4.597486850411011,
+        "y": 6.418679302039584
       },
       "nextControl": null,
       "isLocked": false,
@@ -48,7 +48,7 @@
   "folder": "TopBlue",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -119.19748604606453
+    "rotation": -1.0139787227852934
   },
   "useDefaultConstraints": true
 }

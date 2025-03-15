@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 6.571500000000001,
-        "y": 5.14625
+        "x": 5.7525,
+        "y": 2.2504999999999997
       },
       "prevControl": {
-        "x": 6.3439612356235315,
-        "y": 5.249816938286451
+        "x": 5.524961235623531,
+        "y": 2.3540669382864503
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 59.2158534736737
   },
   "reversed": false,
   "folder": "MiddleBlue",

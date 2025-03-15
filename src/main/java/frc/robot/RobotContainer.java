@@ -8,6 +8,7 @@ import frc.robot.Constants.Ports;
 import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LollipopIntakeBall;
 import frc.robot.commands.ProcessorScoring;
+import frc.robot.commands.ReefIntakeBall;
 import frc.robot.commands.Rev;
 import frc.robot.commands.ShootBall;
 import frc.robot.generated.TunerConstants;
@@ -15,6 +16,7 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
+import frc.robot.subsystems.ReefIntake;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -47,6 +49,7 @@ public class RobotContainer {
   //Subsystems
   public final Shooter shooter = new Shooter();
   public final Intake intake = new Intake();
+  public final ReefIntake reefIntake = new ReefIntake();
   public final CommandSwerveDrivetrain drivetrain;
 
   //Commands add commnets
@@ -93,6 +96,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intake", new IntakeBall(intake));
         NamedCommands.registerCommand("Processor", new ProcessorScoring(intake));
         NamedCommands.registerCommand("UpIntake", new LollipopIntakeBall(intake));
+        NamedCommands.registerCommand("ReefIntake", new ReefIntakeBall(reefIntake, shooter, intake));
 
         drivetrain = TunerConstants.createDrivetrain();
         autoChooser = AutoBuilder.buildAutoChooser();

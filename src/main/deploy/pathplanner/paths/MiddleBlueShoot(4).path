@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.187,
-        "y": 5.14625
+        "x": 5.15775,
+        "y": 2.8842499999999998
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.201904014904786,
-        "y": 4.886384026224443
+        "x": 5.65872845897885,
+        "y": 2.8615668435754142
       },
       "isLocked": false,
-      "linkedName": "GrabBall2"
+      "linkedName": "IntakeBottomRight"
     },
     {
       "anchor": {
-        "x": 6.571500000000001,
-        "y": 5.14625
+        "x": 5.7525,
+        "y": 2.2504999999999997
       },
       "prevControl": {
-        "x": 5.777791724545835,
-        "y": 5.141962202176858
+        "x": 5.529881453827096,
+        "y": 2.1367415589951113
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 59.2158534736737
   },
   "reversed": false,
   "folder": "MiddleBlue",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -120.76271953423884
+    "rotation": 121.93100000000001
   },
   "useDefaultConstraints": true
 }

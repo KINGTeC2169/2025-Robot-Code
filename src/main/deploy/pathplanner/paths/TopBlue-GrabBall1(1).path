@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.108709016393442,
-        "y": 7.7411885245901635
+        "x": 7.2735,
+        "y": 5.14625
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.348813976238199,
-        "y": 7.1709156569071855
+        "x": 6.225578452636389,
+        "y": 5.12757538257062
       },
       "isLocked": false,
       "linkedName": "TopStart"
     },
     {
       "anchor": {
-        "x": 3.4164959016393444,
-        "y": 4.918084016393442
+        "x": 5.187,
+        "y": 5.14625
       },
       "prevControl": {
-        "x": 4.00224311365663,
-        "y": 5.33584152962496
+        "x": 5.440299287675419,
+        "y": 5.279059202866253
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "blah"
+      "linkedName": "GrabBall2"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.42077312751098
+    "rotation": -120.76271953423884
   },
   "reversed": false,
   "folder": "TopBlue",
