@@ -77,7 +77,7 @@ public class Intake extends SubsystemBase {
 
         pivotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
 
-        encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
+        encoder = new DutyCycleEncoder(Constants.Ports.intakeHexPort,1,Constants.IntakeConstants.encoderOffset);
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
         indexerMotor = new TalonFX(Constants.Ports.indexerMotor);

@@ -58,7 +58,7 @@ public class ReefIntake extends SubsystemBase {
 
         intakeConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
 
-        encoder = new DutyCycleEncoder(1,1,Constants.ReefIntakeConstants.encoderOffset);
+        encoder = new DutyCycleEncoder(Constants.Ports.reefHexPort,1,Constants.ReefIntakeConstants.encoderOffset);
         
         reefPivotMotor = new TalonFX(Constants.Ports.reefPivotMotor);
         reefIntakeMotor = new SparkMax(Constants.Ports.reefIntakeMotor, MotorType.kBrushless);
