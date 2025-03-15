@@ -168,14 +168,13 @@ public class RobotContainer {
     m_driverController.leftBumper().onTrue(new Rev(shooter, 4100));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
-    m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setVoltageIntake(m_driverController.getLeftTriggerAxis())));
-    m_driverController.x().whileFalse(Commands.run(() -> reefIntake.setVoltageIntake(m_driverController.getLeftTriggerAxis())));
-    
+    m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis())));
+    m_driverController.x().whileFalse(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis())));
+    m_driverController.y().whileTrue(Commands.run(() -> reefIntake.setVoltageIntake(1)));
 
     m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));
     m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
     m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
-    m_driverController.start().whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
     // m_driverController.b().whileTrue(Commands.run(() -> shooter.setRPM(-1500)));
     //m_driverController.x().whileTrue(Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis())));
     //m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltagePivot(-m_driverController.getLeftTriggerAxis())));
