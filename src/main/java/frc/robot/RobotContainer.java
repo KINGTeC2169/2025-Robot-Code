@@ -91,7 +91,7 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-        NamedCommands.registerCommand("Rev", new Rev(shooter, 4500));
+        NamedCommands.registerCommand("Rev", new Rev(shooter, 4500, intake));
         NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 4500));
         NamedCommands.registerCommand("Intake", new IntakeBall(intake));
         NamedCommands.registerCommand("Processor", new ProcessorScoring(intake));
@@ -165,7 +165,7 @@ public class RobotContainer {
 
     //Controller
     m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake,4500)));
-    m_driverController.leftBumper().onTrue(new Rev(shooter, 4100));
+    m_driverController.leftBumper().onTrue(new Rev(shooter, 4500, intake));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
     m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis())));
@@ -176,7 +176,7 @@ public class RobotContainer {
     m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
     m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
 
-    m_driverController.y().onTrue(new ReefIntakeBall(reefIntake, shooter, intake));
+    m_driverController.y().whileTrue(new ReefIntakeBall(reefIntake, shooter, intake));
     // m_driverController.b().whileTrue(Commands.run(() -> shooter.setRPM(-1500)));
     //m_driverController.x().whileTrue(Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis())));
     //m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltagePivot(-m_driverController.getLeftTriggerAxis())));

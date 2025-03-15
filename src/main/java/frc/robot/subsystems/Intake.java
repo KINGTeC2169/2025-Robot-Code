@@ -95,9 +95,6 @@ public class Intake extends SubsystemBase {
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
         indexerMotor.getConfigurator().apply(talonFXConfigs);
         indexerMotor.setNeutralMode(NeutralModeValue.Brake);
-        
-
-        setIntakePos(IntakeConstants.restball);  
 
         distanceSensorDerivative = 0.0; //initialize to 0
     }
@@ -115,7 +112,7 @@ public class Intake extends SubsystemBase {
 
     
     public void setVoltageIndex(double volts){
-        indexerMotor.setVoltage(-volts);
+        indexerMotor.setVoltage(volts);
     }
     
     public void setVoltagePivot(double volts){
@@ -127,12 +124,15 @@ public class Intake extends SubsystemBase {
     public void setIntakePos(double position) {
         position = MathUtil.clamp(position, lowerLimit, upperLimit);
         setPosition = position;
+        
         if(!(getSetPosition() == IntakeConstants.grab)){
             pivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
         } else {
             if(!isReadyPivot()) pivotMotor.setVoltage(-pivotPIDdown.calculate(getPosition(), position));
             else pivotMotor.setVoltage(0);
         }
+        System.out.println(-pivotPIDdown.calculate(getPosition(), position));
+        
     }
 
 

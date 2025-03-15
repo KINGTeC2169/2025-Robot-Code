@@ -114,9 +114,9 @@ public class ReefIntake extends SubsystemBase {
         
         setPosition = position;
         //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
-        System.out.println("PID " + pivotPID.calculate(getPosition(), position));
-        System.out.println("FeedForward" + armFeedforward.calculate(getPosition() * 6.28 ,position * 6.28));//radians
-        System.out.println("Both " + (pivotPID.calculate(getPosition(), position) + armFeedforward.calculate(getPosition(),position)));
+        //System.out.println("PID " + pivotPID.calculate(getPosition(), position));
+        //System.out.println("FeedForward" + armFeedforward.calculate(getPosition() * 6.28 ,position * 6.28));//radians
+        //System.out.println("Both " + (pivotPID.calculate(getPosition(), position) + armFeedforward.calculate(getPosition(),position)));
     }
 
     /**Stops all motors */
@@ -196,7 +196,7 @@ public class ReefIntake extends SubsystemBase {
 
         
 
-        setIntakePos(getSetPosition());
+        //setIntakePos(getSetPosition());
 
 }
 }
