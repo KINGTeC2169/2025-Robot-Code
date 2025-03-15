@@ -26,24 +26,29 @@ public class ReefIntakeBall extends Command{
 
     @Override
     public void initialize(){
-         reefIntake.setIntakePos(ReefIntakeConstants.reefgrab); //Sets reefIntake to grab position
+        reefIntake.setIntakePos(ReefIntakeConstants.reefgrab); //Sets reefIntake to grab position
+        intake.setIntakePos(IntakeConstants.restball); //Puts intake in rest position
         
     }
 
     @Override
     public void execute(){
         reefIntake.setVoltageIntake(0.4*12); //runs reefIntake to suck in the ball
+        shooter.setTargetRPM(-1000); //Sets shooter to run at -1000 RPM to suck in the ball and put it in the intake
+        intake.setVoltageIntake(0.05*12); //Keeps the intake motor running to keep the ball in the intake
+        intake.setVoltageIndex(0); //Stops indexer
         
     }    
     @Override
     public void end(boolean interrupted){
         reefIntake.setIntakePos(IntakeConstants.rest); //Puts reefIntake in rest position
+        intake.setIntakePos(IntakeConstants.rest); //Puts intake in rest position
         reefIntake.setVoltageIntake(0.05*12); //Keeps the reefIntake motor running to keep the ball in thereefIntake
-        
+        shooter.setTargetRPM(0); //Stops shooter
     }
 
     @Override
     public boolean isFinished(){
-        return true;
+        return intake.getDerivativePositive(); //intake.distanceSensorCheckRange(0,8) && 
     }
 }

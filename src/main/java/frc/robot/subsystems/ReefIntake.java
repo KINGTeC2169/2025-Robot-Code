@@ -217,17 +217,6 @@ public class ReefIntake extends SubsystemBase {
         return difference < 0.0025 || (getSetPosition() == ReefIntakeConstants.reefgrab && getPosition() < ReefIntakeConstants.reefgrab);
     }
 
-    // This method runs periodically every 5ms
-    public void setMotorDistanceSensor(){
-        if(shouldOuttake || shouldOuttakeAdjust){
-            outTake();
-        } else if((shouldIntake && !reefAteBall()) || shouldIntakeOverride){
-            sucker();
-        } else {
-            stopTake();
-        }
-    }
-
     @Override   
     public void periodic() {
 

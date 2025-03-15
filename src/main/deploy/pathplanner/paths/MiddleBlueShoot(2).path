@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.8267181714745195,
-        "y": 4.180506879838019
+        "x": 6.854775149805566,
+        "y": 3.7206688670452035
       },
       "isLocked": false,
       "linkedName": "RightBall"
     },
     {
       "anchor": {
-        "x": 5.7525,
-        "y": 2.2504999999999997
+        "x": 6.62920081967213,
+        "y": 2.7842725409836064
       },
       "prevControl": {
-        "x": 5.524961235623531,
-        "y": 2.3540669382864503
+        "x": 6.432888872086867,
+        "y": 2.9390679518822527
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 59.2158534736737
+    "rotation": 61.26020470831185
   },
   "reversed": false,
   "folder": "MiddleBlue",
