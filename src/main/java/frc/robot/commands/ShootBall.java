@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.Shooter;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LED;
 import edu.wpi.first.wpilibj.Timer;
 
 // just remove all the useless stuff
@@ -32,6 +33,7 @@ public class ShootBall extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+       LED.shootingREVing(); //turns on the LED to show that the shooter is running
        shooter.setTargetRPM(rpm);
        intake.setIntakePos(IntakeConstants.restball); // set the intake to restball position
        timer = new Timer();
@@ -43,6 +45,7 @@ public class ShootBall extends Command {
     @Override
     public void execute() {
         if(shooter.isReady()){ //if the shooter is ready to shoot, set the intake to run at a certain voltage to shoot the ball
+            LED.shootingShot(); //turns on the LED to show that the shooter is shooting
             intake.setVoltageIntake(0.7*12);
             intake.setVoltageIndex(-0.7*12);
             if (timerStartTime == 0) timerStartTime = timer.get();
@@ -58,6 +61,7 @@ public class ShootBall extends Command {
         intake.setVoltageIndex(0);
         shooter.setTargetRPM(0);
         intake.setIntakePos(IntakeConstants.rest); // set the intake to rest position
+        LED.intialize(); //turns off the LED to show that the shooter is not running
     }
     
     @Override

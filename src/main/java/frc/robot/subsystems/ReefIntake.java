@@ -23,6 +23,12 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.ReefIntakeConstants;
 
+/* How to tune the reef intake:
+ * 1. Hold the reef intake at right position using manual control and get the voltage
+ * 2. Use voltage and angle to verify feedforward
+ * 3. Tune PID
+ */
+
 public class ReefIntake extends SubsystemBase {
 	private TalonFX reefPivotMotor;
     private SparkMax reefIntakeMotor;
@@ -112,11 +118,10 @@ public class ReefIntake extends SubsystemBase {
     public void setIntakePos(double position) {
         position = MathUtil.clamp(position, lowerLimit, upperLimit);
         
+        
         setPosition = position;
         //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
-        System.out.println("PID " + pivotPID.calculate(getPosition(), position));
-        System.out.println("FeedForward" + armFeedforward.calculate(getPosition() * 6.28 ,position * 6.28));//radians
-        System.out.println("Both " + (pivotPID.calculate(getPosition(), position) + armFeedforward.calculate(getPosition(),position)));
+        //37 degrees is rest position
     }
 
     /**Stops all motors */
@@ -167,8 +172,12 @@ public class ReefIntake extends SubsystemBase {
     }
 
     /**Gets the position of the arm from the hex encoder */
+    /*  We are zeroing when reef intake is straight up (Math.PI/2) 
+     * so just subtract 0.25 (cuz this is rotations) to get the position that the ArmFeedForward expects.
+     * We mutliply by 6.28 later to get the radians for the ArmFeedForward.
+     */
     public double getPosition(){
-        return encoder.get();
+        return encoder.get(); //-0.25; sign depends on which way is forward
     }
     // checks if the reef intake is ready to intake based on the position its in.     
     public boolean isReady(){
@@ -193,10 +202,10 @@ public class ReefIntake extends SubsystemBase {
         SmartDashboard.putNumber("reef Pivot Current", getPivotCurrent());
         SmartDashboard.putBoolean("reef Pivot Ready", isReady());
         SmartDashboard.putData("reef Pivot PID", pivotPID);
-
-        
+        SmartDashboard.putNumber("reef FeedForward", armFeedforward.calculate(getPosition() * 6.28,0));
+        SmartDashboard.putNumber("reef PID Value", pivotPID.calculate(getPosition(), getSetPosition()));
+        SmartDashboard.putNumber("reef Both", pivotPID.calculate(getPosition(), getSetPosition()) + armFeedforward.calculate(getPosition() * 6.28,0));
 
         setIntakePos(getSetPosition());
-
-}
+    }
 }

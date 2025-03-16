@@ -1,6 +1,7 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Shooter;
 
 public class Rev extends Command {
@@ -17,6 +18,7 @@ public class Rev extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
+        LED.shootingREVing(); //turns on the LED to show that the shooter is running
         shooter.setTargetRPM(rpm); // set the target RPM to the desired RPM to run the shooter at
     }
     

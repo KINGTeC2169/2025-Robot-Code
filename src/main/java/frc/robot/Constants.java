@@ -82,6 +82,8 @@ public final class Constants {
       public static RobotConfig config;
       public static PIDConstants autoTranslationPID = new PIDConstants(5.0, 0, 0);
       public static PIDConstants autoRotationPID = new PIDConstants(5.0, 0, 0);
+
+      public static boolean breakMode = true;
     }
 
     public static class IntakeConstants{
@@ -116,9 +118,9 @@ public final class Constants {
       public static double kI = 0;
       public static double kD = 0;
       
-      public static double kS = 0; //0.01
-      public static double kV = 0; //0.02
-      public static double kG = 0; //4.05
+      public static double kS = 0.01;
+      public static double kV = 0.02;
+      public static double kG = 4.05;
  
       public static double kPdown = 20.0;
       public static double kIdown = 0;
