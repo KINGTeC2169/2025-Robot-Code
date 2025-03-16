@@ -76,7 +76,7 @@ public class ReefIntake extends SubsystemBase {
         
         reefPivotMotor.getConfigurator().apply(talonFXConfigs);
         reefPivotMotor.setNeutralMode(NeutralModeValue.Brake);
-        // reefPivotMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
+        //reefPivotMotor.configure(new SparkMaxConfig().idleMode(IdleMode.kBrake), null, null);
         //reefPivotMotor.getConfigurator().apply(talonFXConfigs);
         //reefPivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
@@ -120,7 +120,8 @@ public class ReefIntake extends SubsystemBase {
         
         
         setPosition = position;
-        //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
+        //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position) + armFeedforward.calculate(getSetPosition(), 0));
+        //                                                                       +-
         //37 degrees is rest position
     }
 
@@ -177,7 +178,7 @@ public class ReefIntake extends SubsystemBase {
      * We mutliply by 6.28 later to get the radians for the ArmFeedForward.
      */
     public double getPosition(){
-        return encoder.get(); //-0.25; sign depends on which way is forward
+        return encoder.get(); //+-0.25; sign depends on which way is forward
     }
     // checks if the reef intake is ready to intake based on the position its in.     
     public boolean isReady(){

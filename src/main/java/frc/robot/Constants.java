@@ -67,7 +67,7 @@ public final class Constants {
         public static final int pivotMotor = 50; //done
         public static final int indexerMotor = 6; //done
         public static final int reefIntakeMotor = 100; 
-        public static final int reefPivotMotor = 101;
+        public static final int reefPivotMotor = 25; //done
         public static final int climberMotor = 105; 
         
         public static final int intakeHexPort = 1;
@@ -120,7 +120,7 @@ public final class Constants {
       
       public static double kS = 0.01;
       public static double kV = 0.02;
-      public static double kG = 4.05;
+      public static double kG = 4.05; //adjust this if arm to high increase 
  
       public static double kPdown = 20.0;
       public static double kIdown = 0;

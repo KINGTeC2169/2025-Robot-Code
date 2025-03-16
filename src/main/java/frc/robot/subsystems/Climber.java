@@ -67,10 +67,12 @@ public class Climber extends SubsystemBase{
     public double getClimberCurent(){
         return climberMotor.getSupplyCurrent().getValueAsDouble();
     }
-    public void setVoltageIntake(double volts){
+    public void setVoltageClimb(double volts){
         climberMotor.setVoltage(volts);
     }
-    
+    public void setMaxHeight(){
+        //this.set(0.5);
+    }
     @Override
     public void periodic() {
         difference = Math.abs(setPosition - getPosition());
