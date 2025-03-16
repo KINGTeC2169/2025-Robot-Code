@@ -207,5 +207,6 @@ public class ReefIntake extends SubsystemBase {
         SmartDashboard.putNumber("reef Both", pivotPID.calculate(getPosition(), getSetPosition()) + armFeedforward.calculate(getPosition() * 6.28,0));
 
         setIntakePos(getSetPosition());
-    }
+
+}
 }
