@@ -184,7 +184,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     if (m_robotContainer.topLeftButton.getAsBoolean()) m_robotContainer.setFastMode();
-    if (m_robotContainer.bottomLeftButton.getAsBoolean()) m_robotContainer.setSlowMode();
     if (m_robotContainer.bottomRightButton.getAsBoolean()) m_robotContainer.setOverrideMode();
     else if (!m_robotContainer.bottomLeftButton.getAsBoolean() && !m_robotContainer.topLeftButton.getAsBoolean() && !m_robotContainer.bottomRightButton.getAsBoolean()) m_robotContainer.setMediumMode();
   }

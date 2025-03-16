@@ -125,7 +125,7 @@ public class RobotContainer {
         topRightButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
-        //bottomRightButton.whileTrue(drivetrain.applyRequest(() -> brake));
+        bottomLeftButton.whileTrue(drivetrain.applyRequest(() -> brake));
 
         drivetrain.registerTelemetry(logger::telemeterize);    
 
