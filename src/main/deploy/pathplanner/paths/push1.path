@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.62920081967213,
-        "y": 2.7842725409836064
+        "x": 6.041803278688524,
+        "y": 4.060963114754099
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.065474845328297,
-        "y": 2.7842725409836064
+        "x": 7.851946721311475,
+        "y": 4.126895491803278
       },
       "isLocked": false,
-      "linkedName": "MiddleShoot"
+      "linkedName": "RightBall"
     },
     {
       "anchor": {
-        "x": 3.75375,
-        "y": 2.913499999999999
+        "x": 8.235553278688524,
+        "y": 5.613370901639343
       },
       "prevControl": {
-        "x": 3.6221631274563584,
-        "y": 2.700932610746183
+        "x": 8.17561475409836,
+        "y": 4.150870901639344
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BottomLeftIntake"
+      "linkedName": "middlePush1"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 58.241
+    "rotation": -179.47436539354237
   },
   "reversed": false,
-  "folder": "BottomBlueShoot",
+  "folder": "MiddleBluePush",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 61.26020470831185
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }
