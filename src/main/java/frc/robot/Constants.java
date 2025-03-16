@@ -83,7 +83,7 @@ public final class Constants {
       public static PIDConstants autoTranslationPID = new PIDConstants(5.0, 0, 0);
       public static PIDConstants autoRotationPID = new PIDConstants(5.0, 0, 0);
 
-      public static boolean breakMode = true;
+      public static boolean breakMode = false;
     }
 
     public static class IntakeConstants{

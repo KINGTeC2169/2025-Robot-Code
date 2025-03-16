@@ -126,7 +126,7 @@ public class RobotContainer {
         topRightButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
-        bottomRightButton.whileTrue(drivetrain.applyRequest(() -> brake));
+        bottomLeftButton.whileTrue(drivetrain.applyRequest(() -> brake));
         
 
         drivetrain.registerTelemetry(logger::telemeterize);    
@@ -149,12 +149,12 @@ public class RobotContainer {
   }
   
 
-  // public void setOverrideMode(){
-  //   speed = 0;
-  //   dif = Limelight.setPower();
-  //   System.out.println(dif);
-  //   //if(Limelight.shootNow()) new ShootBall(shooter, intake,4500);
-  // }
+  public void setOverrideMode(){
+    speed = 0;
+    dif = Limelight.setPower();
+    System.out.println(dif);
+    //if(Limelight.shootNow()) new ShootBall(shooter, intake,4500);
+  }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
