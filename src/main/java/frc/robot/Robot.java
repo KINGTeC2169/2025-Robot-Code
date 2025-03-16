@@ -179,7 +179,7 @@ public class Robot extends TimedRobot {
     Elastic.selectTab("Teleoperated");
     m_robotContainer.logger.field.getObject("path").setPoses();
 
-    LED.intialize();
+    LED.setRed();
   }
 
   /** This function is called periodically during operator control. */

@@ -1,7 +1,6 @@
 package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Subsystem;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.Constants.ReefIntakeConstants;
 import frc.robot.subsystems.ReefIntake;

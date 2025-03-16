@@ -57,6 +57,6 @@ public class JustIntakeBallNoSensor extends Command{
 
     @Override
     public boolean isFinished(){
-        return  timer.get() > 1;
+        return timer.get() > 1;
     }
 }
