@@ -114,7 +114,7 @@ public final class Constants {
       public static final double reefrest = 0.1776698044417451;
       public static final double reefgrab = 0.06343960158599005;
 
-      public static double kP = 0.001;
+      public static double kP = 0;
       public static double kI = 0;
       public static double kD = 0;
       

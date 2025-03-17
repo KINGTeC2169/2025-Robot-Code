@@ -8,7 +8,7 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.1686475409836055,
+        "x": 7.997540983606557,
         "y": 7.267674180327869
       },
       "isLocked": false,
@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 6.737090163934426,
+        "x": 7.947848360655737,
         "y": 7.267674180327869
       },
       "prevControl": {
-        "x": 7.39641393442623,
-        "y": 7.279661885245901
+        "x": 8.197848360655737,
+        "y": 7.267674180327869
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "middlePush4"
     }
   ],
   "rotationTargets": [],

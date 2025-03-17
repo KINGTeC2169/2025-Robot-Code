@@ -24,9 +24,32 @@ import frc.robot.Constants;
 import frc.robot.Constants.ReefIntakeConstants;
 
 /* How to tune the reef intake:
- * 1. Hold the reef intake at right position using manual control and get the voltage
- * 2. Use voltage and angle to verify feedforward
- * 3. Tune PID
+ * YOU SHOULD NOT HAVE TO ADD OR DELETE ANY LINES OF CODE, just uncomment and change values when you get to them.
+ * First setup the hex encoder
+ * 1. Manually hold the pivot straight up so it balances on itself and take that postion.
+ * 2. Then Hold the pivot straight out in front of the robot and take that position.
+ * 3. If the 2nd position is less then the first, then the encoder is backwards, change getPosition() to -encoder.get() 
+ * then repeat steps 1 and 2
+ * 4. Now your encoder offset is: 1st position - 0.25. If this value is less then 0 add 1.
+ * 5. Verify that the encoder offset is correct by manually moving the arm straight up and seeing it reads 0.25. 
+ * 
+ * Setup Feedforward
+ * 1. To enable manual control from the controller tap x. Now you can move the arm with the left trigger.
+ * If X is held it will go the opposite direction as if it is not pressed
+ * 2. Slowly move the arm to a straight out position using the controller and watch the print statement and
+ * the reef FeedForward value on the dashboard. Start with the reef intake all the way down because it will 
+ * make it easier to adjust.
+ * 3. If the reef FeedForward value is negative and the volts is positive then put a negative infront of the feedforward value
+ * 4. If they have the same sign then adjust the kG value in Reef intake constants until holding it straight out gives
+ * you the same value as the volts print statement.
+ * If the volts needed is more then the feedforward is saying in elastic then increase kG, if it is less then decrease kG.
+ * 5. Verify you have done everything right up to this point by slowly going through its range of motion and checking that 
+ * feedforward is the greatest when reef intake is parallel to the ground.
+ * 
+ * Setup PID 
+ * 1. In elastic it should be called reef pivot PID
+ * 2. Start with a low P value (0.001)
+ * 3. Slowly raise and watch the ocilations and adjust the P value until it tracks its position
  */
 
 public class ReefIntake extends SubsystemBase {
@@ -120,8 +143,9 @@ public class ReefIntake extends SubsystemBase {
         
         
         setPosition = position;
+        //Uncomment this line of code once you are sure feedforward aligns with the volts you are giving the controller to hold it up 
+        //Remember to put a negative infront of armFeedforward if it is necessary in the line below
         //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position) + armFeedforward.calculate(getSetPosition(), 0));
-        //                                                                       +-
         //37 degrees is rest position
     }
 
@@ -178,7 +202,7 @@ public class ReefIntake extends SubsystemBase {
      * We mutliply by 6.28 later to get the radians for the ArmFeedForward.
      */
     public double getPosition(){
-        return encoder.get(); //+-0.25; sign depends on which way is forward
+        return encoder.get(); //-0.25; sign depends on which way is forward
     }
     // checks if the reef intake is ready to intake based on the position its in.     
     public boolean isReady(){
