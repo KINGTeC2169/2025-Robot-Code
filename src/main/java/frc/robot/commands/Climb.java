@@ -7,11 +7,11 @@ import edu.wpi.first.wpilibj.Timer;
 
 public class Climb extends Command{
     private Climber climber; 
-    private double rpm;
+    private double volts;
 
     public Climb (Climber climber, double rpm) {
         this.climber = climber;
-        this.rpm = rpm;
+        this.volts = volts;
 
         addRequirements(climber);
     }
@@ -26,6 +26,9 @@ public class Climb extends Command{
         // Called every time the scheduler runs while the command is scheduled.
         @Override
         public void execute() {
+            if ((volts < 0) || volts < 0.1){ //fix after la crosse
+                climber.setVoltageClimb(volts);
+            }
         }
         
         // Called once the command ends or is interrupted.

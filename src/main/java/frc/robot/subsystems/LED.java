@@ -7,27 +7,31 @@ public class LED {
     private static SerialPort arduino = new SerialPort(9600, Constants.Ports.arduino, 8, SerialPort.Parity.kNone, SerialPort.StopBits.kOne);
 
     public static void intialize(){
-        arduino.writeString("A");
+        arduino.writeString("I"); 
     }
 
-    public static void readyToShoot(){
-        arduino.writeString("B");
+    public static void setRed(){
+        arduino.writeString("R"); //RED
     }
 
-    public static void justShot(){
-        arduino.writeString("C");
+    public static void setYellow(){ //intakeRunning
+        arduino.writeString("B"); //YELLOW
+    }
+
+    public static void setBlue(){ //intakeHasBall
+        arduino.writeString("C"); //BLUE
     }
     
-    public static void ballIn(){
-    arduino.writeString("D");
+    public static void setPurple(){ //shootingREVing
+        arduino.writeString("D"); //PURPLE
     }
 
-    public static void noBall(){
-        arduino.writeString("E");
+    public static void setGreen(){ //shootingShot
+        arduino.writeString("E"); //GREEN
     }
 
-    public static void off(){
-        arduino.writeString("F");
+    public static void setBlack(){ //off
+        arduino.writeString("F"); //BLACK
     }
 
 

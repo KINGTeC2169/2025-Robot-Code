@@ -9,6 +9,7 @@ import frc.robot.commands.IntakeBall;
 import frc.robot.commands.LollipopIntakeBall;
 import frc.robot.commands.ProcessorScoring;
 import frc.robot.commands.ReefIntakeBall;
+import frc.robot.commands.ReefKnockOff;
 import frc.robot.commands.Rev;
 import frc.robot.commands.ShootBall;
 import frc.robot.generated.TunerConstants;
@@ -125,7 +126,8 @@ public class RobotContainer {
         topRightButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
-        //bottomRightButton.whileTrue(drivetrain.applyRequest(() -> brake));
+        bottomLeftButton.whileTrue(drivetrain.applyRequest(() -> brake));
+        
 
         drivetrain.registerTelemetry(logger::telemeterize);    
 
@@ -138,12 +140,14 @@ public class RobotContainer {
   }
 
   public void setMediumMode(){
-    speed = SmartDashboard.getNumber("Swerve Speed", 0.5);
+    if(Constants.DriveConstants.breakMode) drivetrain.applyRequest(() -> brake); 
+    else speed = SmartDashboard.getNumber("Swerve Speed", 0.5);
   }
 
   public void setSlowMode(){
     speed = 0.2;
   }
+  
 
   public void setOverrideMode(){
     speed = 0;
@@ -176,7 +180,8 @@ public class RobotContainer {
     m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
     m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
 
-    m_driverController.y().whileTrue(new ReefIntakeBall(reefIntake, shooter, intake));
+    m_driverController.y().onTrue(new ReefIntakeBall(reefIntake, shooter, intake));
+    m_driverController.back().whileTrue(new ReefKnockOff(reefIntake));
     // m_driverController.b().whileTrue(Commands.run(() -> shooter.setRPM(-1500)));
     //m_driverController.x().whileTrue(Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis())));
     //m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltagePivot(-m_driverController.getLeftTriggerAxis())));

@@ -67,7 +67,7 @@ public final class Constants {
         public static final int pivotMotor = 50; //done
         public static final int indexerMotor = 6; //done
         public static final int reefIntakeMotor = 100; 
-        public static final int reefPivotMotor = 101;
+        public static final int reefPivotMotor = 25; //done
         public static final int climberMotor = 105; 
         
         public static final int intakeHexPort = 1;
@@ -82,6 +82,8 @@ public final class Constants {
       public static RobotConfig config;
       public static PIDConstants autoTranslationPID = new PIDConstants(5.0, 0, 0);
       public static PIDConstants autoRotationPID = new PIDConstants(5.0, 0, 0);
+
+      public static boolean breakMode = false;
     }
 
     public static class IntakeConstants{
@@ -112,13 +114,13 @@ public final class Constants {
       public static final double reefrest = 0.1776698044417451;
       public static final double reefgrab = 0.06343960158599005;
 
-      public static double kP = 0.001;
+      public static double kP = 0;
       public static double kI = 0;
       public static double kD = 0;
       
-      public static double kS = 0; //0.01
-      public static double kV = 0; //0.02
-      public static double kG = 0; //4.05
+      public static double kS = 0.01;
+      public static double kV = 0.02;
+      public static double kG = 4.05; //adjust this if arm to high increase 
  
       public static double kPdown = 20.0;
       public static double kIdown = 0;

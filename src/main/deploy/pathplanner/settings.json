@@ -6,13 +6,14 @@
     "BottomBlueShoot",
     "ExamplesForLearning",
     "MiddleBlue",
+    "MiddleBluePush",
     "TopBlue"
   ],
   "autoFolders": [
     "BottomBlueShoot",
     "ExamplesForLearning",
-    "MiddleBlue",
     "JustDrive",
+    "MiddleBlue",
     "TopBlue"
   ],
   "defaultMaxVel": 3.0,

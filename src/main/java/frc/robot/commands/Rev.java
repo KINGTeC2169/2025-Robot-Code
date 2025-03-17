@@ -3,6 +3,7 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Shooter;
 
 public class Rev extends Command {
@@ -23,6 +24,7 @@ public class Rev extends Command {
     @Override
     public void initialize() {
         intake.setIntakePos(IntakeConstants.restball); // set the intake to restball position
+        LED.setBlue(); //turns on the LED to show that the shooter is running
         shooter.setTargetRPM(rpm); // set the target RPM to the desired RPM to run the shooter at
         
     }
