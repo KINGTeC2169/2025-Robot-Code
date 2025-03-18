@@ -172,8 +172,8 @@ public class RobotContainer {
     m_driverController.leftBumper().onTrue(new Rev(shooter, 4500, intake));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
-    m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis())));
-    m_driverController.x().whileFalse(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis())));
+    m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis() * 4)));
+    m_driverController.x().whileFalse(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis() * 4)));
     //m_driverController.y().whileTrue(Commands.run(() -> reefIntake.setVoltageIntake(1)));
 
     m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));

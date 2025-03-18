@@ -32,6 +32,7 @@ import frc.robot.Constants.ReefIntakeConstants;
  * then repeat steps 1 and 2
  * 4. Now your encoder offset is: 1st position - 0.25. If this value is less then 0 add 1.
  * 5. Verify that the encoder offset is correct by manually moving the arm straight up and seeing it reads 0.25. 
+ * HEX ENCODER IS TUNED!!!!!!!
  * 
  * Setup Feedforward
  * 1. To enable manual control from the controller tap x. Now you can move the arm with the left trigger.

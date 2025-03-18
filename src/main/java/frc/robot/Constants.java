@@ -110,7 +110,7 @@ public final class Constants {
 
     public static class ReefIntakeConstants{
 // tune all of these this is just temporary                           
-      public static final double encoderOffset = 0;
+      public static final double encoderOffset = 0.3063192076579802 - 0.25;
       public static final double reefrest = 0.1776698044417451;
       public static final double reefgrab = 0.06343960158599005;
 

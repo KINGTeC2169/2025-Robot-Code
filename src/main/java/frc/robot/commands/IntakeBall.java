@@ -16,7 +16,6 @@ public class IntakeBall extends Command{
     @Override
     public void initialize(){
         intake.setIntakePos(IntakeConstants.grab); //Sets intake to grab position
-        LED.setYellow(); //turns on the LED to show that the intake is running
         
     }
 
