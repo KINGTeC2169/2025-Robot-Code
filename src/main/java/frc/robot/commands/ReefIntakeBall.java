@@ -25,7 +25,7 @@ public class ReefIntakeBall extends Command{
 
     @Override
     public void initialize(){
-        reefIntake.setIntakePos(ReefIntakeConstants.reefgrab); //Sets reefIntake to grab position
+        reefIntake.setIntakePos(ReefIntakeConstants.reefGrab); //Sets reefIntake to grab position
         intake.setIntakePos(IntakeConstants.restball); //Puts intake in rest position
         
     }

@@ -64,11 +64,11 @@ public final class Constants {
         //Intake CAN id 
         public static final int shooterMotor = 14; //done
         public static final int intakeMotor = 7; //done
-        public static final int pivotMotor = 50; //done
+        public static final int pivotMotor = 5; //done
         public static final int indexerMotor = 6; //done
-        public static final int reefIntakeMotor = 100; 
-        public static final int reefPivotMotor = 25; //done
-        public static final int climberMotor = 105; 
+        public static final int reefIntakeMotor = 22; 
+        public static final int reefPivotMotor = 21; 
+        public static final int climberMotor = 23; 
         
         public static final int intakeHexPort = 1;
         public static final int reefHexPort = 2;
