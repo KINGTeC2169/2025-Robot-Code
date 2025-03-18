@@ -17,7 +17,7 @@ public class ReefKnockOff extends Command{
 
     @Override
     public void initialize(){
-        reefIntake.setIntakePos(ReefIntakeConstants.reefgrab); //Sets reefIntake to grab position       
+        reefIntake.setIntakePos(ReefIntakeConstants.reefGrab); //Sets reefIntake to grab position       
     }
 
     @Override

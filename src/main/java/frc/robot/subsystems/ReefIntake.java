@@ -17,7 +17,6 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 import frc.robot.Constants;
@@ -63,8 +62,8 @@ public class ReefIntake extends SubsystemBase {
     private PIDController pivotPID;
     private ArmFeedforward armFeedforward; 
 
-    private final double upperLimit = ReefIntakeConstants.reefrest; // needs to be fine tuned
-    private final double lowerLimit = ReefIntakeConstants.reefgrab; //limits for intake positions 
+    private final double upperLimit = ReefIntakeConstants.reefRest; // needs to be fine tuned
+    private final double lowerLimit = ReefIntakeConstants.reefGrab; //limits for intake positions 
     
     private double setPosition;
     private double difference;
@@ -103,12 +102,8 @@ public class ReefIntake extends SubsystemBase {
         //reefPivotMotor.getConfigurator().apply(talonFXConfigs);
         //reefPivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
-        setIntakePos(ReefIntakeConstants.reefrest); //uncomment tis
+        setIntakePos(ReefIntakeConstants.reefRest); //uncomment tis
     }
-
-    
-
-    //********************************************************************************************************************************* */
 
   /**Sets intake to suck in */
     public void sucker() {
@@ -158,17 +153,17 @@ public class ReefIntake extends SubsystemBase {
     }
     
     /**Returns the velocity of the intake motor. */
-    public double getreefgrabSpeed(){
+    public double getreefGrabSpeed(){
         return reefIntakeMotor.getEncoder().getVelocity();
     }
 
     /**Returns the voltage of the intake motor. */
-    public double getreefgrabVoltage(){
+    public double getreefGrabVoltage(){
         return reefIntakeMotor.getBusVoltage();
     }
 
     /**Returns the current of the reef intake motor. */
-    public double getreefgrabCurrent(){
+    public double getreefGrabCurrent(){
         return reefIntakeMotor.getOutputCurrent();
     }
 
@@ -186,7 +181,7 @@ public class ReefIntake extends SubsystemBase {
 
     /**Returns true of the intake is on. */
     public boolean isOn(){
-        return Math.abs(getreefgrabSpeed()) > 0;
+        return Math.abs(getreefGrabSpeed()) > 0;
     }
         /**Returns the intake motor's rotor velocity in rotations per minute */
     public double getRPM(){
@@ -206,7 +201,7 @@ public class ReefIntake extends SubsystemBase {
     }
     // checks if the reef intake is ready to intake based on the position its in.     
     public boolean isReady(){
-        return difference < 0.0025 || (getSetPosition() == ReefIntakeConstants.reefgrab && getPosition() < ReefIntakeConstants.reefgrab);
+        return difference < 0.0025 || (getSetPosition() == ReefIntakeConstants.reefGrab && getPosition() < ReefIntakeConstants.reefGrab);
     }
 
     @Override   
@@ -216,8 +211,8 @@ public class ReefIntake extends SubsystemBase {
 
         // SmartDashboard.putBoolean("Ball Ate detected:", ateBall());
         // SmartDashboard.putBoolean("Ball detected:", hasBall());
-        SmartDashboard.putNumber("reef Intake Motor Speed", getreefgrabSpeed());
-        SmartDashboard.putNumber("reef IntakeM Voltage", getreefgrabVoltage());
+        SmartDashboard.putNumber("reef Intake Motor Speed", getreefGrabSpeed());
+        SmartDashboard.putNumber("reef IntakeM Voltage", getreefGrabVoltage());
         SmartDashboard.putBoolean("reef Detected Color", isOn());
         SmartDashboard.putNumber("reef RPM", getRPM());
         SmartDashboard.putNumber("reef SetPosition", getSetPosition());
