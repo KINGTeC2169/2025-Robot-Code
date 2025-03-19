@@ -180,8 +180,8 @@ public class RobotContainer {
     // m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
     // m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
 
-    m_driverController.pov(0).whileTrue(Commands.run(() -> reefIntake.setPosition =Constants.ReefIntakeConstants.reefRest));
-    m_driverController.pov(180).whileTrue(Commands.run(() -> reefIntake.setPosition = Constants.ReefIntakeConstants.reefGrab));
+   // m_driverController.pov(0).whileTrue(Commands.run(() -> reefIntake.setPosition =Constants.ReefIntakeConstants.reefRest));
+    //m_driverController.pov(180).whileTrue(Commands.run(() -> reefIntake.setPosition = Constants.ReefIntakeConstants.reefGrab));
     //m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
 
     m_driverController.y().onTrue(new ReefIntakeBall(reefIntake, shooter, intake));
