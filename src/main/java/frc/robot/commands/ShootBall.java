@@ -49,10 +49,7 @@ public class ShootBall extends Command {
     
     // Called every time the scheduler runs while the command is scheduled.
     @Override
-    public void execute() {
-        //shooter.vroom(20);
-        //temporary if statement since we do not have a variable target velocity yet
-         
+    public void execute() {        
         if(shooter.isReady())counter++; //counter creates a delay to make sure the shooter is ready to shoot and 
         if(counter == 10)shooterReady = true; 
         if(shooterReady){ //if the shooter is ready to shoot, set the intake to run at a certain voltage to shoot the ball

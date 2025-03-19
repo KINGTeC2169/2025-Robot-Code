@@ -22,12 +22,12 @@ public class ReefKnockOff extends Command{
 
     @Override
     public void execute(){
-        reefIntake.setVoltageIntake(0.4*12); //runs reefIntake to suck in the ball
+        reefIntake.setVoltageIntake(2); //runs reefIntake to suck in the ball
     }    
     @Override
     public void end(boolean interrupted){
         reefIntake.setIntakePos(IntakeConstants.rest); //Puts reefIntake in rest position
-        reefIntake.setVoltageIntake(0.05*12); //Keeps the reefIntake motor running to keep the ball in thereefIntake
+        reefIntake.setVoltageIntake(0); //Keeps the reefIntake motor running to keep the ball in thereefIntake
     }
 
     @Override

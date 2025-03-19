@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 6.62920081967213,
-        "y": 4.001024590163935
+        "x": 5.214651639344262,
+        "y": 2.7842725409836064
       },
       "prevControl": {
-        "x": 7.346386181047322,
-        "y": 3.7489667130900965
+        "x": 5.931837000719454,
+        "y": 2.5322146639097682
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 118.88658176691067
   },
   "reversed": false,
   "folder": "BottomBlueShoot",

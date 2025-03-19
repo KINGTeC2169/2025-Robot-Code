@@ -33,23 +33,15 @@ import frc.robot.Constants.ReefIntakeConstants;
  * 5. Verify that the encoder offset is correct by manually moving the arm straight up and seeing it reads 0.25. 
  * HEX ENCODER IS TUNED!!!!!!!
  * 
- * Setup Feedforward
- * 1. To enable manual control from the controller tap x. Now you can move the arm with the left trigger.
- * If X is held it will go the opposite direction as if it is not pressed
- * 2. Slowly move the arm to a straight out position using the controller and watch the print statement and
- * the reef FeedForward value on the dashboard. Start with the reef intake all the way down because it will 
- * make it easier to adjust.
- * 3. If the reef FeedForward value is negative and the volts is positive then put a negative infront of the feedforward value
- * 4. If they have the same sign then adjust the kG value in Reef intake constants until holding it straight out gives
- * you the same value as the volts print statement.
- * If the volts needed is more then the feedforward is saying in elastic then increase kG, if it is less then decrease kG.
- * 5. Verify you have done everything right up to this point by slowly going through its range of motion and checking that 
- * feedforward is the greatest when reef intake is parallel to the ground.
+ * Tune PID 
+ * 1. You can manually move the reef intake with either trigger.
+ * 2. In elastic use the reef pivot PID to tune the PID.
+ * 3. You can change the set position of the reef intake with x and y.
+ * If the Arm is moving the opposite direction of the set point put a negative in front of the pivotPID line 135
  * 
- * Setup PID 
- * 1. In elastic it should be called reef pivot PID
- * 2. Start with a low P value (0.001)
- * 3. Slowly raise and watch the ocilations and adjust the P value until it tracks its position
+ * Once you are done PID tuning you can test the flywheel, (button board top left 3 buttons)
+ * Then test the reef knock off command. Comment out the manual set position in robot container and uncomment the Reef knock off command.
+ * When you test the reef knock off command you may need to chang ethe flywheel volts which can be changed in ReefKnockOff.java Line 25k
  */
 
 public class ReefIntake extends SubsystemBase {
@@ -63,14 +55,14 @@ public class ReefIntake extends SubsystemBase {
     private PIDController pivotPID;
     private ArmFeedforward armFeedforward; 
 
-    private final double upperLimit = ReefIntakeConstants.reefRest; // needs to be fine tuned
-    private final double lowerLimit = ReefIntakeConstants.reefGrab; //limits for intake positions 
+    private final double lowerLimit = ReefIntakeConstants.reefRest; // needs to be fine tuned
+    private final double upperLimit = ReefIntakeConstants.reefGrab; //limits for intake positions 
     
     private double setPosition;
     private double difference;
 
     //Reef Intake is 2.8 lbs
-    //Bar is 20 inches long // add getter and  setet===  setter
+    //Bar is 20 inches long 
 
     public ReefIntake(){
         var talonFXConfigs = new TalonFXConfiguration();
@@ -139,10 +131,8 @@ public class ReefIntake extends SubsystemBase {
         
         
         setPosition = position;
-        //Uncomment this line of code once you are sure feedforward aligns with the volts you are giving the controller to hold it up 
-        //Remember to put a negative infront of armFeedforward if it is necessary in the line below
-        reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
-        //37 degrees is rest position
+        //Remember to put negative infront of pivot if the arm goes the opposite direction of the set point
+        reefPivotMotor.setVoltage(pivotPID.calculate(getPosition(), position)); //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
     }
 
     /**Stops all motors */
@@ -223,7 +213,7 @@ public class ReefIntake extends SubsystemBase {
         SmartDashboard.putNumber("reef Pivot Current", getPivotCurrent());
         SmartDashboard.putBoolean("reef Pivot Ready", isReady());
         SmartDashboard.putData("reef Pivot PID", pivotPID);
-        SmartDashboard.putNumber("reef FeedForward", armFeedforward.calculate(getPosition() * 6.28,0));
+        //SmartDashboard.putNumber("reef FeedForward", armFeedforward.calculate(getPosition() * 6.28,0));
         SmartDashboard.putNumber("reef PID Value", pivotPID.calculate(getPosition(), getSetPosition()));
         SmartDashboard.putNumber("reef Both", pivotPID.calculate(getPosition(), getSetPosition()) + armFeedforward.calculate(getPosition() * 6.28,0));
 

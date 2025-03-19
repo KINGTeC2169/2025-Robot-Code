@@ -12,6 +12,7 @@ import frc.robot.commands.ReefIntakeBall;
 import frc.robot.commands.ReefKnockOff;
 import frc.robot.commands.Rev;
 import frc.robot.commands.ShootBall;
+import frc.robot.commands.Unshoot;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -126,7 +127,7 @@ public class RobotContainer {
         topRightButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
-        bottomLeftButton.whileTrue(drivetrain.applyRequest(() -> brake));
+        bottomRightButton.whileTrue(drivetrain.applyRequest(() -> brake));
         
 
         drivetrain.registerTelemetry(logger::telemeterize);    
@@ -172,25 +173,32 @@ public class RobotContainer {
     m_driverController.leftBumper().onTrue(new Rev(shooter, 4500, intake));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
-    m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis()))); // hold x- backwrd
-    m_driverController.x().whileFalse(Commands.run(() -> reefIntake.setVoltagePivot(-m_driverController.getLeftTriggerAxis()))); // tap x - forward
-    //m_driverController.y().whileTrue(Commands.run(() -> reefIntake.setVoltageIntake(1)));
+    m_driverController.start().onTrue(new Unshoot(shooter, intake));
 
-    // m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));
-    // m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
-    // m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
+    //Reef intake manual controls:
+    m_driverController.leftTrigger(0.1).whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis()))); 
+    m_driverController.rightTrigger(0.1).whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(-m_driverController.getRightTriggerAxis()))); 
+    m_driverController.back().whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(0)));
+    m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setIntakePos(Constants.ReefIntakeConstants.reefGrab)));
+    m_driverController.y().whileTrue(Commands.run(() -> reefIntake.setIntakePos(Constants.ReefIntakeConstants.reefRest)));
 
-   // m_driverController.pov(0).whileTrue(Commands.run(() -> reefIntake.setPosition =Constants.ReefIntakeConstants.reefRest));
-    //m_driverController.pov(180).whileTrue(Commands.run(() -> reefIntake.setPosition = Constants.ReefIntakeConstants.reefGrab));
-    //m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
+    //Reef intake wheel manual control:
+    buttonBoard.button(1).whileTrue(Commands.run(() -> reefIntake.setVoltageIntake(2)));
+    buttonBoard.button(2).whileTrue(Commands.run(() ->   reefIntake.setVoltageIntake(-2)));
+    buttonBoard.button(3).whileTrue(Commands.run(() ->   reefIntake.setVoltageIntake(0)));
 
-    m_driverController.y().onTrue(new ReefIntakeBall(reefIntake, shooter, intake));
-    m_driverController.back().whileTrue(new ReefKnockOff(reefIntake));
-    // m_driverController.b().whileTrue(Commands.run(() -> shooter.setRPM(-1500)));
-    //m_driverController.x().whileTrue(Commands.run(() -> intake.setVoltagePivot(m_driverController.getRightTriggerAxis())));
-    //m_driverController.y().whileTrue(Commands.run(() -> intake.setVoltagePivot(-m_driverController.getLeftTriggerAxis())));
-    m_driverController.start().whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
-    // m_driverController.a().whileTrue(Commands.run(() -> shooter.setRPM(0)));
+
+    //Intake manual controls:
+    m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));
+    m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
+    m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
+    
+
+    //Uncomment and use this after reef intake is tuned, remember to comment out the other use of x and y when you do this.
+    //m_driverController.x().whileTrue(new ReefKnockOff(reefIntake));
+
+
+
 
     // m_driverController.rightTrigger(.05).onTrue(Commands.runOnce(SignalLogger::start));
     // m_driverController.leftTrigger(.05).onTrue(Commands.runOnce(SignalLogger::stop));
@@ -209,8 +217,9 @@ public class RobotContainer {
     //Button Board
     //buttonBoard.button(1).whileTrue(Commands.run(() -> intake.shouldIntakeOverride = true));
     //buttonBoard.button(2).whileTrue(Commands.run(() ->  intake.shouldIntakeOverride = false));
-    buttonBoard.button(3).whileTrue(Commands.run(() -> shooter.setTargetRPM(1000)));
-    buttonBoard.button(4).whileTrue(Commands.run(() -> shooter.setTargetRPM(-1000)));
+    buttonBoard.button(6).whileTrue(Commands.run(() -> shooter.setTargetRPM(1000)));
+    buttonBoard.button(7).whileTrue(Commands.run(() -> shooter.setTargetRPM(-1000)));
+    buttonBoard.button(8).whileTrue(Commands.run(() -> intake.setVoltagePivot(0)));
     //buttonBoard.button(5).whileTrue(Commands.run(() ->  intake.shouldOuttake = true));
     //buttonBoard.button(6).whileTrue(Commands.run(() -> intake.shouldOuttake = false));
     // buttonBoard.button(7).whileTrue(Commands.run(() -> intake.shouldOuttakeAdjust = true));
