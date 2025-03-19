@@ -152,7 +152,7 @@ public class RobotContainer {
   public void setOverrideMode(){
     speed = 0;
     dif = Limelight.setPower();
-    System.out.println(dif);
+    //System.out.println(dif);
     //if(Limelight.shootNow()) new ShootBall(shooter, intake,4500);
   }
 
@@ -172,13 +172,17 @@ public class RobotContainer {
     m_driverController.leftBumper().onTrue(new Rev(shooter, 4500, intake));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
-    m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis() * 4)));
-    m_driverController.x().whileFalse(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis() * 4)));
+    m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis()))); // hold x- backwrd
+    m_driverController.x().whileFalse(Commands.run(() -> reefIntake.setVoltagePivot(-m_driverController.getLeftTriggerAxis()))); // tap x - forward
     //m_driverController.y().whileTrue(Commands.run(() -> reefIntake.setVoltageIntake(1)));
 
-    m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));
-    m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
-    m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
+    // m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));
+    // m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
+    // m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
+
+    m_driverController.pov(0).whileTrue(Commands.run(() -> reefIntake.setPosition =Constants.ReefIntakeConstants.reefRest));
+    m_driverController.pov(180).whileTrue(Commands.run(() -> reefIntake.setPosition = Constants.ReefIntakeConstants.reefGrab));
+    //m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
 
     m_driverController.y().onTrue(new ReefIntakeBall(reefIntake, shooter, intake));
     m_driverController.back().whileTrue(new ReefKnockOff(reefIntake));

@@ -70,7 +70,7 @@ public class ReefIntake extends SubsystemBase {
     private double difference;
 
     //Reef Intake is 2.8 lbs
-    //Bar is 20 inches long
+    //Bar is 20 inches long // add getter and  setet===  setter
 
     public ReefIntake(){
         var talonFXConfigs = new TalonFXConfiguration();
@@ -141,7 +141,7 @@ public class ReefIntake extends SubsystemBase {
         setPosition = position;
         //Uncomment this line of code once you are sure feedforward aligns with the volts you are giving the controller to hold it up 
         //Remember to put a negative infront of armFeedforward if it is necessary in the line below
-        //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position) + armFeedforward.calculate(getSetPosition(), 0));
+        reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
         //37 degrees is rest position
     }
 
