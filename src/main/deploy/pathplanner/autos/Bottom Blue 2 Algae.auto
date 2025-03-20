@@ -5,21 +5,47 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BottomBlueIntake(1)"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BottomBlueIntake(1)"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Rev"
+            "name": "ReefIntake"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "BottomBlueShoot(2)"
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BottomBlueShoot(2)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Rev"
+                }
+              }
+            ]
           }
         },
         {
@@ -29,21 +55,47 @@
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "BottomBlueIntake(4)"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BottomBlueIntake(4)"
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Rev"
+            "name": "ReefIntake"
           }
         },
         {
-          "type": "path",
+          "type": "wait",
           "data": {
-            "pathName": "BottomBlueShoot(5)"
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "BottomBlueShoot(5)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Rev"
+                }
+              }
+            ]
           }
         },
         {
