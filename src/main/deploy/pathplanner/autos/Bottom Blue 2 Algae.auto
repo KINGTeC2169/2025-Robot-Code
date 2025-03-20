@@ -13,14 +13,14 @@
                 "data": {
                   "pathName": "BottomBlueIntake(1)"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ReefIntake"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ReefIntake"
           }
         },
         {
@@ -63,14 +63,14 @@
                 "data": {
                   "pathName": "BottomBlueIntake(4)"
                 }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "ReefIntake"
+                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ReefIntake"
           }
         },
         {
