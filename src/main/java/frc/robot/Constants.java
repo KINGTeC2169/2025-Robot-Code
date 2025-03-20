@@ -70,8 +70,8 @@ public final class Constants {
         public static final int reefPivotMotor = 25; 
         public static final int climberMotor = 23; 
         
-        public static final int intakeHexPort = 1;
-        public static final int reefHexPort = 2;
+        public static final int intakeHexPort = 31;
+        public static final int reefHexPort = 32;
 
         public static final Port arduino = SerialPort.Port.kUSB1;
         
