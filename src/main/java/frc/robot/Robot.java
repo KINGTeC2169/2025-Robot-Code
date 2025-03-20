@@ -62,7 +62,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage());
     SmartDashboard.putNumber("CPU Temperature", RobotController.getCPUTemp());
     SmartDashboard.putBoolean("RSL", RobotController.getRSLState());
-    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+    // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     SmartDashboard.putData("pdh", pdh);
 
     //Swerve Widget

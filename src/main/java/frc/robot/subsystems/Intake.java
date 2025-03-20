@@ -41,7 +41,7 @@ public class Intake extends SubsystemBase {
     private PIDController pivotPID;
     private PIDController pivotPIDdown;
     
-    private double setPosition;
+    private double setPosition = IntakeConstants.rest;
     private double difference; //between target and actual position
 
     private final double upperLimit = IntakeConstants.rest; // needs to be fine tuned

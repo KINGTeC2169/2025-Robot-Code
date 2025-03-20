@@ -132,7 +132,7 @@ public class ReefIntake extends SubsystemBase {
         
         setPosition = position;
         //Remember to put negative infront of pivot if the arm goes the opposite direction of the set point
-        reefPivotMotor.setVoltage(pivotPID.calculate(getPosition(), position)); //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
+        reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position)); //reefPivotMotor.setVoltage(-pivotPID.calculate(getPosition(), position));
     }
 
     /**Stops all motors */

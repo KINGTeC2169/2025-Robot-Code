@@ -176,8 +176,8 @@ public class RobotContainer {
     m_driverController.start().onTrue(new Unshoot(shooter, intake));
 
     //Reef intake manual controls:
-    m_driverController.leftTrigger(0.1).whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis()))); //left byumber up
-    m_driverController.rightTrigger(0.1).whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(-m_driverController.getRightTriggerAxis())));  //right bummper down
+    m_driverController.leftTrigger(0.1).whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis()))); //left reef up
+    m_driverController.rightTrigger(0.1).whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(-m_driverController.getRightTriggerAxis())));  //right reef down
     m_driverController.back().whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(0)));
     m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setIntakePos(Constants.ReefIntakeConstants.reefGrab)));
     m_driverController.y().whileTrue(Commands.run(() -> reefIntake.setIntakePos(Constants.ReefIntakeConstants.reefRest)));
