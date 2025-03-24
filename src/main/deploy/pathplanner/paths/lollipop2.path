@@ -1,0 +1,73 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 4.456,
+        "y": 6.674282786885247
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.7166557377049187,
+        "y": 6.086524590163936
+      },
+      "isLocked": false,
+      "linkedName": "Shootpos"
+    },
+    {
+      "anchor": {
+        "x": 1.1388319672131146,
+        "y": 3.729
+      },
+      "prevControl": {
+        "x": 3.0928166356518796,
+        "y": 5.9707106111289905
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "lol2"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.5,
+      "rotationDegrees": -131.077
+    }
+  ],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.544913151364764,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.75,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
+  "pointTowardsZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -131.30861401354886
+  },
+  "reversed": false,
+  "folder": "lollipop top",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -19.9
+  },
+  "useDefaultConstraints": true
+}
