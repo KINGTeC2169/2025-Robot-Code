@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.2246926229508195,
-        "y": 6.326639344262295
+        "x": 4.456,
+        "y": 6.674282786885247
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.485348360655738,
-        "y": 5.738881147540985
+        "x": 3.7166557377049187,
+        "y": 6.086524590163936
       },
       "isLocked": false,
-      "linkedName": "lol1"
+      "linkedName": "Shootpos"
     },
     {
       "anchor": {
-        "x": 1.2285000000000001,
-        "y": 2.22125
+        "x": 1.1388319672131146,
+        "y": 2.071004098360655
       },
       "prevControl": {
-        "x": 1.4656708245126289,
-        "y": 2.300306941504209
+        "x": 1.3760027917257434,
+        "y": 2.150061039864864
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,21 @@
       "rotationDegrees": -118.48920587344578
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.5111662531017362,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.75,
+        "maxAcceleration": 3.0,
+        "maxAngularVelocity": 540.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
@@ -53,7 +67,7 @@
   "folder": "lollipop top",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -19.9
   },
   "useDefaultConstraints": true
 }
