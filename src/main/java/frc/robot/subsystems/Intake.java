@@ -3,17 +3,11 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ResetMode;
+
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.config.SparkMaxConfig;
-import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
 
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
@@ -31,11 +25,11 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
     private TalonFX intakeMotor;
     private TalonFX indexerMotor;
-    private SparkMax pivotMotor;
+    private TalonFX pivotMotor;
 
     private Rev2mDistanceSensor distanceSensor;
 
-    private SparkMaxConfig pivotConfig;
+   // private SparkMaxConfig pivotConfig;
 
     private DutyCycleEncoder encoder;
     private PIDController pivotPID;
@@ -67,23 +61,23 @@ public class Intake extends SubsystemBase {
         var slot0Configs = talonFXConfigs.Slot0;
         slot0Configs.kP = 0.01;
 
-        pivotConfig = new SparkMaxConfig();
+        //pivotConfig = new SparkMaxConfig();
 
-        pivotConfig.idleMode(IdleMode.kBrake);
+        //pivotConfig.idleMode(IdleMode.kBrake);
 
-        pivotConfig.encoder.positionConversionFactor(1000);
-        pivotConfig.encoder.velocityConversionFactor(1000);
+        //pivotConfig.encoder.positionConversionFactor(1000);
+        //pivotConfig.encoder.velocityConversionFactor(1000);
 
-        pivotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
+        //pivotConfig.closedLoop.feedbackSensor(FeedbackSensor.kPrimaryEncoder).pid(1.0,0.0,0.0);
 
         encoder = new DutyCycleEncoder(1,1,Constants.IntakeConstants.encoderOffset);
         
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
         indexerMotor = new TalonFX(Constants.Ports.indexerMotor);
-      
-        pivotMotor = new SparkMax(Constants.Ports.pivotMotor, MotorType.kBrushless);
+        pivotMotor = new TalonFX(Constants.Ports.pivotMotor);
+        //pivotMotor = new SparkMax(Constants.Ports.pivotMotor, MotorType.kBrushless);
 
-        pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        //pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
 
         pivotPID = new PIDController(IntakeConstants.kP, IntakeConstants.kI,IntakeConstants.kD);
         pivotForward = new SimpleMotorFeedforward(IntakeConstants.kS, IntakeConstants.kV, IntakeConstants.kA);
@@ -94,7 +88,8 @@ public class Intake extends SubsystemBase {
         intakeMotor.setNeutralMode(NeutralModeValue.Brake);
         indexerMotor.getConfigurator().apply(talonFXConfigs);
         indexerMotor.setNeutralMode(NeutralModeValue.Brake);
-        
+        pivotMotor.getConfigurator().apply(talonFXConfigs);
+        pivotMotor.setNeutralMode(NeutralModeValue.Brake);
 
         setIntakePos(IntakeConstants.restball);  
     }
@@ -163,12 +158,12 @@ public class Intake extends SubsystemBase {
 
     //getVoltagePivot
     public double getPivotVoltage(){
-        return pivotMotor.getBusVoltage();
+        return pivotMotor.getSupplyVoltage().getValueAsDouble();
     }
 
     //getCurrentPivot
     public double getPivotCurrent(){
-        return pivotMotor.getOutputCurrent();
+        return pivotMotor.getSupplyCurrent().getValueAsDouble();
     }
 
     /**Returns true of the intake is on. */
