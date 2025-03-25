@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.4164959016393444,
-        "y": 4.918084016393442
+        "x": 7.167,
+        "y": 2.1848872950819667
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.332806663927815,
-        "y": 5.286686753932404
+        "x": 3.9700416238315688,
+        "y": 2.1695739287523126
       },
       "isLocked": false,
-      "linkedName": "blah"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 6.513,
-        "y": 6.638
+        "x": 1.2467213114754097,
+        "y": 2.1848872950819667
       },
       "prevControl": {
-        "x": 5.613571125171422,
-        "y": 6.377967723826252
+        "x": 3.5602715891046266,
+        "y": 2.197389996695135
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Shootpos"
+      "linkedName": "lolbottom1"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": -179.44909602078144
   },
   "reversed": false,
-  "folder": "TopBlue",
+  "folder": "lollipop bottom",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -59.42077312751098
+    "rotation": 179.68169338854864
   },
   "useDefaultConstraints": true
 }

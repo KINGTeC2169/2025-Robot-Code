@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.045,
-        "y": 4.025
+        "x": 6.041803278688524,
+        "y": 4.060963114754099
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.8267181714745195,
-        "y": 4.180506879838019
+        "x": 6.85157842849409,
+        "y": 3.756631981799302
       },
       "isLocked": false,
       "linkedName": "RightBall"
     },
     {
       "anchor": {
-        "x": 6.571500000000001,
-        "y": 5.14625
+        "x": 6.62920081967213,
+        "y": 2.7842725409836064
       },
       "prevControl": {
-        "x": 6.3439612356235315,
-        "y": 5.249816938286451
+        "x": 6.432888872086867,
+        "y": 2.9390679518822527
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 61.26020470831185
   },
   "reversed": false,
   "folder": "MiddleBlue",

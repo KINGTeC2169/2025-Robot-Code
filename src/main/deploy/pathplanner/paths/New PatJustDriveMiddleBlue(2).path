@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.15775,
-        "y": 2.8842499999999998
+        "x": 5.664749999999999,
+        "y": 4.060963114754099
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.65872845897885,
-        "y": 2.8615668435754142
+        "x": 6.664749999999999,
+        "y": 4.060963114754099
       },
       "isLocked": false,
-      "linkedName": "IntakeBottomRight"
+      "linkedName": "MiddleBlueLaCrosse"
     },
     {
       "anchor": {
         "x": 6.571500000000001,
-        "y": 5.14625
+        "y": 4.060963114754099
       },
       "prevControl": {
-        "x": 6.348881453827097,
-        "y": 5.032491558995112
+        "x": 5.571500000000001,
+        "y": 4.060963114754099
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "MiddleShoot"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 179.25606155276338
   },
   "reversed": false,
   "folder": "MiddleBlue",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 121.93100000000001
+    "rotation": 180.0
   },
   "useDefaultConstraints": true
 }

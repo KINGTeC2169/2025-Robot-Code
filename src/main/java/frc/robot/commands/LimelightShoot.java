@@ -7,9 +7,10 @@ import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.LED;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.Limelight;
 
 // just remove all the useless stuff
-public class ShootBall extends Command {
+public class LimelightShoot extends Command {
     
     private Shooter shooter;
     private Intake intake;
@@ -20,7 +21,7 @@ public class ShootBall extends Command {
     private boolean shooterReady = false;
     
     // Creates a new ShootBall command to run the shooter and intake to shoot the ball
-    public ShootBall(Shooter shooter, Intake intake, double rpm) {
+    public LimelightShoot(Shooter shooter, Intake intake, double rpm) {
         this.shooter = shooter;
         this.intake = intake;
     
@@ -35,10 +36,11 @@ public class ShootBall extends Command {
     @Override
     public void initialize() {
        LED.setBlue();
-       // shooter.vroom(20);
-       shooter.setTargetRPM(rpm);
+       
+       
        intake.setIntakePos(IntakeConstants.restball); // set the intake to restball position
        timer = new Timer();
+       shooter.setTargetRPM(rpm);
        counter = 0;
 
 
@@ -79,7 +81,7 @@ public class ShootBall extends Command {
     
     @Override
     public boolean isFinished() {
-        return timer.get() > 1; // check if the timer is greater than 1 second to end the command, this will give a short burst to shoot the ball
+        return !Limelight.getTv() || timer.get() > 1; // check if the timer is greater than 1 second to end the command, this will give a short burst to shoot the ball
     }
 
 }

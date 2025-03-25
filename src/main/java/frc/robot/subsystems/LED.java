@@ -4,30 +4,30 @@ import edu.wpi.first.wpilibj.SerialPort;
 import frc.robot.Constants;
 
 public class LED {
-    private static SerialPort arduino = new SerialPort(9600, Constants.Ports.arduino, 8, SerialPort.Parity.kNone, SerialPort.StopBits.kOne);
+    // private static SerialPort arduino = new SerialPort(9600, Constants.Ports.arduino, 8, SerialPort.Parity.kNone, SerialPort.StopBits.kOne);
 
     public static void intialize(){
-        arduino.writeString("A");
+        //arduino.writeString("F"); 
     }
 
-    public static void readyToShoot(){
-        arduino.writeString("B");
+    public static void setRed(){
+        //arduino.writeString("R"); //RED
     }
 
-    public static void justShot(){
-        arduino.writeString("C");
+   
+
+    public static void setBlue(){ //intakeHasBall
+        //arduino.writeString("B"); //BLUE
     }
     
-    public static void ballIn(){
-    arduino.writeString("D");
+    
+
+    public static void setGreen(){ //shootingShot
+        //arduino.writeString("G"); //GREEN
     }
 
-    public static void noBall(){
-        arduino.writeString("E");
-    }
-
-    public static void off(){
-        arduino.writeString("F");
+    public static void setBlack(){ //off
+        //arduino.writeString("A"); //BLACK
     }
 
 

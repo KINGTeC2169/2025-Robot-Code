@@ -11,22 +11,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BottomBlueIntake(1)"
+                  "pathName": "lollipop bottom"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ReefIntake"
+                  "name": "UpIntake"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
           }
         },
         {
@@ -36,7 +30,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BottomBlueShoot(2)"
+                  "pathName": "lollipop bottom 2"
                 }
               },
               {
@@ -61,22 +55,16 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BottomBlueIntake(4)"
+                  "pathName": "lollipop bottom 3"
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "ReefIntake"
+                  "name": "UpIntake"
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.0
           }
         },
         {
@@ -86,7 +74,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "BottomBlueShoot(5)"
+                  "pathName": "lollipop bottom 4"
                 }
               },
               {
@@ -108,6 +96,6 @@
     }
   },
   "resetOdom": true,
-  "folder": "BottomBlueShoot",
+  "folder": null,
   "choreoAuto": false
 }

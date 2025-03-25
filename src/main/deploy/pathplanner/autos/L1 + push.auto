@@ -1,0 +1,43 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "PickupMiddleBlue(1)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "push1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "push2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "push3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "push4"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

@@ -8,24 +8,24 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.634046437692978,
-        "y": 2.4591737500058746
+        "x": 4.7677499999999995,
+        "y": 1.5875
       },
       "isLocked": false,
       "linkedName": "BottomLeftIntake"
     },
     {
       "anchor": {
-        "x": 6.035250000000001,
-        "y": 1.0219999999999994
+        "x": 6.62920081967213,
+        "y": 2.7842725409836064
       },
       "prevControl": {
-        "x": 5.462793629256783,
-        "y": 1.3838571337710748
+        "x": 6.056744448928912,
+        "y": 3.1461296747546816
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "BottomShoot"
+      "linkedName": "MiddleShoot"
     }
   ],
   "rotationTargets": [],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 61.26020470831185
   },
   "reversed": false,
   "folder": "BottomBlueShoot",

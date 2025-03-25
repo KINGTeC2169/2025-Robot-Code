@@ -31,6 +31,7 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.LED;
 import frc.robot.util.Elastic;
 
 /**
@@ -61,7 +62,7 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage());
     SmartDashboard.putNumber("CPU Temperature", RobotController.getCPUTemp());
     SmartDashboard.putBoolean("RSL", RobotController.getRSLState());
-    SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
+    // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     SmartDashboard.putData("pdh", pdh);
 
     //Swerve Widget
@@ -85,6 +86,7 @@ public class Robot extends TimedRobot {
       builder.addDoubleProperty("Robot Angle", () -> m_robotContainer.drivetrain.getPigeon2().getRotation2d().getRadians(), null);
     }
   });
+  LED.intialize();
   }
 
   /**
@@ -177,6 +179,8 @@ public class Robot extends TimedRobot {
     }
     Elastic.selectTab("Teleoperated");
     m_robotContainer.logger.field.getObject("path").setPoses();
+
+    LED.setRed();
   }
 
   /** This function is called periodically during operator control. */
@@ -184,9 +188,10 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     if (m_robotContainer.topLeftButton.getAsBoolean()) m_robotContainer.setFastMode();
-    if (m_robotContainer.bottomLeftButton.getAsBoolean()) m_robotContainer.setSlowMode();
-    if (m_robotContainer.bottomRightButton.getAsBoolean()) m_robotContainer.setOverrideMode();
-    else if (!m_robotContainer.bottomLeftButton.getAsBoolean() && !m_robotContainer.topLeftButton.getAsBoolean() && !m_robotContainer.bottomRightButton.getAsBoolean()) m_robotContainer.setMediumMode();
+    else if (m_robotContainer.bottomLeftButton.getAsBoolean()) m_robotContainer.setOverrideMode();
+    else m_robotContainer.setMediumMode();
+    // if (m_robotContainer.bottomRightButton.getAsBoolean()) m_robotContainer.setOverrideMode();
+    // 
   }
 
   @Override

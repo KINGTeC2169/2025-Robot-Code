@@ -8,7 +8,7 @@ import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
-import com.revrobotics.Rev2mDistanceSensor.Unit;
+
 import com.revrobotics.spark.SparkBase.PersistMode;
 import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
@@ -32,6 +32,9 @@ public class Climber extends SubsystemBase{
     private TalonFX climberMotor;
     private DutyCycleEncoder climberEncoder;
     private PIDController climberPID;
+
+    double difference = 0;
+    double setPosition = 0;
     public Climber() {
     
         var talonFXConfigs = new TalonFXConfiguration();
@@ -63,6 +66,16 @@ public class Climber extends SubsystemBase{
     
     public double getClimberCurent(){
         return climberMotor.getSupplyCurrent().getValueAsDouble();
+    }
+    public void setVoltageClimb(double volts){
+        climberMotor.setVoltage(volts);
+    }
+    public void setMaxHeight(){
+        //this.set(0.5);
+    }
+    @Override
+    public void periodic() {
+        difference = Math.abs(setPosition - getPosition());
     }
 
     

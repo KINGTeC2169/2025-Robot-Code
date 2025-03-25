@@ -64,14 +64,14 @@ public final class Constants {
         //Intake CAN id 
         public static final int shooterMotor = 14; //done
         public static final int intakeMotor = 7; //done
-        public static final int pivotMotor = 50; //done
+        public static final int pivotMotor = 5; //done
         public static final int indexerMotor = 6; //done
-        public static final int reefIntakeMotor = 100; 
-        public static final int reefPivotMotor = 101;
-        public static final int climberMotor = 105; 
+        public static final int reefIntakeMotor = 22; 
+        public static final int reefPivotMotor = 25; 
+        public static final int climberMotor = 23; 
         
-        
-        public static final int encoder = 1;
+        public static final int intakeHexPort = 1;
+        public static final int reefHexPort = 2;
 
         public static final Port arduino = SerialPort.Port.kUSB1;
         
@@ -82,6 +82,8 @@ public final class Constants {
       public static RobotConfig config;
       public static PIDConstants autoTranslationPID = new PIDConstants(5.0, 0, 0);
       public static PIDConstants autoRotationPID = new PIDConstants(5.0, 0, 0);
+
+      public static boolean breakMode = false;
     }
 
     public static class IntakeConstants{
@@ -108,18 +110,17 @@ public final class Constants {
 
     public static class ReefIntakeConstants{
 // tune all of these this is just temporary                           
-      public static final double encoderOffset = 0;
-      public static final double reefrest = 0.1776698044417451;
-      public static final double reefgrab = 0.06343960158599005;
-      public static final double reefrestball = 0.14493320312333007;
+      public static final double encoderOffset = 0.6457992161449804 - 0.25;
+      public static final double reefRest = 0.09504339605108491;
+      public static final double reefGrab = 0.38473420336835507;
 
-      public static double kP = 20.0;
+      public static double kP = 0.1;
       public static double kI = 0;
       public static double kD = 0;
       
-      public static double kS = 0;
-      public static double kV = 3.5;
-      public static double kA = 0;
+      public static double kS = 0.01;
+      public static double kV = 1.42;//adjust this if arm to high increase 
+      public static double kG = 0.03; 
  
       public static double kPdown = 20.0;
       public static double kIdown = 0;
@@ -128,6 +129,8 @@ public final class Constants {
     
     public static class ClimberConstants{
       public static final double encoderOffset = 0;
+      public static final double rest = 0.1776698044417451;
+      public static final double takeOff = 0.06343960158599005;
 
       public static double kP = 20.0;
       public static double kI = 0;
