@@ -19,6 +19,7 @@ public class Limelight extends SubsystemBase{
         SmartDashboard.putNumber("LL Ta", getTa());
         SmartDashboard.putBoolean("LL ready", Limelight.shootNow());
         SmartDashboard.putNumber("LL power" , Limelight.setPower());
+        SmartDashboard.putNumber("LL turn power" , Limelight.turnSetPower());
         SmartDashboard.putNumber("LL distance" , Limelight.distanceFromTag());
     }
 
@@ -73,4 +74,12 @@ public class Limelight extends SubsystemBase{
     public static Pose2d getLimelightPose(){
         return LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight").pose;
     }
+
+    public static double turnSetPower(){
+        if(!getTv()) return 0;
+        if((getTy())> 10) return 0.3;
+        if((getTy()) < -10) return -0.3;
+        return (getTy() / (3/25)); //tune
+    }
+
 }

@@ -6,10 +6,9 @@ package frc.robot;
 
 import frc.robot.Constants.Ports;
 import frc.robot.commands.IntakeBall;
+import frc.robot.commands.LimelightShoot;
 import frc.robot.commands.LollipopIntakeBall;
 import frc.robot.commands.ProcessorScoring;
-import frc.robot.commands.ReefIntakeBall;
-import frc.robot.commands.ReefKnockOff;
 import frc.robot.commands.Rev;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.Unshoot;
@@ -18,7 +17,6 @@ import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Limelight;
-import frc.robot.subsystems.ReefIntake;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -51,13 +49,13 @@ public class RobotContainer {
   //Subsystems
   public final Shooter shooter = new Shooter();
   public final Intake intake = new Intake();
-  public final ReefIntake reefIntake = new ReefIntake();
   public final CommandSwerveDrivetrain drivetrain;
 
   //Commands add commnets
   public SendableChooser<Command> autoChooser;
   private double speed = 0.5;
   private double dif = 0;
+  private double turndif = 0;
   public double shooterSpeedTest = 0;
 
   //Controller configurations
@@ -98,7 +96,6 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intake", new IntakeBall(intake));
         NamedCommands.registerCommand("Processor", new ProcessorScoring(intake));
         NamedCommands.registerCommand("UpIntake", new LollipopIntakeBall(intake));
-        NamedCommands.registerCommand("ReefIntake", new ReefIntakeBall(reefIntake, shooter, intake));
 
         drivetrain = TunerConstants.createDrivetrain();
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -114,7 +111,7 @@ public class RobotContainer {
             drivetrain.applyRequest(() ->
             drive.withVelocityX(-leftStick.getY() * MaxSpeed * speed + (dif * MaxSpeed)) // Drive forward with negative Y (forward)
                     .withVelocityY(-leftStick.getX() * MaxSpeed * speed) // Drive left with negative X (left)
-                    .withRotationalRate(rightStick.getTwist() * MaxAngularRate * speed * 2) // Drive counterclockwise with negative X (left)
+                    .withRotationalRate(rightStick.getTwist() * MaxAngularRate * speed * 2 + (turndif * MaxAngularRate)) // Drive counterclockwise with negative X (left)
                     )
 
             // drive.withVelocityX(-m_driverController.getLeftY() * MaxSpeed * 0.5) // Drive forward with negative Y (forward)
@@ -142,6 +139,7 @@ public class RobotContainer {
 
   public void setMediumMode(){
     if(Constants.DriveConstants.breakMode) drivetrain.applyRequest(() -> brake); 
+    else if(Constants.DrivetrainOverrides.overrideMode) setOverrideMode();
     else speed = SmartDashboard.getNumber("Swerve Speed", 0.5);
   }
 
@@ -153,6 +151,8 @@ public class RobotContainer {
   public void setOverrideMode(){
     speed = 0;
     dif = Limelight.setPower();
+    turndif = Limelight.turnSetPower();
+    
     //System.out.println(dif);
     //if(Limelight.shootNow()) new ShootBall(shooter, intake,4500);
   }
@@ -175,23 +175,12 @@ public class RobotContainer {
     m_driverController.b().onTrue(new ProcessorScoring(intake));
     m_driverController.start().onTrue(new Unshoot(shooter, intake));
 
-    //Reef intake manual controls:
-    m_driverController.leftTrigger(0.1).whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(m_driverController.getLeftTriggerAxis()))); //left reef up
-    m_driverController.rightTrigger(0.1).whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(-m_driverController.getRightTriggerAxis())));  //right reef down
-    m_driverController.back().whileTrue(Commands.run(() -> reefIntake.setVoltagePivot(0)));
-    m_driverController.x().whileTrue(Commands.run(() -> reefIntake.setIntakePos(Constants.ReefIntakeConstants.reefGrab)));
-    m_driverController.y().whileTrue(Commands.run(() -> reefIntake.setIntakePos(Constants.ReefIntakeConstants.reefRest)));
-
-    //Reef intake wheel manual control:
-    buttonBoard.button(1).whileTrue(Commands.run(() -> reefIntake.setVoltageIntake(2)));
-    buttonBoard.button(2).whileTrue(Commands.run(() ->   reefIntake.setVoltageIntake(-2)));
-    buttonBoard.button(3).whileTrue(Commands.run(() ->   reefIntake.setVoltageIntake(0)));
-
-
     //Intake manual controls:
     m_driverController.pov(0).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.rest)));
     m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
     m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
+
+    bottomRightButton.onTrue(new LimelightShoot(shooter, intake, 4500));
     
 
     //Uncomment and use this after reef intake is tuned, remember to comment out the other use of x and y when you do this.

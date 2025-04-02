@@ -17,7 +17,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ReefIntake"
+                  "name": null
                 }
               }
             ]
@@ -67,7 +67,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ReefIntake"
+                  "name": null
                 }
               }
             ]
@@ -117,7 +117,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "ReefIntake"
+                  "name": null
                 }
               }
             ]

@@ -17,6 +17,7 @@ public class LimelightShoot extends Command {
     private double rpm;
     private int counter;
     private Timer timer;
+    private int step;
 
     private boolean shooterReady = false;
     
@@ -42,7 +43,7 @@ public class LimelightShoot extends Command {
        timer = new Timer();
        shooter.setTargetRPM(rpm);
        counter = 0;
-
+        step = 0;
 
 
 
@@ -52,18 +53,24 @@ public class LimelightShoot extends Command {
     // Called every time the scheduler runs while the command is scheduled.
     @Override
     public void execute() {        
-        if(shooter.isReady())counter++; //counter creates a delay to make sure the shooter is ready to shoot and 
-        if(counter == 10)shooterReady = true; 
-        if(shooterReady){ //if the shooter is ready to shoot, set the intake to run at a certain voltage to shoot the ball
-            Constants.DriveConstants.breakMode = true; // set the drive to break mode to stop the robot from moving while shooting the ball
-            LED.setGreen(); //turns on the LED to show that the shooter is shooting
-            intake.setVoltageIntake(0.7*12);
-            intake.setVoltageIndex(-0.7*12);
-            shooterReady = false;
-            if (!shooterReady){
-                timer.start();
-            }
-        } 
+
+        // if(!Limelight.getTv()) step == 0;
+        // if(Limelight.getTx() > Math.abs()
+        // else dif = 0;
+        if(step == 3){
+            if(shooter.isReady())counter++; //counter creates a delay to make sure the shooter is ready to shoot and 
+            if(counter == 10)shooterReady = true; 
+            if(shooterReady){ //if the shooter is ready to shoot, set the intake to run at a certain voltage to shoot the ball
+                Constants.DriveConstants.breakMode = true; // set the drive to break mode to stop the robot from moving while shooting the ball
+                LED.setGreen(); //turns on the LED to show that the shooter is shooting
+                intake.setVoltageIntake(0.7*12);
+                intake.setVoltageIndex(-0.7*12);
+                shooterReady = false;
+                if (!shooterReady){
+                    timer.start();
+                }
+            } 
+        }
         shooter.setTargetRPM(rpm); // set the target RPM to the desired RPM to shoot the ball
        
     }
