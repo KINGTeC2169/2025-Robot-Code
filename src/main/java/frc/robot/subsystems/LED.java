@@ -17,7 +17,7 @@ public class LED {
    
 
     public static void setBlue(){ //intakeHasBall
-        //arduino.writeString("B"); //BLUE
+        //arduino.writeString("Y"); //YELLOW
     }
     
     
