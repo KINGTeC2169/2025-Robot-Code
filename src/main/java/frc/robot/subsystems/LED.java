@@ -7,7 +7,7 @@ public class LED {
     // private static SerialPort arduino = new SerialPort(9600, Constants.Ports.arduino, 8, SerialPort.Parity.kNone, SerialPort.StopBits.kOne);
 
     public static void intialize(){
-        //arduino.writeString("F"); 
+        //arduino.writeString("E"); 
     }
 
     public static void setRed(){
