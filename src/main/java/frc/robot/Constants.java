@@ -41,6 +41,8 @@ public final class Constants {
         public static final int controller = 2;
         public static final int buttons = 3;
 
+        public static final int ledPort = 0;
+
         //Pigeon CAN id (NOT USED)
         public static final int pigeon = 4; //done
 

@@ -17,6 +17,7 @@ import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Limelight;
 import frc.robot.subsystems.ReefIntake;
 
@@ -53,6 +54,7 @@ public class RobotContainer {
   public final Intake intake = new Intake();
   public final ReefIntake reefIntake = new ReefIntake();
   public final CommandSwerveDrivetrain drivetrain;
+  public final LED led = new LED();
 
   //Commands add commnets
   public SendableChooser<Command> autoChooser;
@@ -105,6 +107,8 @@ public class RobotContainer {
         SmartDashboard.putData("Auto Mode", autoChooser);    
         SmartDashboard.putNumber("Swerve Speed", speed);
         SmartDashboard.putNumber("Shooter Speed", shooterSpeedTest);
+
+        led.initialize();
         
         // Note that X is defined as forward according to WPILib convention,
         // and Y is defined as to the left according to WPILib convention.

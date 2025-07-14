@@ -86,7 +86,6 @@ public class Robot extends TimedRobot {
       builder.addDoubleProperty("Robot Angle", () -> m_robotContainer.drivetrain.getPigeon2().getRotation2d().getRadians(), null);
     }
   });
-  LED.intialize();
   }
 
   /**
@@ -180,7 +179,7 @@ public class Robot extends TimedRobot {
     Elastic.selectTab("Teleoperated");
     m_robotContainer.logger.field.getObject("path").setPoses();
 
-    LED.setRed();
+    //LED.setRed();
   }
 
   /** This function is called periodically during operator control. */

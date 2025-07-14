@@ -27,7 +27,7 @@ public class IntakeBall extends Command{
 
     @Override
     public void end(boolean interrupted){
-        LED.setBlue(); //turns on the LED to show that the intake has a ball
+        //LED.setBlue(); //turns on the LED to show that the intake has a ball
         intake.setIntakePos(IntakeConstants.rest); //Puts intake in rest position
         intake.setVoltageIntake(0.05*12); //Keeps the intake motor running to keep the ball in the intake
         intake.setVoltageIndex(0); //Stops indexer

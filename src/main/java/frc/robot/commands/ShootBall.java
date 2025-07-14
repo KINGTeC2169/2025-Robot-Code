@@ -34,7 +34,7 @@ public class ShootBall extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-       LED.setBlue();
+       //LED.setBlue();
        // shooter.vroom(20);
        shooter.setTargetRPM(rpm);
        intake.setIntakePos(IntakeConstants.restball); // set the intake to restball position
@@ -54,7 +54,7 @@ public class ShootBall extends Command {
         if(counter == 10)shooterReady = true; 
         if(shooterReady){ //if the shooter is ready to shoot, set the intake to run at a certain voltage to shoot the ball
             Constants.DriveConstants.breakMode = true; // set the drive to break mode to stop the robot from moving while shooting the ball
-            LED.setGreen(); //turns on the LED to show that the shooter is shooting
+            //LED.setGreen(); //turns on the LED to show that the shooter is shooting
             intake.setVoltageIntake(0.7*12);
             intake.setVoltageIndex(-0.7*12);
             shooterReady = false;
@@ -74,7 +74,7 @@ public class ShootBall extends Command {
         intake.setVoltageIndex(0);
         shooter.setTargetRPM(0);
         intake.setIntakePos(IntakeConstants.rest); // set the intake to rest position
-        LED.setRed(); //turns off the LED to show that the shooter is not running
+        //LED.setRed(); //turns off the LED to show that the shooter is not running
     }
     
     @Override
