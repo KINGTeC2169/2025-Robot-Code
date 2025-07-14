@@ -140,6 +140,6 @@
     }
   },
   "resetOdom": true,
-  "folder": null,
+  "folder": "Lolipop",
   "choreoAuto": false
 }

@@ -100,13 +100,10 @@ public class Intake extends SubsystemBase {
         return (RobotBase.isReal() && (latestDistance < max && latestDistance > min));
     }
 
-    
-    
     public void setVoltageIntake(double volts){
         intakeMotor.setVoltage(volts);
     }
 
-    
     public void setVoltageIndex(double volts){
         indexerMotor.setVoltage(volts);
     }
@@ -208,6 +205,7 @@ public class Intake extends SubsystemBase {
         difference = Math.abs(setPosition - getPosition());
 
         SmartDashboard.putNumber("Intake Motor Velocity", getIntakeVelocity());
+        SmartDashboard.putBoolean("Ball Detected: ", distanceSensorCheckRange(0, 1.8));
         SmartDashboard.putNumber("IntakeM Voltage", getIntakeVolts());
         SmartDashboard.putNumber("IntakeM Current", getIntakeCurrent());
         SmartDashboard.putBoolean("Detected Color", isOn());

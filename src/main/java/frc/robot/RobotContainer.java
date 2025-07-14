@@ -10,6 +10,7 @@ import frc.robot.commands.LimelightShoot;
 import frc.robot.commands.LollipopIntakeBall;
 import frc.robot.commands.ProcessorScoring;
 import frc.robot.commands.Rev;
+import frc.robot.commands.SelfTest;
 import frc.robot.commands.ShootBall;
 import frc.robot.commands.Unshoot;
 import frc.robot.generated.TunerConstants;
@@ -61,7 +62,7 @@ public class RobotContainer {
   //Controller configurations
   // Replace with CommandPS4Controller or CommandJoystick if needed
   //private final CommandXboxController ps4 = new CommandXboxController(0);
-  private final CommandXboxController m_driverController = new CommandXboxController(Ports.controller);
+  public final CommandXboxController m_driverController = new CommandXboxController(Ports.controller);
   private final Joystick leftStick = new Joystick(Constants.Ports.leftStick);
   public final JoystickButton topLeftButton = new JoystickButton(leftStick, 1);
   public final JoystickButton bottomLeftButton = new JoystickButton(leftStick, 2);
@@ -122,9 +123,11 @@ public class RobotContainer {
 
         //Reset orientation
         topRightButton.onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        // m_driverController.x().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         //Defense mode
         bottomRightButton.whileTrue(drivetrain.applyRequest(() -> brake));
+        // m_driverController.y().onTrue(drivetrain.applyRequest(() -> brake));
         
 
         drivetrain.registerTelemetry(logger::telemeterize);    
@@ -169,8 +172,8 @@ public class RobotContainer {
   private void configureBindings() {
 
     //Controller
-    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake,4500)));
-    m_driverController.leftBumper().onTrue(new Rev(shooter, 4500, intake));
+    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake,3200)));
+    m_driverController.leftBumper().onTrue(new Rev(shooter, 3200, intake));
     m_driverController.a().onTrue(new IntakeBall(intake));
     m_driverController.b().onTrue(new ProcessorScoring(intake));
     m_driverController.start().onTrue(new Unshoot(shooter, intake));
@@ -180,7 +183,8 @@ public class RobotContainer {
     m_driverController.pov(180).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.restball)));
     m_driverController.pov(270).whileTrue(Commands.run(() -> intake.setIntakePos(Constants.IntakeConstants.grab)));
 
-    bottomRightButton.onTrue(new LimelightShoot(shooter, intake, 4500));
+
+    // bottomRightButton.onTrue(new LimelightShoot(shooter, intake, 4500));
     
 
     //Uncomment and use this after reef intake is tuned, remember to comment out the other use of x and y when you do this.
@@ -227,5 +231,14 @@ public class RobotContainer {
   public Command getAutonomousCommand() {
     //An example command will be run in autonomous
     return autoChooser.getSelected();
+ }
+
+  /**
+   * Use this to pass the self test command to the main {@link Robot} class.
+   *
+   * @return the self test command
+   */
+  public Command getSelfTestCommand() {
+    return new SelfTest(drivetrain, shooter, intake);
  }
 }

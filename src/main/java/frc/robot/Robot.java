@@ -41,6 +41,7 @@ import frc.robot.util.Elastic;
  */
 public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
+  private Command m_testCommand;
 
   private final RobotContainer m_robotContainer;
   private final PowerDistribution pdh;
@@ -112,7 +113,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    LED.intialize();
+  }
 
   @Override
   public void disabledPeriodic() {
@@ -188,7 +191,7 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
 
     if (m_robotContainer.topLeftButton.getAsBoolean()) m_robotContainer.setFastMode();
-    else if (m_robotContainer.bottomLeftButton.getAsBoolean()) m_robotContainer.setOverrideMode();
+    //else if (m_robotContainer.bottomLeftButton.getAsBo  olean()) m_robotContainer.setOverrideMode();
     else m_robotContainer.setMediumMode();
     // if (m_robotContainer.bottomRightButton.getAsBoolean()) m_robotContainer.setOverrideMode();
     // 
@@ -198,6 +201,12 @@ public class Robot extends TimedRobot {
   public void testInit() {
     // Cancels all running commands at the start of test mode.
     CommandScheduler.getInstance().cancelAll();
+    m_testCommand = m_robotContainer.getSelfTestCommand();
+
+    // schedule the autonomous command (example)
+    if (m_testCommand != null) {
+      m_testCommand.schedule();
+    }
   }
 
   /** This function is called periodically during test mode. */

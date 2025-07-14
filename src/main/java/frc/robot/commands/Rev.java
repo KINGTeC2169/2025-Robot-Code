@@ -24,7 +24,7 @@ public class Rev extends Command {
     @Override
     public void initialize() {
         intake.setIntakePos(IntakeConstants.restball); // set the intake to restball position
-        LED.setBlue(); //turns on the LED to show that the shooter is running
+        LED.setYellow(); //turns on the LED to show that the shooter is running
         shooter.setTargetRPM(rpm); // set the target RPM to the desired RPM to run the shooter at
         
     }
@@ -37,6 +37,7 @@ public class Rev extends Command {
     // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
+        LED.setGreen();
     }
     
     

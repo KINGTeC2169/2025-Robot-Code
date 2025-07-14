@@ -54,9 +54,9 @@ public class Shooter extends SubsystemBase {
         targetRPM = rpm;
     }
 
-    //Returns true if the shooting motor is within 1% of the targetRPM. This is used to check if the motor is ready to shoot.
+    //Returns true if the shooting motor is within 10% of the targetRPM. This is used to check if the motor is ready to shoot.
     public boolean isReady(){
-        return Math.abs(targetRPM) * 0.01 > Math.abs(targetRPM - getRPM());
+        return Math.abs(targetRPM) * 0.05 > Math.abs(targetRPM - getRPM());
     }
 
     //This is a PRIVATE method that sets the motor to the targetRPM. It is called in the periodic method.

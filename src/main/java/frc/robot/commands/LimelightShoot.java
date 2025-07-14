@@ -36,7 +36,7 @@ public class LimelightShoot extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-       LED.setBlue();
+       LED.setYellow();
        
        
        intake.setIntakePos(IntakeConstants.restball); // set the intake to restball position

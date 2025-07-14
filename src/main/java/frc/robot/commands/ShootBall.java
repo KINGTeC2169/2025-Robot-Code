@@ -34,7 +34,6 @@ public class ShootBall extends Command {
     // Called when the command is initially scheduled.
     @Override
     public void initialize() {
-       LED.setBlue();
        // shooter.vroom(20);
        shooter.setTargetRPM(rpm);
        intake.setIntakePos(IntakeConstants.restball); // set the intake to restball position
