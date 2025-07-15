@@ -7,23 +7,26 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LED;
 import frc.robot.subsystems.Shooter;
 
 public class SelfTest extends Command {
     private CommandSwerveDrivetrain swerveSubsystem;
     private Shooter shooter;
     private Intake intake;
+    private LED led;
 
     private SwerveRequest.RobotCentric driveForward = new SwerveRequest.RobotCentric().withVelocityX(1);
     private SwerveRequest.RobotCentric driveSideways = new SwerveRequest.RobotCentric().withVelocityY(1);
     private SwerveRequest.RobotCentric stop = new SwerveRequest.RobotCentric();
 
     
-    public SelfTest(CommandSwerveDrivetrain swerveSubsystem, Shooter shooter, Intake intake){
+    public SelfTest(CommandSwerveDrivetrain swerveSubsystem, Shooter shooter, Intake intake, LED led){
         this.swerveSubsystem = swerveSubsystem;
         this.shooter = shooter;
         this.intake = intake;
-        addRequirements(swerveSubsystem, shooter, intake);
+        this.led = led;
+        addRequirements(swerveSubsystem, shooter, intake, led);
     }
 
     @Override
@@ -59,6 +62,20 @@ public class SelfTest extends Command {
         Timer.delay(2);
         shooter.setTargetRPM(0);
         System.out.println("SHOOTER SUBSYSTEM TEST COMPLETE\n");
+
+        System.out.println("Testing LEDs...");
+        led.initialize();
+        Timer.delay(5);
+        led.setRed();
+        Timer.delay(0.5);
+        led.setBlue();
+        Timer.delay(0.5);
+        led.setGreen();
+        Timer.delay(0.5);
+        led.setBlinkingBlue();
+        Timer.delay(3);
+        led.off();
+        System.out.println("LED SUBSYSTEM TEST COMPLETE\n");
     }
 
     @Override

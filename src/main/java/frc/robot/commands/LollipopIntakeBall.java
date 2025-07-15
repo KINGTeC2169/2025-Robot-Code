@@ -3,20 +3,24 @@ package frc.robot.commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LED;
 
 //remove all the same things that we removed in IntakeBall
 //WE ONLY USE THIS COMMAND IN AUTOS !!!!!!!!!!!!!!!!!!!
 public class LollipopIntakeBall extends Command{
     private Intake intake;
+    private LED led;
     
-    public LollipopIntakeBall(Intake intake){
+    public LollipopIntakeBall(Intake intake, LED led){
         this.intake = intake;
-        addRequirements(intake);
+        this.led = led;
+        addRequirements(intake, led);
     }
 
     @Override
     public void initialize(){
         intake.setIntakePos(IntakeConstants.rest); // set the intake to rest position
+        led.setRed();
         
     }
 
@@ -31,6 +35,7 @@ public class LollipopIntakeBall extends Command{
         intake.setIntakePos(IntakeConstants.rest); //Puts intake in rest position
         intake.setVoltageIntake(0.05*12); //Keeps the intake motor running to keep the ball in the intake
         intake.setVoltageIndex(0); //Stops indexer
+        if (intake.distanceSensorCheckRange(0, 3)) led.setGreen(); //turns on the LED to show that the intake has a ball
     }
 
     @Override

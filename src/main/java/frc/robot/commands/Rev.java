@@ -11,12 +11,13 @@ public class Rev extends Command {
     private Shooter shooter;
     private Intake intake;
     private double rpm;
+    private LED led;
     
-    public Rev(Shooter shoot, double rpm, Intake intake){
-        shooter = shoot;
-        addRequirements(shooter);
+    public Rev(Shooter shoot, Intake intake, LED led, double rpm){
+        this.shooter = shoot;
         this.intake = intake;
-        addRequirements(intake);
+        this.led = led;
+        addRequirements(shoot, intake, led);
         this.rpm = rpm;
     }
     
@@ -24,7 +25,7 @@ public class Rev extends Command {
     @Override
     public void initialize() {
         intake.setIntakePos(IntakeConstants.restball); // set the intake to restball position
-        //LED.setBlue(); //turns on the LED to show that the shooter is running
+        led.setBlinkingBlue(); //turns on blinking blue LED pattern to show that the shooter is running
         shooter.setTargetRPM(rpm); // set the target RPM to the desired RPM to run the shooter at
         
     }

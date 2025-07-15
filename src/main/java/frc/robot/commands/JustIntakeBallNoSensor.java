@@ -4,28 +4,27 @@ import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.IntakeConstants;
 import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LED;
 
 //remove this whole command too
 //actually if we can make it work we can make as an alt button for operator (manual control)
 public class JustIntakeBallNoSensor extends Command{
     private Intake intake;
-    private boolean lowRPM;
-    private boolean highRPM;
+    private LED led;
     private boolean started;
     private int counter;
     private Timer timer;
-    private double t0;
 
-    public JustIntakeBallNoSensor(Intake intake){
+    public JustIntakeBallNoSensor(Intake intake, LED led){
         this.intake = intake;
-        addRequirements(intake);
-        lowRPM = false;
-        highRPM = false;
+        this.led = led;
+        addRequirements(intake, led);
     }
 
     @Override
     public void initialize(){
         intake.setIntakePos(IntakeConstants.grab); 
+        led.setRed();
     }
 
     @Override
@@ -53,6 +52,7 @@ public class JustIntakeBallNoSensor extends Command{
         intake.setVoltageIntake(0);
         intake.setVoltageIndex(0);
         intake.setIntakePos(IntakeConstants.rest);
+        led.setGreen();
     }
 
     @Override

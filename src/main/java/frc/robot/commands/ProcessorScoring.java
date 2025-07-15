@@ -1,16 +1,19 @@
 package frc.robot.commands; 
 
 import edu.wpi.first.wpilibj2.command.Command; 
-import frc.robot.subsystems.Intake; 
+import frc.robot.subsystems.Intake;
+import frc.robot.subsystems.LED;
 import frc.robot.Constants.IntakeConstants;
 
 public class ProcessorScoring extends Command{
     private Intake intake;
+    private LED led;
 
-    public ProcessorScoring(Intake intake){
+    public ProcessorScoring(Intake intake, LED led){
         this.intake = intake;
-        addRequirements(intake);
-    }                    
+        this.led = led;
+        addRequirements(intake, led);
+    }               
 
     @Override
     public void initialize(){
@@ -29,6 +32,7 @@ public class ProcessorScoring extends Command{
     public void end(boolean interupt) {
         intake.setVoltageIntake(0);// stops the indexer
         intake.setVoltageIndex(0);// stops the intake
+        led.setRed(); //Indicates that there is no ball in the intake
 	}
 
     @Override

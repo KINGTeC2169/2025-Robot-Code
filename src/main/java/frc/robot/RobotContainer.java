@@ -92,11 +92,11 @@ public class RobotContainer {
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
 
-        NamedCommands.registerCommand("Rev", new Rev(shooter, 4500, intake));
-        NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, 4500));
-        NamedCommands.registerCommand("Intake", new IntakeBall(intake));
-        NamedCommands.registerCommand("Processor", new ProcessorScoring(intake));
-        NamedCommands.registerCommand("UpIntake", new LollipopIntakeBall(intake));
+        NamedCommands.registerCommand("Rev", new Rev(shooter, intake, led, 4500));
+        NamedCommands.registerCommand("Shoot", new ShootBall(shooter, intake, led, 4500));
+        NamedCommands.registerCommand("Intake", new IntakeBall(intake, led));
+        NamedCommands.registerCommand("Processor", new ProcessorScoring(intake, led));
+        NamedCommands.registerCommand("UpIntake", new LollipopIntakeBall(intake, led));
 
         drivetrain = TunerConstants.createDrivetrain();
         autoChooser = AutoBuilder.buildAutoChooser();
@@ -169,10 +169,10 @@ public class RobotContainer {
   private void configureBindings() {
 
     //Controller
-    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake,4500)));
-    m_driverController.leftBumper().onTrue(new Rev(shooter, 4500, intake));
-    m_driverController.a().onTrue(new IntakeBall(intake));
-    m_driverController.b().onTrue(new ProcessorScoring(intake));
+    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake, led, 4500)));
+    m_driverController.leftBumper().onTrue(new Rev(shooter, intake, led, 4500));
+    m_driverController.a().onTrue(new IntakeBall(intake, led));
+    m_driverController.b().onTrue(new ProcessorScoring(intake, led));
     m_driverController.start().onTrue(new Unshoot(shooter, intake));
 
     //Intake manual controls:
@@ -212,6 +212,6 @@ public class RobotContainer {
 
  public Command getTestCommand() {
   //An example command will be run in test
-  return new SelfTest(drivetrain, shooter, intake);
+  return new SelfTest(drivetrain, shooter, intake, led);
 }
 }

@@ -227,11 +227,5 @@ public class Intake extends SubsystemBase {
         secondLastDistance = latestDistance;
         latestDistance = distanceSensor.getRange();
         distanceSensorDerivative = (latestDistance - secondLastDistance) / 0.02; // 0.02 is the period of the periodic method
-
-
-        
-        
-
     }
-  
 }

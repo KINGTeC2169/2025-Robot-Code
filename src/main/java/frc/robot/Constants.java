@@ -6,9 +6,6 @@ package frc.robot;
 
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
-import edu.wpi.first.wpilibj.SerialPort;
-import edu.wpi.first.wpilibj.SerialPort.Port;
-
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -106,43 +103,6 @@ public final class Constants {
       public static double kDdown = 0;
 
       public double shootBallPivotPos = 0;
-    }
-
-    public static class ReefIntakeConstants{
-// tune all of these this is just temporary                           
-      public static final double encoderOffset = 0.6457992161449804 - 0.25;
-      public static final double reefRest = 0.09504339605108491;
-      public static final double reefGrab = 0.38473420336835507;
-
-      public static double kP = 0.1;
-      public static double kI = 0;
-      public static double kD = 0;
-      
-      public static double kS = 0.01;
-      public static double kV = 1.42;//adjust this if arm to high increase 
-      public static double kG = 0.03; 
- 
-      public static double kPdown = 20.0;
-      public static double kIdown = 0;
-      public static double kDdown = 0;
-    }  
-    
-    public static class ClimberConstants{
-      public static final double encoderOffset = 0;
-      public static final double rest = 0.1776698044417451;
-      public static final double takeOff = 0.06343960158599005;
-
-      public static double kP = 20.0;
-      public static double kI = 0;
-      public static double kD = 0;
-
-      public static double kS = 0;
-      public static double kV = 3.5;
-      public static double kA = 0;
-
-      public static double kPdown =20.0;
-      public static double kIdown = 0;
-      public static double kDdown = 0;
     }
 
     public static class ShooterConstants{
