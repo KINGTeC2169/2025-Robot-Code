@@ -74,8 +74,6 @@ public final class Constants {
         
         public static final int intakeHexPort = 1;
         public static final int reefHexPort = 2;
-
-        public static final Port arduino = SerialPort.Port.kUSB1;
         
 
     }

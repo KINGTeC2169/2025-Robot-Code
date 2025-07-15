@@ -3,14 +3,10 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.SparkBase.ResetMode;
 import com.revrobotics.Rev2mDistanceSensor;
 import com.revrobotics.Rev2mDistanceSensor.Port;
 import com.revrobotics.Rev2mDistanceSensor.RangeProfile;
 import com.revrobotics.Rev2mDistanceSensor.Unit;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
 import com.revrobotics.spark.config.SparkMaxConfig;
 import com.revrobotics.spark.config.ClosedLoopConfig.FeedbackSensor;
 import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
@@ -19,7 +15,6 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
 
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,7 +26,7 @@ public class Intake extends SubsystemBase {
   /** Creates a new Intake. */
     private TalonFX intakeMotor;
     private TalonFX indexerMotor;
-    private SparkMax pivotMotor;
+    private TalonFX pivotMotor;
 
     private Rev2mDistanceSensor distanceSensor;
 
@@ -46,7 +41,6 @@ public class Intake extends SubsystemBase {
 
     private final double upperLimit = IntakeConstants.rest; // needs to be fine tuned
     private final double lowerLimit = IntakeConstants.grab; //limits for intake positions 
-    private SimpleMotorFeedforward pivotForward; //check //remove
     
     private double latestDistance;
     private double secondLastDistance;
@@ -82,12 +76,9 @@ public class Intake extends SubsystemBase {
         intakeMotor = new TalonFX(Constants.Ports.intakeMotor);
         indexerMotor = new TalonFX(Constants.Ports.indexerMotor);
       
-        pivotMotor = new SparkMax(Constants.Ports.pivotMotor, MotorType.kBrushless);
-
-        pivotMotor.configure(pivotConfig, ResetMode.kResetSafeParameters, PersistMode.kPersistParameters);
+        pivotMotor = new TalonFX(Constants.Ports.pivotMotor);
 
         pivotPID = new PIDController(IntakeConstants.kP, IntakeConstants.kI,IntakeConstants.kD);
-        pivotForward = new SimpleMotorFeedforward(IntakeConstants.kS, IntakeConstants.kV, IntakeConstants.kA);
 
         pivotPIDdown = new PIDController(IntakeConstants.kPdown, IntakeConstants.kIdown,IntakeConstants.kDdown);
 
@@ -166,12 +157,12 @@ public class Intake extends SubsystemBase {
 
     //getVoltagePivot
     public double getPivotVoltage(){
-        return pivotMotor.getBusVoltage();
+        return pivotMotor.getSupplyVoltage().getValueAsDouble();
     }
 
     //getCurrentPivot
     public double getPivotCurrent(){
-        return pivotMotor.getOutputCurrent();
+        return pivotMotor.getSupplyCurrent().getValueAsDouble();
     }
 
     /**Returns true of the intake is on. */

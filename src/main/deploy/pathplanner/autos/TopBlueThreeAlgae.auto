@@ -13,12 +13,6 @@
                 "data": {
                   "pathName": "TopBlue-GrabBall1(1)"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ReefIntake"
-                }
               }
             ]
           }
@@ -63,12 +57,6 @@
                 "data": {
                   "pathName": "TopBlueGrabBall2(3)"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ReefIntake"
-                }
               }
             ]
           }
@@ -112,12 +100,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "TopBlueIntake(5)"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "ReefIntake"
                 }
               }
             ]
