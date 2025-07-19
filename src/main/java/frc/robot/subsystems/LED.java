@@ -43,7 +43,7 @@ public class LED extends SubsystemBase {
     private Color royalYellow = new Color("#FAD200");
 
     //Patterns
-    private LEDPattern breathing = LEDPattern.gradient(GradientType.kDiscontinuous, royalYellow, royalRed, royalMaroon).breathe(Seconds.of(2));
+    private LEDPattern breathing = LEDPattern.gradient(GradientType.kDiscontinuous, royalYellow, royalMaroon, royalRed).breathe(Seconds.of(2));
     private LEDPattern solidGreen = LEDPattern.solid(Color.kGreen);
     private LEDPattern solidRed = LEDPattern.solid(Color.kRed);
     private LEDPattern solidBlue = LEDPattern.solid(Color.kBlue);
