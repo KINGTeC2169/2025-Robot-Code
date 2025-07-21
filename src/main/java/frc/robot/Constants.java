@@ -86,9 +86,9 @@ public final class Constants {
     public static class IntakeConstants{
 
       public static final double encoderOffset = 0;
-      public static final double rest = 0.1776698044417451;
-      public static final double grab = 0.06343960158599005;
-      public static final double restball = 0.14493320312333007;
+      public static final double rest = 0.6859650171491255; //0.1776698044417451;
+      public static final double grab = 0.5717348142933704; //0.06343960158599005;
+      public static final double restball = 0.6532284158307104; //0.14493320312333007;
       //TODO: Tune values
       public static double kP = 20.0;
       public static double kI = 0;

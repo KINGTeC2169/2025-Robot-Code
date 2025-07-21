@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.AddressableLEDBufferView;
 import edu.wpi.first.wpilibj.LEDPattern;
+import edu.wpi.first.wpilibj.AddressableLED.ColorOrder;
 import edu.wpi.first.wpilibj.LEDPattern.GradientType;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -28,22 +29,22 @@ public class LED extends SubsystemBase {
     private AddressableLEDBufferView m_rightSide;
     private AddressableLEDBufferView m_rightMiddle;
 
-    private int ledLength = 180;
+    private int ledLength = 205;
 
     // Our LED strip has a density of 60 LEDs per meter
     private final Distance kLedSpacing = Meters.of(1 / 60.0);
 
     //TODO: Find indexes where LED strip breaks
-    private final int breakOne = 45;
-    private final int breakTwo = 90;
-    private final int breakThree = 135;
+    private final int breakOne = 63;
+    private final int breakTwo = 104;
+    private final int breakThree = 161  ;
 
     private Color royalMaroon = new Color("#A00014");
     private Color royalRed = new Color("#C00000");
     private Color royalYellow = new Color("#FAD200");
 
     //Patterns
-    private LEDPattern breathing = LEDPattern.gradient(GradientType.kDiscontinuous, royalYellow, royalRed, royalMaroon).breathe(Seconds.of(2));
+    private LEDPattern breathing = LEDPattern.gradient(GradientType.kDiscontinuous, royalYellow, royalRed).breathe(Seconds.of(2));
     private LEDPattern solidGreen = LEDPattern.solid(Color.kGreen);
     private LEDPattern solidRed = LEDPattern.solid(Color.kRed);
     private LEDPattern solidBlue = LEDPattern.solid(Color.kBlue);
@@ -57,6 +58,7 @@ public class LED extends SubsystemBase {
     public LED(){
         m_led = new AddressableLED(Constants.Ports.ledPort);
         m_ledBuffer = new AddressableLEDBuffer(ledLength);
+        m_led.setColorOrder(ColorOrder.kRGB);
 
         m_led.setLength(m_ledBuffer.getLength());
 

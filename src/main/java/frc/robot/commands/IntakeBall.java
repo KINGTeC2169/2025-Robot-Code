@@ -24,7 +24,7 @@ public class IntakeBall extends Command{
 
     @Override
     public void execute(){
-        intake.setVoltageIntake(0.4*12); //runs intake to suck in the ball
+        intake.setVoltageIntake(0.5*12); //runs intake to suck in the ball
         intake.setVoltageIndex(0.05*12); //runs indexer slightly backward to stop the ball from going into the shooter
     }
 
@@ -33,7 +33,7 @@ public class IntakeBall extends Command{
         intake.setIntakePos(IntakeConstants.rest); //Puts intake in rest position
         intake.setVoltageIntake(0.05*12); //Keeps the intake motor running to keep the ball in the intake
         intake.setVoltageIndex(0); //Stops indexer
-        if (intake.distanceSensorCheckRange(0, 3)) led.setGreen(); //turns on the LED to show that the intake has a ball
+        if (intake.distanceSensorCheckRange(0, 4)) led.setGreen(); //turns on the LED to show that the intake has a ball
     }
 
     @Override

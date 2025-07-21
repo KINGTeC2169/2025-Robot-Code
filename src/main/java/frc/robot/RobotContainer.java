@@ -169,8 +169,8 @@ public class RobotContainer {
   private void configureBindings() {
 
     //Controller
-    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake, led, 4500)));
-    m_driverController.leftBumper().onTrue(new Rev(shooter, intake, led, 4500));
+    m_driverController.rightBumper().onTrue((new ShootBall(shooter, intake, led, 2700)));
+    m_driverController.leftBumper().onTrue(new Rev(shooter, intake, led, 2700));
     m_driverController.a().onTrue(new IntakeBall(intake, led));
     m_driverController.b().onTrue(new ProcessorScoring(intake, led));
     m_driverController.start().onTrue(new Unshoot(shooter, intake));
