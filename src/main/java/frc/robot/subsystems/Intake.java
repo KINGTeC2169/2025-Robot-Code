@@ -90,13 +90,25 @@ public class Intake extends SubsystemBase {
         distanceSensorDerivative = 0.0; //initialize to 0
     }
 
+    /** Returns the TalonFX motor controller for the intake motor. */
+    public TalonFX getIntakeMotor() {
+        return intakeMotor;
+    }
+
+    /** Returns the TalonFX motor controller for the indexer motor. */
+    public TalonFX getIndexerMotor() {
+        return indexerMotor;
+    }
+
+    /** Returns the TalonFX motor controller for the pivot motor. */
+    public TalonFX getPivotMotor() {
+        return pivotMotor;
+    }
 
     public boolean distanceSensorCheckRange(double min, double max) {
         return (RobotBase.isReal() && (latestDistance < max && latestDistance > min));
     }
 
-    
-    
     public void setVoltageIntake(double volts){
         intakeMotor.setVoltage(volts);
     }

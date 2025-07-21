@@ -12,6 +12,7 @@ import java.util.stream.Collectors;
 
 import org.json.simple.parser.ParseException;
 
+import com.ctre.phoenix6.Orchestra;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -28,6 +29,7 @@ import edu.wpi.first.wpilibj.PowerDistribution.ModuleType;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -47,6 +49,10 @@ public class Robot extends TimedRobot {
   private String autoName, newAutoName;
   private List<PathPlannerPath> pathPlannerPaths = null;
 
+  private Orchestra orchestra;
+  private boolean isPlayingMusic = false;
+  private SendableChooser<String> musicChooser = new SendableChooser<>();
+
   /**
    * This function is run when the robot is first started up and should be used for any
    * initialization code.
@@ -62,8 +68,30 @@ public class Robot extends TimedRobot {
     SmartDashboard.putNumber("Voltage", RobotController.getBatteryVoltage());
     SmartDashboard.putNumber("CPU Temperature", RobotController.getCPUTemp());
     SmartDashboard.putBoolean("RSL", RobotController.getRSLState());
+    SmartDashboard.putBoolean("Play Music?", isPlayingMusic);
     // SmartDashboard.putNumber("Match Time", DriverStation.getMatchTime());
     SmartDashboard.putData("pdh", pdh);
+
+    musicChooser.addOption("ThunderStruck", "src/main/java/frc/robot/util/Thunderstruck.chrp");
+    musicChooser.addOption("Other song", "");
+    musicChooser.setDefaultOption("ThunderStruck", "src/main/java/frc/robot/util/Thunderstruck.chrp");
+
+    SmartDashboard.putData("Music", musicChooser);
+
+    orchestra = new Orchestra();
+
+    orchestra.addInstrument(m_robotContainer.drivetrain.getModule(0).getDriveMotor());
+    orchestra.addInstrument(m_robotContainer.drivetrain.getModule(0).getSteerMotor());
+    orchestra.addInstrument(m_robotContainer.drivetrain.getModule(1).getDriveMotor());
+    orchestra.addInstrument(m_robotContainer.drivetrain.getModule(1).getSteerMotor());
+    orchestra.addInstrument(m_robotContainer.drivetrain.getModule(2).getDriveMotor());
+    orchestra.addInstrument(m_robotContainer.drivetrain.getModule(2).getSteerMotor());
+    orchestra.addInstrument(m_robotContainer.drivetrain.getModule(3).getDriveMotor());
+    orchestra.addInstrument(m_robotContainer.drivetrain.getModule(3).getSteerMotor());
+    orchestra.addInstrument(m_robotContainer.shooter.getMotor());
+    orchestra.addInstrument(m_robotContainer.intake.getIntakeMotor());
+    orchestra.addInstrument(m_robotContainer.intake.getIndexerMotor());
+    orchestra.addInstrument(m_robotContainer.intake.getPivotMotor());
 
     //Swerve Widget
     SmartDashboard.putData("Swerve Drive", new Sendable() {
@@ -113,12 +141,28 @@ public class Robot extends TimedRobot {
   @Override
   public void disabledInit() {
     m_robotContainer.led.initialize();
+
+    orchestra.loadMusic(musicChooser.getSelected());
+
+    if (SmartDashboard.getBoolean("Play Music", isPlayingMusic) == true){
+      orchestra.play();
+    }
+    else {
+      orchestra.stop();
+    }
   }
 
   @Override
   public void disabledPeriodic() {
 
     newAutoName = m_robotContainer.getAutonomousCommand().getName();
+
+    if (SmartDashboard.getBoolean("Play Music", isPlayingMusic) == false){
+      orchestra.pause();
+    }
+    else if (SmartDashboard.getBoolean("Play Music", isPlayingMusic) == true && !orchestra.isPlaying()){
+      orchestra.play();
+    }
 
     if (autoName != newAutoName) {
       autoName = newAutoName;
@@ -159,6 +203,8 @@ public class Robot extends TimedRobot {
   public void autonomousInit() {
     m_autonomousCommand = m_robotContainer.getAutonomousCommand();
 
+    orchestra.stop();
+
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -179,6 +225,9 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    orchestra.stop();
+
     Elastic.selectTab("Teleoperated");
     m_robotContainer.logger.field.getObject("path").setPoses();
 
@@ -199,6 +248,8 @@ public class Robot extends TimedRobot {
   @Override
   public void testInit() {
     m_testCommand = m_robotContainer.getTestCommand();
+
+    orchestra.stop();
 
     // schedule the autonomous command (example)
     if (m_testCommand != null) {

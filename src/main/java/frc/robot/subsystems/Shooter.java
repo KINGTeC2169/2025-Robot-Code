@@ -34,6 +34,11 @@ public class Shooter extends SubsystemBase {
         kraken.getConfigurator().apply(new MotorOutputConfigs().withInverted(InvertedValue.Clockwise_Positive), 0.05);
     }
 
+    //Returns the TalonFX motor controller for the shooting motor
+    public TalonFX getMotor() {
+        return kraken;
+    }
+
     //Returns the current of the shooting motor
     public double getCurrent(){
         return kraken.getSupplyCurrent().getValueAsDouble();
