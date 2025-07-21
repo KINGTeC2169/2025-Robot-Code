@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 import org.json.simple.parser.ParseException;
 
 import com.ctre.phoenix6.Orchestra;
+import com.ctre.phoenix6.configs.AudioConfigs;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -79,6 +80,19 @@ public class Robot extends TimedRobot {
     SmartDashboard.putData("Music", musicChooser);
 
     orchestra = new Orchestra();
+
+    m_robotContainer.drivetrain.getModule(0).getDriveMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.drivetrain.getModule(0).getSteerMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.drivetrain.getModule(1).getDriveMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.drivetrain.getModule(1).getSteerMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.drivetrain.getModule(2).getDriveMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.drivetrain.getModule(2).getSteerMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.drivetrain.getModule(3).getDriveMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.drivetrain.getModule(3).getSteerMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.shooter.getMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.intake.getIntakeMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.intake.getIndexerMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
+    m_robotContainer.intake.getPivotMotor().getConfigurator().apply(new AudioConfigs().withAllowMusicDurDisable(true));
 
     orchestra.addInstrument(m_robotContainer.drivetrain.getModule(0).getDriveMotor());
     orchestra.addInstrument(m_robotContainer.drivetrain.getModule(0).getSteerMotor());
